@@ -5,7 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entity/User';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { EmailModule } from './email/email.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -36,8 +36,25 @@ import { EmailModule } from './email/email.module';
         signOptions: { expiresIn: '2d' },
       }),
     }),
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        defaults: {
+          from: `Não responda <${config.getOrThrow('MAIL_FROM')}>`,
+        },
+        transport: {
+          host: config.getOrThrow('MAIL_HOST'),
+          port: config.get('MAIL_PORT'),
+          secure: false,
+          auth: {
+            user: config.get('MAIL_USER'),
+            pass: config.get('MAIL_PASSWORD'),
+          },
+        },
+      }),
+    }),
     AuthModule,
-    EmailModule,
   ],
 })
 export class AppModule {}
