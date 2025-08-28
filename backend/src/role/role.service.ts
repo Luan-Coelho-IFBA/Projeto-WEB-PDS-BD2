@@ -40,13 +40,4 @@ export class RoleService implements OnModuleInit {
       },
     );
   }
-
-  async getAll() {
-    const roles = await this.sequelize.query(
-      /* sql */
-      `SELECT * FROM "Roles"`,
-    );
-
-    return { roles: roles };
-  }
 }
