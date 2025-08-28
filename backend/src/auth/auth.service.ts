@@ -1,9 +1,10 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Sequelize } from 'sequelize-typescript';
 import { InjectConnection } from '@nestjs/sequelize';
@@ -13,6 +14,8 @@ import bcrypt from 'bcryptjs';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { JWTType } from 'types';
+import { LoginUserDto } from './dto/login-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,32 +26,37 @@ export class AuthService {
     private readonly config: ConfigService,
   ) {}
 
-  async register(dto: CreateUserDto) {
-    const checkEmail: User[] = await this.sequelize.query(
-      /* sql */
-      `SELECT u.email FROM "Users" u WHERE u."email" = :email`,
-      { type: QueryTypes.SELECT, replacements: { email: dto.email } },
-    );
-
-    if (checkEmail.length != 0)
-      throw new UnauthorizedException('Email já cadastrado');
-
+  async register(dto: RegisterUserDto) {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(dto.password, salt);
 
-    const users: User[] = await this.sequelize.query(
-      /* sql */
-      `INSERT INTO "Users" ("name", "email", "hashedPassword", "createdAt", "updatedAt")
-      VALUES (:name, :email, :hashedPassword, NOW(), NOW())
-      RETURNING *`,
-      {
-        type: QueryTypes.SELECT,
-        replacements: { name: dto.name, email: dto.email, hashedPassword },
-      },
-    );
+    let users: User[];
+
+    try {
+      users = await this.sequelize.query(
+        /* sql */
+        `INSERT INTO "Users" ("name", "email", "hashedPassword", "createdAt", "updatedAt")
+        VALUES (:name, :email, :hashedPassword, NOW(), NOW())
+        RETURNING *`,
+        {
+          type: QueryTypes.SELECT,
+          replacements: {
+            name: dto.name,
+            email: dto.email,
+            hashedPassword,
+          },
+        },
+      );
+    } catch (error) {
+      if (error.name == 'SequelizeUniqueConstraintError') {
+        throw new UnauthorizedException('Email já existe');
+      }
+
+      throw new InternalServerErrorException();
+    }
 
     const user = users[0];
-    const payload = { sub: user.id, email: user.email };
+    const payload: JWTType = { sub: user.id, email: user.email };
     const token = await this.jwtService.signAsync(payload, { expiresIn: '2h' });
 
     await this.emailService.sendMail({
@@ -58,6 +66,40 @@ export class AuthService {
     });
 
     return { response: 'Verifique o email' };
+  }
+
+  async login(dto: LoginUserDto) {
+    let users: User[];
+
+    users = await this.sequelize.query(
+      /* sql */
+      `SELECT * FROM "Users"
+        WHERE email = :email
+        LIMIT 1`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          email: dto.email,
+        },
+      },
+    );
+
+    if (users.length < 1)
+      throw new BadRequestException('Email ou senha inválida');
+
+    const user = users[0];
+    const verifyPassword = await bcrypt.compare(
+      dto.password,
+      user.hashedPassword,
+    );
+
+    if (!verifyPassword)
+      throw new BadRequestException('Email ou senha inválida');
+
+    const payload: JWTType = { sub: user.id, email: user.email };
+    const token = await this.jwtService.signAsync(payload, { expiresIn: '2d' });
+
+    return { token: token };
   }
 
   async validateToken(token: string) {
@@ -77,7 +119,6 @@ export class AuthService {
         },
       );
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException('Erro ao autentificar usuário');
     }
 
@@ -90,5 +131,71 @@ export class AuthService {
                 <h3 style="font-family: 'Inter';">Pode fechar a aba</h3>
               </div>
             </html>`;
+  }
+
+  async updateUser(userJWT: JWTType, dto: UpdateUserDto) {
+    if (dto.password) {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(dto.password, salt);
+      dto.password = hashedPassword;
+    }
+
+    const entries = Object.entries(dto)
+      .filter(([_, value]) => value != undefined)
+      .map(
+        ([key, _]) =>
+          `"${key == 'password' ? 'hashedPassword' : key}" = :${key}`,
+      );
+
+    const replacements = Object.entries(dto)
+      .filter(([_, value]) => value != undefined)
+      .reduce(
+        (acc, [key, value]) => {
+          acc[key] = value;
+          return acc;
+        },
+        {} as Record<string, any>,
+      );
+
+    const users: User[] = await this.sequelize.query(
+      /* sql */
+      `UPDATE "Users"
+      SET ${entries}, "updatedAt" = NOW()
+      WHERE id = :id
+      RETURNING *`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          id: userJWT.sub,
+          ...replacements,
+        },
+      },
+    );
+
+    if (users.length < 1)
+      throw new BadRequestException('Usuário não encontrado');
+
+    const user = users[0];
+
+    const payload: JWTType = { sub: user.id, email: user.email };
+    const token = await this.jwtService.signAsync(payload, { expiresIn: '2d' });
+
+    return { token: token };
+  }
+
+  async deleteUser(userJWT: JWTType) {
+    await this.sequelize.query(
+      /* sql */
+      `DELETE FROM "Users"
+      WHERE id = :id`,
+      {
+        type: QueryTypes.DELETE,
+        replacements: {
+          id: userJWT.sub,
+        },
+      },
+    );
+
+    return { message: 'Usuário deletado com sucesso' };
   }
 }

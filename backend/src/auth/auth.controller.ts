@@ -1,18 +1,49 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { RegisterUserDto } from './dto/register-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from './auth.guard';
+import type { JWTType } from 'types';
+import { UserJWT } from './auth.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  async register(@Body() dto: CreateUserDto) {
+  @Post('register')
+  async register(@Body() dto: RegisterUserDto) {
     return await this.authService.register(dto);
+  }
+
+  @Post('login')
+  async login(@Body() dto: LoginUserDto) {
+    return await this.authService.login(dto);
   }
 
   @Get('verifyEmail/:token')
   async verifyEmail(@Param('token') token: string) {
     return await this.authService.validateToken(token);
+  }
+
+  @Patch()
+  @UseGuards(JwtAuthGuard)
+  async updateUser(@UserJWT() userJWT: JWTType, @Body() dto: UpdateUserDto) {
+    return await this.authService.updateUser(userJWT, dto);
+  }
+
+  @Delete()
+  @UseGuards(JwtAuthGuard)
+  async deleteUser(@UserJWT() userJWT: JWTType) {
+    return await this.authService.deleteUser(userJWT);
   }
 }

@@ -1,6 +1,6 @@
 ### Auth
 
-POST http://localhost:3000/auth HTTP/1.1
+POST http://localhost:3000/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
@@ -8,3 +8,29 @@ Content-Type: application/json
   "email": "motoke8713@aperiol.com",
   "password": "123456"
 }
+
+###
+
+POST http://localhost:3000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "motoke8713@aperiol.com",
+  "password": "123456"
+}
+
+###
+
+PATCH http://localhost:3000/auth HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoibW90b2tlODcxM0BhcGVyaW9sLmNvbSIsImlhdCI6MTc1NjQxNTI2MywiZXhwIjoxNzU2NTg4MDYzfQ.jOVFbgz6NxSxq_lptsFPOUz_w16ZPEDv0QxQ9ind5DI
+Content-Type: application/json
+
+{
+  "name": "Luannn",
+  "password": "123456"
+}
+
+###
+
+DELETE http://localhost:3000/auth HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoibW90b2tlODcxM0BhcGVyaW9sLmNvbSIsImlhdCI6MTc1NjQxNTI2MywiZXhwIjoxNzU2NTg4MDYzfQ.jOVFbgz6NxSxq_lptsFPOUz_w16ZPEDv0QxQ9ind5DI
