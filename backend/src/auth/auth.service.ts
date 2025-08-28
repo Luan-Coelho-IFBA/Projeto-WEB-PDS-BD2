@@ -9,13 +9,14 @@ import { JwtService } from '@nestjs/jwt';
 import { Sequelize } from 'sequelize-typescript';
 import { InjectConnection } from '@nestjs/sequelize';
 import { QueryTypes } from 'sequelize';
-import { User } from './entity/User';
+import { User } from './entity/user.entity';
 import bcrypt from 'bcryptjs';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { JWTType } from 'types';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Role } from 'src/roles/entity/role.entity';
 
 @Injectable()
 export class AuthService {
@@ -30,13 +31,22 @@ export class AuthService {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(dto.password, salt);
 
+    const roles: Role[] = await this.sequelize.query(
+      /* sql */
+      `SELECT * FROM "Roles"
+      WHERE name = 'Leitor'`,
+      {
+        type: QueryTypes.SELECT,
+      },
+    );
+
     let users: User[];
 
     try {
       users = await this.sequelize.query(
         /* sql */
-        `INSERT INTO "Users" ("name", "email", "hashedPassword", "createdAt", "updatedAt")
-        VALUES (:name, :email, :hashedPassword, NOW(), NOW())
+        `INSERT INTO "Users" ("name", "email", "hashedPassword", "roleId", "createdAt", "updatedAt")
+        VALUES (:name, :email, :hashedPassword, :roleId, NOW(), NOW())
         RETURNING *`,
         {
           type: QueryTypes.SELECT,
@@ -44,6 +54,7 @@ export class AuthService {
             name: dto.name,
             email: dto.email,
             hashedPassword,
+            roleId: roles[0].id,
           },
         },
       );
@@ -51,6 +62,8 @@ export class AuthService {
       if (error.name == 'SequelizeUniqueConstraintError') {
         throw new UnauthorizedException('Email já existe');
       }
+
+      console.log(error);
 
       throw new InternalServerErrorException();
     }
