@@ -16,7 +16,8 @@ import { ConfigService } from '@nestjs/config';
 import { JWTType } from 'types';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Role } from 'src/roles/entity/role.entity';
+import { Role } from 'src/role/entity/role.entity';
+import { LEITOR } from 'consts';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +35,7 @@ export class AuthService {
     const roles: Role[] = await this.sequelize.query(
       /* sql */
       `SELECT * FROM "Roles"
-      WHERE name = 'Leitor'`,
+      WHERE name = ${LEITOR}`,
       {
         type: QueryTypes.SELECT,
       },
@@ -63,13 +64,29 @@ export class AuthService {
         throw new UnauthorizedException('Email já existe');
       }
 
-      console.log(error);
-
       throw new InternalServerErrorException();
     }
 
+    users = await this.sequelize.query(
+      /* sql */
+      `SELECT u.*, ROW_TO_JSON(r.*) as role
+      FROM "Users" u
+      LEFT JOIN "Roles" r ON u."roleId" = r.id
+      WHERE u.id = :id;`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          id: users[0].id,
+        },
+      },
+    );
+
     const user = users[0];
-    const payload: JWTType = { sub: user.id, email: user.email };
+    const payload: JWTType = {
+      sub: user.id,
+      email: user.email,
+      role: user.role.name,
+    };
     const token = await this.jwtService.signAsync(payload, { expiresIn: '2h' });
 
     await this.emailService.sendMail({
@@ -82,13 +99,13 @@ export class AuthService {
   }
 
   async login(dto: LoginUserDto) {
-    let users: User[];
-
-    users = await this.sequelize.query(
+    const users: User[] = await this.sequelize.query(
       /* sql */
-      `SELECT * FROM "Users"
-        WHERE email = :email
-        LIMIT 1`,
+      `SELECT u.*, ROW_TO_JSON(r.*) as role FROM "Users" u
+      LEFT JOIN "Roles" r
+      ON r.id = u."roleId"
+      WHERE email = :email
+      LIMIT 1`,
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -96,6 +113,8 @@ export class AuthService {
         },
       },
     );
+
+    console.log(users);
 
     if (users.length < 1)
       throw new BadRequestException('Email ou senha inválida');
@@ -109,7 +128,11 @@ export class AuthService {
     if (!verifyPassword)
       throw new BadRequestException('Email ou senha inválida');
 
-    const payload: JWTType = { sub: user.id, email: user.email };
+    const payload: JWTType = {
+      sub: user.id,
+      email: user.email,
+      role: user.role.name,
+    };
     const token = await this.jwtService.signAsync(payload, { expiresIn: '2d' });
 
     return { token: token };
@@ -170,7 +193,7 @@ export class AuthService {
         {} as Record<string, any>,
       );
 
-    const users: User[] = await this.sequelize.query(
+    let users: User[] = await this.sequelize.query(
       /* sql */
       `UPDATE "Users"
       SET ${entries}, "updatedAt" = NOW()
@@ -188,9 +211,27 @@ export class AuthService {
     if (users.length < 1)
       throw new BadRequestException('Usuário não encontrado');
 
+    users = await this.sequelize.query(
+      /* sql */
+      `SELECT u.*, ROW_TO_JSON(r.*) as role
+      FROM "Users" u
+      LEFT JOIN "Roles" r ON u."roleId" = r.id
+      WHERE u.id = :id;`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          id: users[0].id,
+        },
+      },
+    );
+
     const user = users[0];
 
-    const payload: JWTType = { sub: user.id, email: user.email };
+    const payload: JWTType = {
+      sub: user.id,
+      email: user.email,
+      role: user.role.name,
+    };
     const token = await this.jwtService.signAsync(payload, { expiresIn: '2d' });
 
     return { token: token };

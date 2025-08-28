@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import { User } from 'src/auth/entity/user.entity';
-import { Role } from 'src/roles/entity/role.entity';
+import { Role } from 'src/role/entity/role.entity';
 
 const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
   dialect: 'postgres',

@@ -1,10 +1,11 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/sequelize';
+import { JORNALISTA, LEITOR } from 'consts';
 import { QueryTypes } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 
 @Injectable()
-export class RolesService implements OnModuleInit {
+export class RoleService implements OnModuleInit {
   constructor(@InjectConnection() private readonly sequelize: Sequelize) {}
 
   async onModuleInit() {
@@ -19,7 +20,7 @@ export class RolesService implements OnModuleInit {
       {
         type: QueryTypes.INSERT,
         replacements: {
-          name: 'Leitor',
+          name: LEITOR,
         },
       },
     );
@@ -34,9 +35,18 @@ export class RolesService implements OnModuleInit {
       )`,
       {
         replacements: {
-          name: 'Jornalista',
+          name: JORNALISTA,
         },
       },
     );
+  }
+
+  async getAll() {
+    const roles = await this.sequelize.query(
+      /* sql */
+      `SELECT * FROM "Roles"`,
+    );
+
+    return { roles: roles };
   }
 }

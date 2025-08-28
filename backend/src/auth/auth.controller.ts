@@ -15,6 +15,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from './auth.guard';
 import type { JWTType } from 'types';
 import { UserJWT } from './auth.decorator';
+import { Authenticate } from './autenticate.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -36,13 +37,13 @@ export class AuthController {
   }
 
   @Patch()
-  @UseGuards(JwtAuthGuard)
+  @Authenticate()
   async updateUser(@UserJWT() userJWT: JWTType, @Body() dto: UpdateUserDto) {
     return await this.authService.updateUser(userJWT, dto);
   }
 
   @Delete()
-  @UseGuards(JwtAuthGuard)
+  @Authenticate()
   async deleteUser(@UserJWT() userJWT: JWTType) {
     return await this.authService.deleteUser(userJWT);
   }
