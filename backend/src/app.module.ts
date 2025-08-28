@@ -6,6 +6,9 @@ import { User } from './auth/entity/User';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { MailerModule } from '@nestjs-modules/mailer';
+import SequelizeConfig from './config/sequelize.config';
+import JWTConfig from './config/jwt.config';
+import MailerConfig from './config/mailer.config';
 
 @Module({
   imports: [
@@ -13,46 +16,19 @@ import { MailerModule } from '@nestjs-modules/mailer';
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        dialect: 'postgres',
-        host: config.get('DB_HOST'),
-        port: config.get('DB_PORT'),
-        username: config.get('DB_USERNAME'),
-        password: config.get('DB_PASSWORD'),
-        database: config.get('DB_DATABASE'),
-        models: [User],
-        autoLoadModels: true,
-        synchronize: true,
-      }),
+      useFactory: SequelizeConfig,
     }),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       global: true,
-      useFactory: (config: ConfigService) => ({
-        global: true,
-        secret: config.get('JWT_SECRET'),
-        signOptions: { expiresIn: '2d' },
-      }),
+      useFactory: JWTConfig,
     }),
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        defaults: {
-          from: `Não responda <${config.getOrThrow('MAIL_FROM')}>`,
-        },
-        transport: {
-          host: config.getOrThrow('MAIL_HOST'),
-          port: config.get('MAIL_PORT'),
-          secure: false,
-          auth: {
-            user: config.get('MAIL_USER'),
-            pass: config.get('MAIL_PASSWORD'),
-          },
-        },
-      }),
+      useFactory: MailerConfig,
     }),
     AuthModule,
   ],
