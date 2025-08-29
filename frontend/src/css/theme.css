@@ -1,0 +1,9 @@
+:root {
+	--main-color: #0072cf;
+
+	--text-default: #000000;
+	--text-link-grey: #d9d9d9d9;
+
+	--button-grey: #d9d9d9d9;
+	--button-grey-hover: #979595d9;
+}
