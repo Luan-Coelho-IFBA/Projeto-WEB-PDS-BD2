@@ -36,7 +36,7 @@ export function LoginPage() {
 				<Form.Button onClick={loginAccount} nameButton="Logar" />
 			</Form>
 			<div className={styles.links}>
-				<RouterLink href={RoutesName.forgotPassord}>Esqueci a senha</RouterLink>
+				<RouterLink href={RoutesName.forgotPassword}>Esqueci a senha</RouterLink>
 				<RouterLink href={RoutesName.register}>Não possui conta? Crie uma aqui</RouterLink>
 			</div>
 		</div>

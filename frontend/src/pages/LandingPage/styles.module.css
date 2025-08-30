@@ -1,0 +1,12 @@
+.container {
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.menu {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 5rem;
+}
