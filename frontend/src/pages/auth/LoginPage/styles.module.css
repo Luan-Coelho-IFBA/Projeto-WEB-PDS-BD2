@@ -1,0 +1,26 @@
+.containerLogin {
+	margin: 0 auto;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+	height: 80dvh;
+	/* border: 1px solid red; */
+	gap: 1.5rem;
+}
+
+.links {
+	display: flex;
+	gap: 1.05rem;
+	flex-flow: column;
+	a {
+		color: var(--main-color) !important;
+		transition: all 0.3s;
+
+		&:hover {
+			font-weight: bolder;
+		}
+	}
+	align-items: center;
+}

@@ -1,0 +1,52 @@
+.formHeader{
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	gap: 1rem;
+}
+.formTitle{
+	letter-spacing: .5rem;
+}
+.formSubtitle{}
+
+.formGroup {
+	position: relative;
+	width: 80%;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+	gap: 3rem;
+	/* border: 1px solid yellow; */
+}
+
+.formRow {
+	width: 50%;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	gap: 1rem;
+
+	label {
+		font-size: 1.2rem;
+		font-weight: 500;
+	}
+
+	input {
+		width: 100%;
+		border-radius: 0.3rem;
+		padding: 1rem;
+	}
+	input[type="button"] {
+		letter-spacing: 0.25rem;
+		font-weight: bold;
+		border-color: transparent;
+		background-color: var(--button-grey);
+		transition: all 0.3s;
+
+		&:hover {
+			font-weight: bolder;
+			background-color: var(--button-grey-hover);
+		}
+	}
+}
