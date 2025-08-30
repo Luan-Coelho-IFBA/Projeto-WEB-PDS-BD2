@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -9,24 +10,68 @@ import { JwtService } from '@nestjs/jwt';
 import { Sequelize } from 'sequelize-typescript';
 import { InjectConnection } from '@nestjs/sequelize';
 import { QueryTypes } from 'sequelize';
-import { User } from './entity/user.entity';
+import { User } from './entities/user.entity';
 import bcrypt from 'bcryptjs';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { JWTType } from 'types';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Role } from 'src/role/entity/role.entity';
-import { LEITOR } from 'consts';
+import { Role } from 'src/role/entities/role.entity';
+import { ADMIN, LEITOR } from 'consts';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements OnModuleInit {
   constructor(
     private readonly jwtService: JwtService,
     @InjectConnection() private readonly sequelize: Sequelize,
     private readonly emailService: MailerService,
     private readonly config: ConfigService,
   ) {}
+
+  async onModuleInit() {
+    const roles: Role[] = await this.sequelize.query(
+      /* sql */
+      `SELECT * FROM "Roles"
+      WHERE name = :name`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          name: ADMIN,
+        },
+      },
+    );
+
+    const name = this.config.get<string>('ADMIN_NAME');
+    const email = this.config.get<string>('ADMIN_EMAIL');
+    const password = this.config.get<string>('ADMIN_PASSWORD');
+
+    if (!name || !email || !password)
+      throw new InternalServerErrorException('Admin não encontrado');
+
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    await this.sequelize.query(
+      /* sql */
+      `INSERT INTO "Users" ("name", "email", "hashedPassword", "roleId", "isVerified", "createdAt", "updatedAt")
+      SELECT :name, :email, :hashedPassword, :roleId, :isVerified, NOW(), NOW()
+      WHERE NOT EXISTS (
+        SELECT * FROM "Users"
+        WHERE "roleId" = :roleId
+      )`,
+      {
+        type: QueryTypes.INSERT,
+        replacements: {
+          name: name,
+          email: email,
+          hashedPassword: hashedPassword,
+          roleId: roles[0].id,
+          isVerified: true,
+        },
+      },
+    );
+  }
 
   async register(dto: RegisterUserDto) {
     const salt = await bcrypt.genSalt();
@@ -35,9 +80,12 @@ export class AuthService {
     const roles: Role[] = await this.sequelize.query(
       /* sql */
       `SELECT * FROM "Roles"
-      WHERE name = ${LEITOR}`,
+      WHERE name = :name`,
       {
         type: QueryTypes.SELECT,
+        replacements: {
+          name: LEITOR,
+        },
       },
     );
 
@@ -238,6 +286,18 @@ export class AuthService {
   }
 
   async deleteUser(userJWT: JWTType) {
+    await this.sequelize.query(
+      /* sql */
+      `DELETE FROM "Articles"
+      WHERE "userId" = :id`,
+      {
+        type: QueryTypes.DELETE,
+        replacements: {
+          id: userJWT.sub,
+        },
+      },
+    );
+
     await this.sequelize.query(
       /* sql */
       `DELETE FROM "Users"

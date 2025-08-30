@@ -5,7 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { RolesModule } from './role/role.module';
+import { RoleModule } from './role/role.module';
+import { ArticleModule } from './article/article.module';
+import { CategoryModule } from './category/category.module';
 import SequelizeConfig from './config/sequelize.config';
 import JWTConfig from './config/jwt.config';
 import MailerConfig from './config/mailer.config';
@@ -31,7 +33,9 @@ import MailerConfig from './config/mailer.config';
       useFactory: MailerConfig,
     }),
     AuthModule,
-    RolesModule,
+    RoleModule,
+    ArticleModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}
