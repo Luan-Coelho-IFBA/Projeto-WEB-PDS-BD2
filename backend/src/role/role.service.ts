@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/sequelize';
-import { JORNALISTA, LEITOR } from 'consts';
+import { ADMIN, JORNALISTA, LEITOR } from 'consts';
 import { QueryTypes } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 
@@ -36,6 +36,21 @@ export class RoleService implements OnModuleInit {
       {
         replacements: {
           name: JORNALISTA,
+        },
+      },
+    );
+
+    await this.sequelize.query(
+      /* sql */
+      `INSERT INTO "Roles" ("name", "createdAt", "updatedAt")
+      SELECT :name, NOW(), NOW()
+      WHERE NOT EXISTS (
+        SELECT * FROM "Roles"
+        WHERE name = :name
+      )`,
+      {
+        replacements: {
+          name: ADMIN,
         },
       },
     );

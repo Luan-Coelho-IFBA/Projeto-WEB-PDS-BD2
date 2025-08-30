@@ -2,11 +2,13 @@ import {
   BelongsTo,
   Column,
   ForeignKey,
+  HasMany,
   HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Role } from 'src/role/entity/role.entity';
+import { Article } from 'src/article/entities/article.entity';
+import { Role } from 'src/role/entities/role.entity';
 
 @Table
 export class User extends Model {
@@ -24,10 +26,13 @@ export class User extends Model {
   })
   isVerified: boolean;
 
-  @ForeignKey(() => Role)
   @Column
+  @ForeignKey(() => Role)
   roleId: number;
 
   @BelongsTo(() => Role)
   role: Role;
+
+  @HasMany(() => Article)
+  articles: Article;
 }
