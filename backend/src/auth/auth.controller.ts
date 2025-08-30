@@ -16,6 +16,7 @@ import { JwtAuthGuard } from './auth.guard';
 import type { JWTType } from 'types';
 import { UserJWT } from './auth.decorator';
 import { Authenticate } from './autenticate.decorator';
+import { TestOnly } from 'src/test/test.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -46,5 +47,11 @@ export class AuthController {
   @Authenticate()
   async deleteUser(@UserJWT() userJWT: JWTType) {
     return await this.authService.deleteUser(userJWT);
+  }
+
+  @Get('test/verifyEmail')
+  @TestOnly()
+  async testVerifyEmail() {
+    return await this.authService.testVerifyEmail();
   }
 }

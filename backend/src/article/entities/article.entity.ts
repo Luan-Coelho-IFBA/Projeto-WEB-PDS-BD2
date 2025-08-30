@@ -28,6 +28,9 @@ export class Article extends Model {
   image: Buffer;
 
   @Column
+  imageMimeType: string;
+
+  @Column
   @ForeignKey(() => User)
   userId: number;
 

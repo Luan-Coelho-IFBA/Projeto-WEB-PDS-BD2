@@ -162,12 +162,14 @@ export class AuthService implements OnModuleInit {
       },
     );
 
-    console.log(users);
-
     if (users.length < 1)
       throw new BadRequestException('Email ou senha inválida');
 
     const user = users[0];
+
+    if (!user.isVerified)
+      throw new UnauthorizedException('Usuário não autentificado');
+
     const verifyPassword = await bcrypt.compare(
       dto.password,
       user.hashedPassword,
@@ -286,6 +288,28 @@ export class AuthService implements OnModuleInit {
   }
 
   async deleteUser(userJWT: JWTType) {
+    if (userJWT.role == ADMIN)
+      throw new UnauthorizedException('Admin não pode ser excluído');
+
+    await this.sequelize.query(
+      /* sql */
+      `DELETE FROM "ArticleCategories" ac
+      WHERE ac."articleId" in (
+      	SELECT ac."articleId" FROM "ArticleCategories" ac2
+      	INNER JOIN "Articles" a
+      	ON a.id = ac2."articleId"
+      	INNER JOIN "Users"
+      	ON "Users".id = a."userId"
+      	WHERE ac."userId" = :userId
+      )`,
+      {
+        type: QueryTypes.DELETE,
+        replacements: {
+          userId: userJWT.sub,
+        },
+      },
+    );
+
     await this.sequelize.query(
       /* sql */
       `DELETE FROM "Articles"
@@ -311,5 +335,23 @@ export class AuthService implements OnModuleInit {
     );
 
     return { message: 'Usuário deletado com sucesso' };
+  }
+
+  async testVerifyEmail() {
+    await this.sequelize.query(
+      /* sql */
+      `UPDATE "Users"
+      SET "isVerified" = TRUE, "updatedAt" = NOW()
+      WHERE id = (
+        SELECT id FROM "Users" 
+        ORDER BY "createdAt" DESC 
+        LIMIT 1
+      )`,
+      {
+        type: QueryTypes.UPDATE,
+      },
+    );
+
+    return { message: 'Usuário verificado' };
   }
 }
