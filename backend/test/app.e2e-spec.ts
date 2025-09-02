@@ -128,6 +128,18 @@ describe('AppController (e2e)', () => {
           .expectStatus(201);
       });
 
+      it('should create a category 2', () => {
+        const dto: CategoryDto = {
+          name: 'Política',
+        };
+        return pactum
+          .spec()
+          .post('/category')
+          .withBearerToken('$S{tokenAdmin}')
+          .withBody(dto)
+          .expectStatus(201);
+      });
+
       it('should update category', () => {
         const dto: CategoryDto = {
           name: 'Entretenimento',
@@ -138,6 +150,18 @@ describe('AppController (e2e)', () => {
           .withBearerToken('$S{tokenAdmin}')
           .withBody(dto)
           .expectStatus(200);
+      });
+
+      it('should delete category', () => {
+        return pactum
+          .spec()
+          .delete('/category/1')
+          .withBearerToken('$S{tokenAdmin}')
+          .expectStatus(200);
+      });
+
+      it('should get length 1', () => {
+        return pactum.spec().get('/category').expectJsonLength('categories', 1);
       });
     });
   });
@@ -188,6 +212,65 @@ describe('AppController (e2e)', () => {
           .expectStatus(200)
           .stores('tokenUser', 'token');
       });
+    });
+  });
+
+  describe('AUTH ERRORS', () => {
+    it('should create user', () => {
+      const dto: RegisterUserDto = {
+        name: 'Give error',
+        email: '20231bsifsa0024@ifba.edu.br',
+        password: '123456',
+      };
+      return pactum
+        .spec()
+        .post('/auth/register')
+        .withBody(dto)
+        .expectStatus(201);
+    });
+
+    it('should verify user', () => {
+      return pactum.spec().get('/auth/test/verifyEmail').expectStatus(200);
+    });
+
+    it('should give password error', () => {
+      const dto: LoginUserDto = {
+        email: '20231bsifsa0024@ifba.edu.br',
+        password: '123457',
+      };
+
+      return pactum.spec().post('/auth/login').withBody(dto).expectStatus(400);
+    });
+
+    it('should log user', () => {
+      const dto: LoginUserDto = {
+        email: '20231bsifsa0024@ifba.edu.br',
+        password: '123456',
+      };
+
+      return pactum
+        .spec()
+        .post('/auth/login')
+        .withBody(dto)
+        .expectStatus(201)
+        .stores('tokenAuth', 'token');
+    });
+
+    it('should delete user', () => {
+      return pactum
+        .spec()
+        .delete('/auth')
+        .withBearerToken('$S{tokenAuth}')
+        .expectStatus(200);
+    });
+
+    it('should give user does not exist', () => {
+      const dto: LoginUserDto = {
+        email: '20231bsifsa0024@ifba.edu.br',
+        password: '123457',
+      };
+
+      return pactum.spec().post('/auth/login').withBody(dto).expectStatus(400);
     });
   });
 });

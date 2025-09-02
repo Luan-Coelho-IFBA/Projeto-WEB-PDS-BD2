@@ -8,7 +8,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Article } from 'src/article/entities/article.entity';
-import { Comment } from 'src/comments/entities/comment.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
 import { Role } from 'src/role/entities/role.entity';
 
 @Table

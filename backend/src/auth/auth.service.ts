@@ -18,7 +18,7 @@ import { JWTType } from 'types';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Role } from 'src/role/entities/role.entity';
-import { ADMIN, LEITOR } from 'consts';
+import { ADMIN, LEITOR, USER_STORED_PROCEDURE, USER_VIEW } from 'consts';
 import { ResendEmailDto } from './dto/resend-email.dto';
 
 @Injectable()
@@ -73,14 +73,8 @@ export class AuthService implements OnModuleInit {
       },
     );
 
-    await this.sequelize.query(
-      /* sql */
-      `CREATE OR REPLACE VIEW "ShowUsers" AS
-      SELECT id, "name", "email" FROM "Users"`,
-      {
-        type: QueryTypes.RAW,
-      },
-    );
+    await this.sequelize.query(USER_STORED_PROCEDURE);
+    await this.sequelize.query(USER_VIEW);
   }
 
   async register(dto: RegisterUserDto) {
@@ -330,37 +324,6 @@ export class AuthService implements OnModuleInit {
   async deleteUser(userJWT: JWTType) {
     if (userJWT.role == ADMIN)
       throw new UnauthorizedException('Admin não pode ser excluído');
-
-    await this.sequelize.query(
-      /* sql */
-      `DELETE FROM "ArticleCategories" ac
-      WHERE ac."articleId" in (
-      	SELECT ac."articleId" FROM "ArticleCategories" ac2
-      	INNER JOIN "Articles" a
-      	ON a.id = ac2."articleId"
-      	INNER JOIN "Users"
-      	ON "Users".id = a."userId"
-      	WHERE ac."userId" = :userId
-      )`,
-      {
-        type: QueryTypes.DELETE,
-        replacements: {
-          userId: userJWT.sub,
-        },
-      },
-    );
-
-    await this.sequelize.query(
-      /* sql */
-      `DELETE FROM "Articles"
-      WHERE "userId" = :id`,
-      {
-        type: QueryTypes.DELETE,
-        replacements: {
-          id: userJWT.sub,
-        },
-      },
-    );
 
     await this.sequelize.query(
       /* sql */

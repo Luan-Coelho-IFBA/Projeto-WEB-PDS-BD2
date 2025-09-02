@@ -8,7 +8,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { RoleModule } from './role/role.module';
 import { ArticleModule } from './article/article.module';
 import { CategoryModule } from './category/category.module';
-import { CommentsModule } from './comments/comments.module';
+import { CommentModule } from './comment/comment.module';
+import { LikeModule } from './like/like.module';
 import SequelizeConfig from './config/sequelize.config';
 import JWTConfig from './config/jwt.config';
 import MailerConfig from './config/mailer.config';
@@ -37,7 +38,8 @@ import MailerConfig from './config/mailer.config';
     RoleModule,
     ArticleModule,
     CategoryModule,
-    CommentsModule,
+    CommentModule,
+    LikeModule,
   ],
 })
 export class AppModule {}

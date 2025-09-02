@@ -11,7 +11,7 @@ import {
 import { User } from 'src/auth/entities/user.entity';
 import { ArticleCategory } from './article-category.entity';
 import { Category } from 'src/category/entities/category.entity';
-import { Comment } from 'src/comments/entities/comment.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
 
 @Table
 export class Article extends Model {

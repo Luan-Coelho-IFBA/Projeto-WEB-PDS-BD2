@@ -6,7 +6,7 @@ import { JWTType } from 'types';
 import { QueryTypes } from 'sequelize';
 
 @Injectable()
-export class CommentsService {
+export class CommentService {
   constructor(@InjectConnection() private readonly sequelize: Sequelize) {}
 
   async create(userJWT: JWTType, dto: CreateCommentDto) {
@@ -30,7 +30,9 @@ export class CommentsService {
   async getByArticleId(id: number) {
     const comments = await this.sequelize.query(
       /* sql */
-      `SELECT * FROM "Comments"
+      `SELECT c.*, COUNT(l.id) FROM "Comments" c
+      INNER JOIN "Likes" l
+      ON c.id = l."commentId"
       WHERE "articleId" = :articleId`,
       {
         type: QueryTypes.SELECT,
