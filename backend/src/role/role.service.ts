@@ -55,4 +55,46 @@ export class RoleService implements OnModuleInit {
       },
     );
   }
+
+  async changeToJornalista(userId: number) {
+    await this.sequelize.query(
+      /* sql */
+      `UPDATE "Users"
+      SET "roleId" = (
+        SELECT id FROM "Roles" r
+        WHERE r."name" = :name
+      ), "updatedAt" = NOW()
+      WHERE id = :userId`,
+      {
+        type: QueryTypes.UPDATE,
+        replacements: {
+          userId: userId,
+          name: JORNALISTA,
+        },
+      },
+    );
+
+    return { message: 'Cargo mudado' };
+  }
+
+  async changeToLeitor(userId: number) {
+    await this.sequelize.query(
+      /* sql */
+      `UPDATE "Users"
+      SET "roleId" = (
+        SELECT id FROM "Roles" r
+        WHERE r."name" = :name
+      ), "updatedAt" = NOW()
+      WHERE id = :userId`,
+      {
+        type: QueryTypes.UPDATE,
+        replacements: {
+          userId: userId,
+          name: LEITOR,
+        },
+      },
+    );
+
+    return { message: 'Cargo mudado' };
+  }
 }

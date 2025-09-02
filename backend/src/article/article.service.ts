@@ -23,28 +23,29 @@ export class ArticleService {
     dto: CreateArticleDto,
   ) {
     const t = await this.sequelize.transaction();
-
-    const articles: Article[] = await this.sequelize.query(
-      /* sql */
-      `INSERT INTO "Articles" ("title", "subtitle", "text", "image", "imageMimeType", "userId", "createdAt", "updatedAt")
-      VALUES (:title, :subtitle, :text, :image, :imageMimeType, :userId, NOW(), NOW())
-      RETURNING *`,
-      {
-        type: QueryTypes.SELECT,
-        replacements: {
-          title: dto.title,
-          subtitle: dto.subtitle,
-          text: dto.text,
-          image: file.buffer,
-          imageMimeType: file.mimetype,
-          userId: userJWT.sub,
-        },
-      },
-    );
-
-    const article = articles[0];
+    let article: Article | undefined;
 
     try {
+      const articles: Article[] = await this.sequelize.query(
+        /* sql */
+        `INSERT INTO "Articles" ("title", "subtitle", "text", "image", "imageMimeType", "userId", "createdAt", "updatedAt")
+      VALUES (:title, :subtitle, :text, :image, :imageMimeType, :userId, NOW(), NOW())
+      RETURNING *`,
+        {
+          type: QueryTypes.SELECT,
+          replacements: {
+            title: dto.title,
+            subtitle: dto.subtitle,
+            text: dto.text,
+            image: file.buffer,
+            imageMimeType: file.mimetype,
+            userId: userJWT.sub,
+          },
+        },
+      );
+
+      article = articles[0];
+
       const articleCategories = dto.categoryId.map(async (ci) => {
         return this.sequelize.query(
           /* sql */
@@ -53,7 +54,7 @@ export class ArticleService {
           {
             type: QueryTypes.INSERT,
             replacements: {
-              articleId: article.id,
+              articleId: article?.id,
               categoryId: ci,
             },
             transaction: t,
@@ -66,6 +67,10 @@ export class ArticleService {
 
       return { message: 'Artigo criado' };
     } catch (error) {
+      if (article == undefined) {
+        throw new NotFoundException('Usuário não encontrado');
+      }
+
       await this.sequelize.query(
         /* sql */
         `DELETE FROM "ArticleCategories"
@@ -109,7 +114,7 @@ export class ArticleService {
         WHERE ac."articleId" = a.id
       ) AS categories
       FROM "Articles" a
-      INNER JOIN "Users" u ON u.id = a."userId"`,
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"`,
       {
         type: QueryTypes.SELECT,
       },
@@ -135,10 +140,10 @@ export class ArticleService {
         WHERE ac_sub."articleId" = a.id
       ) AS categories
       FROM "Articles" a
-      INNER JOIN "Users" u ON u.id = a."userId"
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"
       INNER JOIN "ArticleCategories" ac ON ac."articleId" = a.id
       WHERE ac."categoryId" IN (:categoriesId)
-      GROUP BY a.id, u.id;`,
+      GROUP BY a.id, u.id, u.*`,
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -165,7 +170,7 @@ export class ArticleService {
         WHERE ac."articleId" = a.id
       ) AS categories
       FROM "Articles" a
-      INNER JOIN "Users" u ON u.id = a."userId"
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"
       WHERE a.id = :id`,
       {
         type: QueryTypes.SELECT,

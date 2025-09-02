@@ -1,0 +1,60 @@
+import { Injectable } from '@nestjs/common';
+import { InjectConnection } from '@nestjs/sequelize';
+import { Sequelize } from 'sequelize-typescript';
+import { CreateCommentDto } from './dto/create-comment.dto';
+import { JWTType } from 'types';
+import { QueryTypes } from 'sequelize';
+
+@Injectable()
+export class CommentsService {
+  constructor(@InjectConnection() private readonly sequelize: Sequelize) {}
+
+  async create(userJWT: JWTType, dto: CreateCommentDto) {
+    await this.sequelize.query(
+      /* sql */
+      `INSERT INTO "Comments" ("text", "userId", "articleId", "createdAt", "updatedAt")
+      VALUES (:text, :userId, :articleId, NOW(), NOW())`,
+      {
+        type: QueryTypes.INSERT,
+        replacements: {
+          text: dto.text,
+          userId: userJWT.sub,
+          articleId: dto.articleId,
+        },
+      },
+    );
+
+    return { mensagem: 'Comentário criado' };
+  }
+
+  async getByArticleId(id: number) {
+    const comments = await this.sequelize.query(
+      /* sql */
+      `SELECT * FROM "Comments"
+      WHERE "articleId" = :articleId`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          articleId: id,
+        },
+      },
+    );
+
+    return { comments };
+  }
+
+  async delete(userJWT: JWTType, id: number) {
+    await this.sequelize.query(
+      /* sql */
+      `DELETE FROM "Comments"
+      WHERE id = :id AND "userId" = :userId`,
+      {
+        type: QueryTypes.DELETE,
+        replacements: {
+          id: id,
+          userId: userJWT.sub,
+        },
+      },
+    );
+  }
+}

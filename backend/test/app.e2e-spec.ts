@@ -36,7 +36,11 @@ describe('AppController (e2e)', () => {
 
   afterAll(async () => {
     if (sequelize) {
-      await sequelize.truncate({ cascade: true, force: true });
+      await sequelize.truncate({
+        cascade: true,
+        force: true,
+        restartIdentity: true,
+      });
       sequelize.close();
     }
     app.close();
@@ -105,6 +109,13 @@ describe('AppController (e2e)', () => {
     });
 
     describe('CATEGORIES', () => {
+      it('should give an error if not jwt', () => {
+        const dto: CategoryDto = {
+          name: 'Esporte',
+        };
+        return pactum.spec().post('/category').withBody(dto).expectStatus(401);
+      });
+
       it('should create a category', () => {
         const dto: CategoryDto = {
           name: 'Esporte',
@@ -115,6 +126,18 @@ describe('AppController (e2e)', () => {
           .withBearerToken('$S{tokenAdmin}')
           .withBody(dto)
           .expectStatus(201);
+      });
+
+      it('should update category', () => {
+        const dto: CategoryDto = {
+          name: 'Entretenimento',
+        };
+        return pactum
+          .spec()
+          .patch('/category/1')
+          .withBearerToken('$S{tokenAdmin}')
+          .withBody(dto)
+          .expectStatus(200);
       });
     });
   });

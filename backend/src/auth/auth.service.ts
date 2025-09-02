@@ -19,6 +19,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Role } from 'src/role/entities/role.entity';
 import { ADMIN, LEITOR } from 'consts';
+import { ResendEmailDto } from './dto/resend-email.dto';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
@@ -69,6 +70,15 @@ export class AuthService implements OnModuleInit {
           roleId: roles[0].id,
           isVerified: true,
         },
+      },
+    );
+
+    await this.sequelize.query(
+      /* sql */
+      `CREATE OR REPLACE VIEW "ShowUsers" AS
+      SELECT id, "name", "email" FROM "Users"`,
+      {
+        type: QueryTypes.RAW,
       },
     );
   }
@@ -217,6 +227,36 @@ export class AuthService implements OnModuleInit {
                 <h3 style="font-family: 'Inter';">Pode fechar a aba</h3>
               </div>
             </html>`;
+  }
+
+  async resendEmail(dto: ResendEmailDto) {
+    const users: User[] = await this.sequelize.query(
+      /* sql */
+      `SELECT * FROM "Users"
+      WHERE "email" = :email`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          email: dto.email,
+        },
+      },
+    );
+
+    const user = users[0];
+    const payload: JWTType = {
+      sub: user.id,
+      email: user.email,
+      role: user.role.name,
+    };
+    const token = await this.jwtService.signAsync(payload, { expiresIn: '2h' });
+
+    await this.emailService.sendMail({
+      to: dto.email,
+      /* html */
+      html: `<a href="${this.config.get('URL')}/auth/verifyEmail/${token}" target="_blank">Clique aqui para verificar a sua conta</a>`,
+    });
+
+    return { response: 'Verifique o email' };
   }
 
   async updateUser(userJWT: JWTType, dto: UpdateUserDto) {

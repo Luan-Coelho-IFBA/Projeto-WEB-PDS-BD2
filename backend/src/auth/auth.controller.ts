@@ -6,17 +6,16 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from './auth.guard';
 import type { JWTType } from 'types';
 import { UserJWT } from './auth.decorator';
 import { Authenticate } from './autenticate.decorator';
 import { TestOnly } from 'src/test/test.decorator';
+import { ResendEmailDto } from './dto/resend-email.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -37,6 +36,17 @@ export class AuthController {
     return await this.authService.validateToken(token);
   }
 
+  @Get('resendEmail')
+  async resendEmail(@Body() dto: ResendEmailDto) {
+    return await this.authService.resendEmail(dto);
+  }
+
+  @Get('test/verifyEmail')
+  @TestOnly()
+  async testVerifyEmail() {
+    return await this.authService.testVerifyEmail();
+  }
+
   @Patch()
   @Authenticate()
   async updateUser(@UserJWT() userJWT: JWTType, @Body() dto: UpdateUserDto) {
@@ -47,11 +57,5 @@ export class AuthController {
   @Authenticate()
   async deleteUser(@UserJWT() userJWT: JWTType) {
     return await this.authService.deleteUser(userJWT);
-  }
-
-  @Get('test/verifyEmail')
-  @TestOnly()
-  async testVerifyEmail() {
-    return await this.authService.testVerifyEmail();
   }
 }

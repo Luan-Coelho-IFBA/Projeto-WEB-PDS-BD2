@@ -1,16 +1,38 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { InjectConnection } from '@nestjs/sequelize';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
+import { QueryTypes } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { JWTType } from 'types';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(
+    @InjectConnection()
+    private readonly sequelize: Sequelize,
+    private reflector: Reflector,
+  ) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request: Request = context.switchToHttp().getRequest();
+
+    const userJWT = request.user as JWTType;
+
+    const users = await this.sequelize.query(
+      /* sql */
+      `SELECT * FROM "Users"
+      WHERE id = :id`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          id: userJWT.sub,
+        },
+      },
+    );
+
+    if (users.length < 1) return false;
+
     const requiredRoles = this.reflector.get<string[]>(
       'roles',
       context.getHandler(),
@@ -20,8 +42,7 @@ export class RoleGuard implements CanActivate {
       return true;
     }
 
-    const request: Request = context.switchToHttp().getRequest();
-    const roleName = (request.user as JWTType).role;
+    const roleName = userJWT.role;
 
     if (!requiredRoles.includes(roleName)) return false;
 

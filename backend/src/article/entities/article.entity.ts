@@ -4,12 +4,14 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { User } from 'src/auth/entities/user.entity';
 import { ArticleCategory } from './article-category.entity';
 import { Category } from 'src/category/entities/category.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 
 @Table
 export class Article extends Model {
@@ -34,9 +36,16 @@ export class Article extends Model {
   @ForeignKey(() => User)
   userId: number;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    hooks: true,
+  })
   user: User;
 
   @BelongsToMany(() => Category, () => ArticleCategory)
   categories: Category[];
+
+  @HasMany(() => Comment)
+  comments: Comment[];
 }

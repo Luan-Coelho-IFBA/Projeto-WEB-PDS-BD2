@@ -3,7 +3,7 @@ import { User } from 'src/auth/entities/user.entity';
 
 @Table
 export class Role extends Model {
-  @Column
+  @Column({ unique: true })
   name: string;
 
   @HasMany(() => User)
