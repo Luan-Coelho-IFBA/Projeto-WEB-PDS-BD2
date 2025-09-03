@@ -1,0 +1,25 @@
+.containerRegister {
+	margin: auto auto;
+	margin-top: 50px;
+	width: 70%;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.links {
+	display: flex;
+	gap: 1.05rem;
+	flex-flow: column;
+	a {
+		color: var(--main-color) !important;
+		transition: all 0.3s;
+
+		&:hover {
+			font-weight: bolder;
+		}
+	}
+	align-items: center;
+}
