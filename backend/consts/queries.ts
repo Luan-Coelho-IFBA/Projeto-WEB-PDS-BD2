@@ -5,8 +5,7 @@ export const USER_STORED_PROCEDURE =
   `CREATE OR REPLACE PROCEDURE create_user(
     p_name VARCHAR(255),
     p_email VARCHAR(255),
-    p_hashedPassword VARCHAR(255),
-    INOUT p_result JSON DEFAULT NULL
+    p_hashedPassword VARCHAR(255)
   )
   LANGUAGE plpgsql
   AS $$
@@ -47,16 +46,6 @@ export const USER_STORED_PROCEDURE =
       NOW()
     )
     RETURNING id INTO v_user_id;
-
-    SELECT JSON_BUILD_OBJECT(
-      'user', u.*,
-      'role', ROW_TO_JSON(r.*)
-    ) INTO v_user_data
-    FROM "Users" u
-    LEFT JOIN "Roles" r ON u."roleId" = r.id
-    WHERE u.id = v_user_id;
-
-    p_result := v_user_data;
   END;
   $$`;
 

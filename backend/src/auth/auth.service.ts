@@ -18,7 +18,7 @@ import { JWTType } from 'types';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Role } from 'src/role/entities/role.entity';
-import { ADMIN, LEITOR, USER_STORED_PROCEDURE, USER_VIEW } from 'consts';
+import { ADMIN, USER_STORED_PROCEDURE, USER_VIEW } from 'consts';
 import { ResendEmailDto } from './dto/resend-email.dto';
 
 @Injectable()
@@ -81,54 +81,37 @@ export class AuthService implements OnModuleInit {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(dto.password, salt);
 
-    const roles: Role[] = await this.sequelize.query(
-      /* sql */
-      `SELECT * FROM "Roles"
-      WHERE name = :name`,
-      {
-        type: QueryTypes.SELECT,
-        replacements: {
-          name: LEITOR,
-        },
-      },
-    );
-
-    let users: User[];
-
     try {
-      users = await this.sequelize.query(
+      await this.sequelize.query(
         /* sql */
-        `INSERT INTO "Users" ("name", "email", "hashedPassword", "roleId", "createdAt", "updatedAt")
-        VALUES (:name, :email, :hashedPassword, :roleId, NOW(), NOW())
-        RETURNING *`,
+        `CALL create_user(:name, :email, :hashedPassword)`,
         {
-          type: QueryTypes.SELECT,
+          type: QueryTypes.RAW,
           replacements: {
             name: dto.name,
             email: dto.email,
-            hashedPassword,
-            roleId: roles[0].id,
+            hashedPassword: hashedPassword,
           },
         },
       );
     } catch (error) {
-      if (error.name == 'SequelizeUniqueConstraintError') {
+      if (error.name == 'SequelizeDatabaseError') {
         throw new UnauthorizedException('Email já existe');
       }
 
       throw new InternalServerErrorException();
     }
 
-    users = await this.sequelize.query(
+    const users: User[] = await this.sequelize.query(
       /* sql */
       `SELECT u.*, ROW_TO_JSON(r.*) as role
       FROM "Users" u
       LEFT JOIN "Roles" r ON u."roleId" = r.id
-      WHERE u.id = :id;`,
+      WHERE u.email = :email;`,
       {
         type: QueryTypes.SELECT,
         replacements: {
-          id: users[0].id,
+          email: dto.email,
         },
       },
     );
