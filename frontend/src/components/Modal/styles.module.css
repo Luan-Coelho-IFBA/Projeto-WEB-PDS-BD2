@@ -1,0 +1,96 @@
+.backgroundModal {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	z-index: 1000;
+	background-color: rgb(0, 0, 0, 0.7);
+}
+
+.closeWindow {
+	position: absolute;
+	cursor: pointer;
+	color: black;
+	top: 15px;
+	right: 15px;
+	transition: all 0.3s;
+	z-index: 1001;
+
+	&:hover {
+		color: var(--main-color);
+	}
+}
+
+.modal {
+	background-color: #fff;
+	width: 40%;
+	margin: 0 auto;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+	gap: 5rem;
+	padding: 30px;
+	border-radius: 5px;
+}
+
+.subtitle {
+	text-align: center;
+	max-width: 60%;
+}
+
+.containerConfirmationInput {
+	width: 100%;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.inputConfirmation {
+	width: 70%;
+	padding: 1rem;
+}
+
+.link {
+	color: black !important;
+	transition: all 0.3s;
+	text-decoration: none;
+	border-bottom: 1px solid black;
+
+	&:hover {
+		font-weight: bolder;
+	}
+}
+
+.actionsContainer {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 2rem;
+}
+
+.actionButton {
+	width: 150px;
+	font-size: 18px;
+	border: none;
+	padding: 1.5rem 2.5rem;
+	transition: all 0.15s;
+
+	&:hover {
+		cursor: pointer;
+		transform: translateY(-5%);
+	}
+}
+
+.cancel {
+	background-color: var(--button-grey);
+}
+
+.confirm {
+	background-color: var(--main-color);
+}

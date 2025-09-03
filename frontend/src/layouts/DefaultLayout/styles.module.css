@@ -1,6 +1,6 @@
 .container {
 	display: flex;
-	flex-flow: column;
-	justify-content: center;
+	flex-flow: column wrap;
 	align-items: center;
+	justify-content: center;
 }
