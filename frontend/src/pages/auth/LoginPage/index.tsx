@@ -3,7 +3,7 @@ import { Form } from "../../../components/Form";
 import styles from "./styles.module.css";
 import { loginAccount } from "../../../utils/loginAccount";
 import { RouterLink } from "../../../components/RouterLink";
-import { RoutesName } from "../../../components/routes/RoutesName";
+import { RoutesName } from "../../../constants/RoutesName";
 
 export function LoginPage() {
 	const [email, setEmail] = useState("");

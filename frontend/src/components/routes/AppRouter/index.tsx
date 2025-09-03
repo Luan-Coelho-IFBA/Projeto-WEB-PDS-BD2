@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthRouter } from "../AuthRouter";
 import { LandingPage } from "../../../pages/LandingPage";
 import { HomePage } from "../../../pages/HomePage";
-import { RoutesName } from "../RoutesName";
+import { RoutesName } from "../../../constants/RoutesName";
 
 export function AppRouter() {
 	return (
