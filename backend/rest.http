@@ -103,7 +103,7 @@ Content-Disposition: form-data; name="categoryId"
 
 ###
 
-GET http://localhost:3000/article?size=10&page=1 HTTP/1.1
+GET http://localhost:3000/article?size=10&page=0 HTTP/1.1
 
 ###
 
