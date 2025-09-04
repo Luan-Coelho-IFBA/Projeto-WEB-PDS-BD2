@@ -1,3 +1,4 @@
+import { InputField } from "../InputField";
 import styles from "./styles.module.css";
 
 type FormFieldProps = {
@@ -23,7 +24,7 @@ export function FormField({
 	return (
 		<div className={styles.formRow}>
 			<label htmlFor={nameInput}>{label}</label>
-			<input
+			<InputField
 				id={nameInput}
 				type={type}
 				placeholder={placeholder}

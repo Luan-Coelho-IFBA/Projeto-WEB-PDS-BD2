@@ -1,0 +1,31 @@
+.containerInput {
+	display: flex;
+	align-items: center;
+	position: relative;
+	transition: all 0.3s;
+}
+
+.input {
+	flex: 1;
+	padding-right: 2.5rem; /* espaço para o botão do olho */
+}
+
+.eyeButton {
+	background: none;
+	border: none;
+	cursor: pointer;
+	position: absolute;
+	right: 0.75rem;
+	top: 50%;
+	transform: translateY(-50%);
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.2s, opacity 0.2s;
+}
+
+.eyeButton:active {
+	transform: translateY(-50%) scale(0.95) rotate(20deg);
+	opacity: 0.7;
+}
