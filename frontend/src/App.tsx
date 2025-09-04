@@ -1,4 +1,4 @@
-import { AppRouter } from "./components/routes/AppRouter";
+import { AppRouter } from "./routes/AppRouter";
 import "./css/global.css";
 import "./css/theme.css";
 

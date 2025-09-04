@@ -1,4 +1,5 @@
 import { Form } from "../../../components/Form";
+import { InputField } from "../../../components/InputField";
 import { RouterLink } from "../../../components/RouterLink";
 import { RoutesName } from "../../../constants/RoutesName";
 
@@ -32,18 +33,6 @@ export function Register() {
 					nameInput="senha"
 					placeholder="Digite sua senha"
 					type="password"
-				/>
-				<Form.Field
-					label="CONFIRMAR SENHA"
-					nameInput="confirmarSenha"
-					placeholder="Digite sua senha novamente"
-					type="email"
-				/>
-				<Form.Field
-					label="CONTATO"
-					nameInput="contato"
-					placeholder="(11) 9 1111-1111"
-					type="email"
 				/>
 
 				<Form.Button
