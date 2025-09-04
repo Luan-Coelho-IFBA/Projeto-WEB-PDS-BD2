@@ -15,7 +15,7 @@ import { ArticleService } from './article.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UserJWT } from 'src/auth/auth.decorator';
-import type { JWTType } from 'types';
+import type { JWTType, RequestPaginationType } from 'types';
 import { Authenticate } from 'src/auth/autenticate.decorator';
 import { ADMIN, JORNALISTA } from 'consts';
 import { GetCategories } from './dto/get-categories.dto';
@@ -44,13 +44,21 @@ export class ArticleController {
   }
 
   @Get()
-  async getAll() {
-    return await this.articleService.getAll();
+  async getAll(@Query() pagination: RequestPaginationType) {
+    return await this.articleService.getAll(pagination);
   }
 
   @Get('categories')
-  async getAllByCategories(@Body() dto: GetCategories) {
-    return await this.articleService.getAllByCategories(dto);
+  async getAllByCategories(
+    @Query() pagination: RequestPaginationType,
+    @Body() dto: GetCategories,
+  ) {
+    return await this.articleService.getAllByCategories(pagination, dto);
+  }
+
+  @Get('latest')
+  async getAllByLatest(@Query() pagination: RequestPaginationType) {
+    return await this.articleService.getAllByLatest(pagination);
   }
 
   @Get(':id')

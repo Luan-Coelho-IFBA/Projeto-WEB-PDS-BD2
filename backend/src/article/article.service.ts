@@ -6,12 +6,20 @@ import {
 import { InjectConnection } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { CreateArticleDto } from './dto/create-article.dto';
-import { JWTType } from 'types';
+import { JWTType, PaginationType, RequestPaginationType } from 'types';
 import { QueryTypes } from 'sequelize';
 import { Article } from './entities/article.entity';
 import { GetCategories } from './dto/get-categories.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
-import { ADMIN } from 'consts';
+import {
+  ADMIN,
+  PAGINATION_COUNT,
+  PAGINATION_QUERY,
+  RESIZE_HEIGHT,
+  RESIZE_WIDTH,
+} from 'consts';
+import sharp from 'sharp';
+import { extractTotalPages } from 'utils';
 
 @Injectable()
 export class ArticleService {
@@ -25,6 +33,13 @@ export class ArticleService {
     const t = await this.sequelize.transaction();
     let article: Article | undefined;
 
+    const resized = await sharp(file.buffer)
+      .resize(RESIZE_WIDTH, RESIZE_HEIGHT, {
+        fit: 'cover',
+        withoutEnlargement: true,
+      })
+      .toBuffer();
+
     try {
       const articles: Article[] = await this.sequelize.query(
         /* sql */
@@ -37,7 +52,7 @@ export class ArticleService {
             title: dto.title,
             subtitle: dto.subtitle,
             text: dto.text,
-            image: file.buffer,
+            image: resized,
             imageMimeType: file.mimetype,
             userId: userJWT.sub,
           },
@@ -103,8 +118,8 @@ export class ArticleService {
     }
   }
 
-  async getAll() {
-    const articles: Article[] = await this.sequelize.query(
+  async getAll(pagination: RequestPaginationType) {
+    const articles: (Article & PaginationType)[] = await this.sequelize.query(
       /* sql */
       `SELECT a.*, row_to_json(u.*) AS users,
       (
@@ -112,22 +127,37 @@ export class ArticleService {
         FROM "ArticleCategories" ac
         INNER JOIN "Categories" c ON c.id = ac."categoryId"
         WHERE ac."articleId" = a.id
-      ) AS categories
+      ) AS categories,
+      ${PAGINATION_COUNT}
       FROM "Articles" a
-      INNER JOIN "ShowUsers" u ON u.id = a."userId"`,
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"
+      ${PAGINATION_QUERY}`,
       {
         type: QueryTypes.SELECT,
+        replacements: {
+          page: pagination.page ?? null,
+          size: pagination.size ?? null,
+        },
       },
     );
 
-    const mappedImages = articles.map((a) => {
+    const { result, pages } = extractTotalPages(
+      articles,
+      pagination.page,
+      pagination.size,
+    );
+
+    const mappedImages = result.map((a) => {
       return { ...a, image: a.image.toString('base64') };
     });
 
-    return { articles: mappedImages };
+    return { articles: mappedImages, pages };
   }
 
-  async getAllByCategories(dto: GetCategories) {
+  async getAllByCategories(
+    pagination: RequestPaginationType,
+    dto: GetCategories,
+  ) {
     const articles: Article[] = await this.sequelize.query(
       /* sql */
       `SELECT
@@ -138,25 +168,72 @@ export class ArticleService {
         FROM "ArticleCategories" ac_sub
         INNER JOIN "Categories" c ON c.id = ac_sub."categoryId"
         WHERE ac_sub."articleId" = a.id
-      ) AS categories
+      ) AS categories,
+      ${PAGINATION_COUNT}
       FROM "Articles" a
       INNER JOIN "ShowUsers" u ON u.id = a."userId"
       INNER JOIN "ArticleCategories" ac ON ac."articleId" = a.id
       WHERE ac."categoryId" IN (:categoriesId)
-      GROUP BY a.id, u.id, u.*`,
+      GROUP BY a.id, u.id, u.*
+      ${PAGINATION_QUERY}`,
       {
         type: QueryTypes.SELECT,
         replacements: {
           categoriesId: dto.categoriesId,
+          page: pagination.page ?? null,
+          size: pagination.size ?? null,
         },
       },
     );
 
-    const mappedImages = articles.map((a) => {
+    const { result, pages } = extractTotalPages(
+      articles,
+      pagination.page,
+      pagination.size,
+    );
+
+    const mappedImages = result.map((a) => {
       return { ...a, image: a.image.toString('base64') };
     });
 
-    return { articles: mappedImages };
+    return { articles: mappedImages, pages };
+  }
+
+  async getAllByLatest(pagination: RequestPaginationType) {
+    const articles: (Article & PaginationType)[] = await this.sequelize.query(
+      /* sql */
+      `SELECT
+      a.*,
+      row_to_json(u.*) as users,
+      (
+        SELECT json_agg(row_to_json(c.*))
+        FROM "ArticleCategories" ac_sub
+        INNER JOIN "Categories" c ON c.id = ac_sub."categoryId"
+        WHERE ac_sub."articleId" = a.id
+      ) AS categories,
+      ${PAGINATION_COUNT}
+      FROM "Articles" a
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"
+      INNER JOIN "ArticleCategories" ac ON ac."articleId" = a.id
+      GROUP BY a.id, u.id, u.*
+      ORDER BY a."createdAt" DESC
+      ${PAGINATION_QUERY}`,
+      {
+        type: QueryTypes.SELECT,
+      },
+    );
+
+    const { result, pages } = extractTotalPages(
+      articles,
+      pagination.page,
+      pagination.size,
+    );
+
+    const mappedImages = result.map((a) => {
+      return { ...a, image: a.image.toString('base64') };
+    });
+
+    return { articles: mappedImages, pages };
   }
 
   async getById(id: number) {

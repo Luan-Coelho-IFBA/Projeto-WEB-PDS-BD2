@@ -37,11 +37,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsI
 ### Category ###
 
 POST http://localhost:3000/category HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU2NTkwMzQ5LCJleHAiOjE3NTY3NjMxNDl9.O3JbHx9AktD3dEXDK8-TJJ9pjSHdcR0ztvnluWDl6EE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NjkzNzI1NywiZXhwIjoxNzU3MTEwMDU3fQ.9TrtYdvtq1Pcx2B3MqKGvg6DUaaGtm3uATGNm37FyFA
 Content-Type: application/json
 
 {
-  "name": "Politica"
+  "name": "Entretenimento"
 }
 
 ###
@@ -70,7 +70,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsI
 ### Articles ###
 
 POST http://localhost:3000/article HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU2NTkwMzQ5LCJleHAiOjE3NTY3NjMxNDl9.O3JbHx9AktD3dEXDK8-TJJ9pjSHdcR0ztvnluWDl6EE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Njk0MDAxMSwiZXhwIjoxNzU3MTEyODExfQ.2ejOki5OEJeyqFkK3Lu5oUkRWYM0fcI0sKrbxWZbtas
 Content-Type: multipart/form-data; boundary=separation
 
 --separation
@@ -82,7 +82,7 @@ Content-Type: image/jpeg
 --separation
 Content-Disposition: form-data; name="title"
 
-Title of my article 3
+Title of my article 15
 --separation
 Content-Disposition: form-data; name="subtitle"
 
@@ -98,12 +98,12 @@ Content-Disposition: form-data; name="categoryId"
 --separation
 Content-Disposition: form-data; name="categoryId"
 
-4
+1
 --separation--
 
 ###
 
-GET http://localhost:3000/article HTTP/1.1
+GET http://localhost:3000/article?size=10&page=1 HTTP/1.1
 
 ###
 
@@ -113,6 +113,10 @@ Content-Type: application/json
 {
   "categoriesId": [1, 2]
 }
+
+###
+
+GET http://localhost:3000/article/latest HTTP/1.1
 
 ###
 

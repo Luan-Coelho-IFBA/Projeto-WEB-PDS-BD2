@@ -1,5 +1,20 @@
 import { LEITOR } from './roles';
 
+export const PAGINATION_COUNT =
+  /* sql */
+  `COUNT(*) OVER() as "totalPages"`;
+
+export const PAGINATION_QUERY =
+  /* sql */
+  `LIMIT 
+    CASE WHEN :size IS NOT NULL THEN :size 
+         ELSE (SELECT COUNT(*) FROM "Articles") 
+    END
+  OFFSET 
+    CASE WHEN :page IS NOT NULL THEN :page 
+         ELSE 0 
+    END`;
+
 export const USER_STORED_PROCEDURE =
   /* sql */
   `CREATE OR REPLACE PROCEDURE create_user(
