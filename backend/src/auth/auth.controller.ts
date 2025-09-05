@@ -31,6 +31,12 @@ export class AuthController {
     return await this.authService.login(dto);
   }
 
+  @Get()
+  @Authenticate()
+  async getMe(@UserJWT() userJWT: JWTType) {
+    return await this.authService.getMe(userJWT);
+  }
+
   @Get('verifyEmail/:token')
   async verifyEmail(@Param('token') token: string) {
     return await this.authService.validateToken(token);

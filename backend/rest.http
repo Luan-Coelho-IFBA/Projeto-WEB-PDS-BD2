@@ -21,6 +21,10 @@ Content-Type: application/json
 
 ###
 
+GET http://localhost:3000/auth HTTP/1.1
+
+###
+
 PATCH http://localhost:3000/auth HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU2NTcxMzM4LCJleHAiOjE3NTY3NDQxMzh9.1_Je9pi2n_F52RiqU839iMjhmr_-eHUZDxHjKscJGXw
 Content-Type: application/json
