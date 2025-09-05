@@ -5,13 +5,16 @@ type FormButtonProps = {
 	onClick?: () => void;
 	children?: React.ReactNode;
 	className?: string;
-};
+	type?: "button" | "submit" | "reset";
+} & React.ComponentProps<"button">;
 
 export function FormButton({
 	children,
-	nameButton,
+	nameButton = "Confirmar",
 	onClick,
 	className,
+	type,
+	...rest
 }: FormButtonProps) {
 	if (children) {
 		return (
@@ -21,21 +24,23 @@ export function FormButton({
 		);
 	}
 
-	if (!nameButton || !onClick) {
+	/* if (!nameButton || !onClick) {
 		console.warn(
 			"FormButton: nameButton e onClick são obrigatórios quando children não é fornecido"
 		);
 		return;
-	}
+	} */
 
 	return (
 		<div className={`${styles.formRow} ${className || ""}`}>
-			<input
-				type="button"
+			<button
+				type={type}
 				onClick={onClick}
-				className={styles.defaultButton}
-				value={nameButton}
-			></input>
+				className={styles.button}
+				{...rest}
+			>
+				{nameButton}
+			</button>
 		</div>
 	);
 }

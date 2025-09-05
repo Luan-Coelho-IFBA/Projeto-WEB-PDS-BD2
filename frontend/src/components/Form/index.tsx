@@ -6,10 +6,10 @@ import styles from "./styles.module.css";
 
 type FormProps = {
 	children: React.ReactNode;
-};
+} & React.ComponentProps<"form">;
 
-export function Form({ children }: FormProps) {
-	return <div className={styles.formGroup}>{children}</div>;
+export function Form({ children, ...formProps }: FormProps) {
+	return <form className={styles.formGroup} {...formProps}>{children}</form>;
 }
 
 Form.Header = FormHeader;

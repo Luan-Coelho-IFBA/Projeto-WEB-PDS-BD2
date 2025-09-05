@@ -1,17 +1,18 @@
-.formHeader{
+.formHeader {
 	display: flex;
 	flex-flow: column;
 	align-items: center;
 	gap: 1rem;
 }
-.formTitle{
-	letter-spacing: .5rem;
+.formTitle {
+	letter-spacing: 0.5rem;
 }
-.formSubtitle{}
+.formSubtitle {
+}
 
 .formGroup {
 	position: relative;
-	width: 80%;
+	width: fit-content;
 	display: flex;
 	flex-flow: column;
 	justify-content: center;
@@ -21,7 +22,7 @@
 }
 
 .formRow {
-	width: 50%;
+	width: 100%;
 	display: flex;
 	flex-flow: column;
 	justify-content: center;
@@ -37,7 +38,10 @@
 		border-radius: 0.3rem;
 		padding: 1rem;
 	}
-	input[type="button"] {
+	.button {
+		width: 100%;
+		border-radius: 0.3rem;
+		padding: 1rem;
 		letter-spacing: 0.25rem;
 		font-weight: bold;
 		border-color: transparent;
