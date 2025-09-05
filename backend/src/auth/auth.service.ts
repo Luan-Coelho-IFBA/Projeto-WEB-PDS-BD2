@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -164,6 +165,39 @@ export class AuthService implements OnModuleInit {
 
     if (!verifyPassword)
       throw new BadRequestException('Email ou senha inválida');
+
+    const payload: JWTType = {
+      sub: user.id,
+      email: user.email,
+      role: user.role.name,
+    };
+    const token = await this.jwtService.signAsync(payload, { expiresIn: '2d' });
+
+    return { token: token };
+  }
+
+  async getMe(userJWT: JWTType) {
+    const users: User[] = await this.sequelize.query(
+      /* sql */
+      `SELECT u.*, ROW_TO_JSON(r.*) as role FROM "Users" u
+      LEFT JOIN "Roles" r
+      ON r.id = u."roleId"
+      WHERE id = :id
+      LIMIT 1`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          id: userJWT.sub,
+        },
+      },
+    );
+
+    if (users.length < 1) throw new NotFoundException('Usuário não encontrado');
+
+    const user = users[0];
+
+    if (!user.isVerified)
+      throw new UnauthorizedException('Usuário não autentificado');
 
     const payload: JWTType = {
       sub: user.id,
