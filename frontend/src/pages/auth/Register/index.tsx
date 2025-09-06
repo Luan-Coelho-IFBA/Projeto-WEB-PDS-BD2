@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUsers } from "../../../services/registerUser";
 import { Modal } from "../../../components/Modal";
 import { ModalHeader } from "../../../components/Modal/ModalHeader";
-import { ModalRegister } from "./ModalRegister";
+import { ModalVerifyEmail } from "./ModalRegister";
 
 export const registerSchema = z
 	.object({
@@ -140,7 +140,7 @@ export function Register() {
 					<p className={styles.error}>{errors.root?.message}</p>
 				)}
 
-				{isSubmitSuccessful && <ModalRegister />}
+				{isSubmitSuccessful && <ModalVerifyEmail />}
 			</Form>
 			<div className={styles.links}>
 				<RouterLink
