@@ -8,9 +8,8 @@ type InputFieldProps = {
 } & React.ComponentProps<"input">;
 
 export function InputField({ type = "text", ...props }: InputFieldProps) {
+	const [visible, setVisible] = useState<boolean>(false);
 	if (type === "password") {
-		const [visible, setVisible] = useState<boolean>(false);
-
 		const isEyeVisibleDictionary = {
 			true: EyeIcon,
 			false: EyeOffIcon,

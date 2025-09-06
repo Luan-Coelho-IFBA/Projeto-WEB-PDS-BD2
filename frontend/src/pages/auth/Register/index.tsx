@@ -9,11 +9,9 @@ import type { AxiosError } from "axios";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUsers } from "../../../services/registerUser";
-import { Modal } from "../../../components/Modal";
-import { ModalHeader } from "../../../components/Modal/ModalHeader";
 import { ModalVerifyEmail } from "./ModalRegister";
 
-export const registerSchema = z
+const registerSchema = z
 	.object({
 		name: z
 			.string()
@@ -41,6 +39,7 @@ type ApiErrorResponse = {
 
 export function Register() {
 	const {
+		getValues,
 		setError,
 		register,
 		handleSubmit,
@@ -140,7 +139,9 @@ export function Register() {
 					<p className={styles.error}>{errors.root?.message}</p>
 				)}
 
-				{isSubmitSuccessful && <ModalVerifyEmail />}
+				{isSubmitSuccessful && (
+					<ModalVerifyEmail email={getValues("email")} />
+				)}
 			</Form>
 			<div className={styles.links}>
 				<RouterLink

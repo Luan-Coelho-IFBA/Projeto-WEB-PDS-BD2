@@ -4,7 +4,11 @@ import { resendEmail } from "../../../services/resendEmail";
 
 import styles from "./styles.module.css";
 
-export function ModalVerifyEmail() {
+type ModalVerifyEmailProps = {
+	email: string;
+};
+
+export function ModalVerifyEmail({ email }: ModalVerifyEmailProps) {
 	const [isOpen, setIsOpen] = useState(true);
 
 	function handleModal() {
@@ -22,7 +26,9 @@ export function ModalVerifyEmail() {
 					</p>
 					<p
 						onClick={async () => {
-							const response = await resendEmail();
+							const response = await resendEmail({
+								email: email,
+							});
 							console.log(response);
 						}}
 						className={styles.resendEmailLink}
