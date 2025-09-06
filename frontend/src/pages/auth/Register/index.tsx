@@ -4,15 +4,36 @@ import { RouterLink } from "../../../components/RouterLink";
 import { RoutesName } from "../../../constants/RoutesName";
 
 import styles from "./styles.module.css";
-import api from "../../../server/api";
-import type { AxiosError } from "axios";
 
-type FormFields = {
-	name: string;
-	email: string;
-	password: string;
-	confirmPassword: string;
-};
+import type { AxiosError } from "axios";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerUsers } from "../../../services/registerUser";
+import { Modal } from "../../../components/Modal";
+import { ModalHeader } from "../../../components/Modal/ModalHeader";
+import { ModalRegister } from "./ModalRegister";
+
+export const registerSchema = z
+	.object({
+		name: z
+			.string()
+			.min(1, "É necessário digitar um nome")
+			.min(2, "Nome deve ter pelo menos 2 caracteres"),
+		email: z.email("Digite um email válido").min(1, "Email é obrigatório"),
+		password: z
+			.string()
+			.min(8, "A senha precisa ter no mínimo 8 dígitos")
+			.max(30, "A senha precisa ter no máximo 30 dígitos"),
+		confirmPassword: z
+			.string()
+			.min(1, "Você precisa digitar a senha de confirmação"),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: "As senhas não coincidem",
+		path: ["confirmPassword"],
+	});
+
+type FormFields = z.infer<typeof registerSchema>;
 
 type ApiErrorResponse = {
 	message: string;
@@ -24,20 +45,19 @@ export function Register() {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting, isSubmitSuccessful },
-	} = useForm<FormFields>();
+	} = useForm<FormFields>({ resolver: zodResolver(registerSchema) });
 
 	const onSubmit: SubmitHandler<FormFields> = async (data) => {
 		console.log(data);
 
 		if (data.confirmPassword === data.password) {
 			try {
-				await api
-					.post(RoutesName.register, {
-						name: data.name,
-						email: data.email,
-						password: data.password,
-					})
-					.then((data) => console.log(data));
+				const response = await registerUsers({
+					email: data.email,
+					name: data.name,
+					password: data.password,
+				});
+				console.log(response);
 			} catch (error) {
 				const axiosError = error as AxiosError<ApiErrorResponse>;
 				setError("email", {
@@ -58,9 +78,7 @@ export function Register() {
 				/>
 				<div className={styles.group}>
 					<Form.Field
-						{...register("name", {
-							required: "Necessario digitar um nome",
-						})}
+						{...register("name")}
 						label="NOME COMPLETO"
 						nameInput="NomeCompleto"
 						placeholder="Informe o seu nome completo"
@@ -73,13 +91,7 @@ export function Register() {
 
 				<div className={styles.group}>
 					<Form.Field
-						{...register("email", {
-							required: "Email é obrigatorio",
-							pattern: {
-								value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-								message: "Digite um email válido",
-							},
-						})}
+						{...register("email")}
 						label="EMAIL"
 						nameInput="email"
 						placeholder="Digite um email válido"
@@ -92,22 +104,7 @@ export function Register() {
 
 				<div className={styles.group}>
 					<Form.Field
-						{...register("password", {
-							required: {
-								value: true,
-								message: "Você precisa digitar uma senha",
-							},
-							minLength: {
-								value: 8,
-								message:
-									"A sua senha precisa ter no minimo 8 digitos",
-							},
-							maxLength: {
-								value: 30,
-								message:
-									"A senha precisa ter no máximo 30 digitos",
-							},
-						})}
+						{...register("password")}
 						label="SENHA"
 						nameInput="senha"
 						placeholder="Digite sua senha"
@@ -122,26 +119,7 @@ export function Register() {
 
 				<div className={styles.group}>
 					<Form.Field
-						{...register("confirmPassword", {
-							required:
-								"Você precisa digitar a senha de confirmação",
-							minLength: {
-								value: 8,
-								message:
-									"A sua senha precisa ter no minimo 8 digitos",
-							},
-							maxLength: {
-								value: 30,
-								message:
-									"A senha precisa ter no máximo 30 digitos",
-							},
-							validate: (value, formValues) => {
-								if (value !== formValues.password) {
-									return "As senhas não coincidem";
-								}
-								return true;
-							},
-						})}
+						{...register("confirmPassword")}
 						label="CONFIRMAR SENHA"
 						nameInput="confirmPassword"
 						placeholder="Digite novamente a sua senha"
@@ -161,6 +139,8 @@ export function Register() {
 				{errors.root?.message && (
 					<p className={styles.error}>{errors.root?.message}</p>
 				)}
+
+				{isSubmitSuccessful && <ModalRegister />}
 			</Form>
 			<div className={styles.links}>
 				<RouterLink
