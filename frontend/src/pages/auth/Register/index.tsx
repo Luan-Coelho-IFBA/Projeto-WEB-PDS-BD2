@@ -2,14 +2,15 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Form } from "../../../components/Form";
 import { RouterLink } from "../../../components/RouterLink";
 import { RoutesName } from "../../../constants/RoutesName";
-
-import styles from "./styles.module.css";
+import { registerUsers } from "../../../services/registerUser";
+import { ModalVerifyEmail } from "./ModalRegister";
+import type { ApiErrorResponse } from "../../../server/types";
 
 import type { AxiosError } from "axios";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerUsers } from "../../../services/registerUser";
-import { ModalVerifyEmail } from "./ModalRegister";
+
+import styles from "./styles.module.css";
 
 const registerSchema = z
 	.object({
@@ -32,10 +33,6 @@ const registerSchema = z
 	});
 
 type FormFields = z.infer<typeof registerSchema>;
-
-type ApiErrorResponse = {
-	message: string;
-};
 
 export function Register() {
 	const {
@@ -62,6 +59,7 @@ export function Register() {
 				setError("email", {
 					message: axiosError.response?.data.message,
 				});
+				console.log(error);
 			}
 		}
 	};
