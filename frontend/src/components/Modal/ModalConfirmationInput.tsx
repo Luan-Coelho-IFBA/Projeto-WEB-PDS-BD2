@@ -12,7 +12,7 @@ export function ModalConfirmationInput({
 	placeholderInput,
 }: ModalConfirmationInputProps) {
 	return (
-		<div className={styles.containerConfirmationInput}>
+		<div className={styles.containerBodyModal}>
 			<input
 				className={styles.inputConfirmation}
 				type="text"

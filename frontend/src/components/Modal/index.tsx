@@ -5,6 +5,7 @@ import { ModalSubtitle } from "./ModalSubtitle";
 import { ModalConfirmationInput } from "./ModalConfirmationInput";
 import { ModalActions } from "./ModalActions";
 import { ModalAction } from "./ModalAction";
+import { ModalBodyText } from "./ModalBodyText";
 
 type ModalProps = {
 	closeHandler: () => void;
@@ -19,12 +20,12 @@ export function Modal({ closeHandler, isOpen, children }: ModalProps) {
 				<div className={styles.modal}>
 					{children}
 
-					<CircleX
+					{/* <CircleX
 						width={32}
 						height={32}
 						onClick={closeHandler}
 						className={styles.closeWindow}
-					/>
+					/> */}
 				</div>
 			</div>
 		);
@@ -36,3 +37,4 @@ Modal.Subtitle = ModalSubtitle;
 Modal.ConfirmationInput = ModalConfirmationInput;
 Modal.Actions = ModalActions;
 Modal.Action = ModalAction;
+Modal.BodyText = ModalBodyText;
