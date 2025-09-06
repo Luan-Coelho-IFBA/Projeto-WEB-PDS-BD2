@@ -1,12 +1,11 @@
 .containerLogin {
+	width: 35%;
+	height: 80dvh;
 	margin: 0 auto;
 	display: flex;
 	flex-flow: column;
 	justify-content: center;
 	align-items: center;
-	width: 50%;
-	height: 80dvh;
-	/* border: 1px solid red; */
 	gap: 1.5rem;
 }
 
@@ -23,4 +22,24 @@
 		}
 	}
 	align-items: center;
+}
+
+.group {
+	width: 100%;
+	display: flex;
+	align-items: left;
+	flex-flow: column;
+	justify-content: left;
+	gap: 0.2rem;
+
+	p {
+		text-align: left;
+		margin: 0px;
+	}
+}
+
+.error {
+	margin: 0;
+	font-size: small;
+	color: red !important;
 }
