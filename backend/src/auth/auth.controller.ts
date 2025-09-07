@@ -31,6 +31,11 @@ export class AuthController {
     return await this.authService.login(dto);
   }
 
+  @Post('resendEmail')
+  async resendEmail(@Body() dto: ResendEmailDto) {
+    return await this.authService.resendEmail(dto);
+  }
+
   @Get()
   @Authenticate()
   async getMe(@UserJWT() userJWT: JWTType) {
@@ -40,11 +45,6 @@ export class AuthController {
   @Get('verifyEmail/:token')
   async verifyEmail(@Param('token') token: string) {
     return await this.authService.validateToken(token);
-  }
-
-  @Post('resendEmail')
-  async resendEmail(@Body() dto: ResendEmailDto) {
-    return await this.authService.resendEmail(dto);
   }
 
   @Get('test/verifyEmail')

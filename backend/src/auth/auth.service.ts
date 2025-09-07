@@ -243,8 +243,10 @@ export class AuthService implements OnModuleInit {
   async resendEmail(dto: ResendEmailDto) {
     const users: User[] = await this.sequelize.query(
       /* sql */
-      `SELECT * FROM "Users"
-      WHERE "email" = :email`,
+      `SELECT u.*, ROW_TO_JSON(r.*) as role FROM "Users" u
+      LEFT JOIN "Roles" r
+      ON r.id = u."roleId"
+      WHERE u."email" = :email`,
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -254,6 +256,7 @@ export class AuthService implements OnModuleInit {
     );
 
     const user = users[0];
+    console.log(user)
     const payload: JWTType = {
       sub: user.id,
       email: user.email,

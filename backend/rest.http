@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
   "name": "LuanNn",
-  "email": "20231bsifsa0002@ifba.edu.br",
+  "email": "20231bsifsa0005@ifba.edu.br",
   "password": "123456"
 }
 
@@ -17,6 +17,15 @@ Content-Type: application/json
 {
   "email": "admin@admin.com",
   "password": "123456"
+}
+
+###
+
+POST http://localhost:3000/auth/resendEmail HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "20231bsifsa0005@ifba.edu.br"
 }
 
 ###
