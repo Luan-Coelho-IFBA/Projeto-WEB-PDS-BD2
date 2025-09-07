@@ -256,7 +256,6 @@ export class AuthService implements OnModuleInit {
     );
 
     const user = users[0];
-    console.log(user)
     const payload: JWTType = {
       sub: user.id,
       email: user.email,
