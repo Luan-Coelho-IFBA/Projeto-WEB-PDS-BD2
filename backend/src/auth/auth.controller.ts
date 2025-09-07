@@ -42,7 +42,7 @@ export class AuthController {
     return await this.authService.validateToken(token);
   }
 
-  @Get('resendEmail')
+  @Post('resendEmail')
   async resendEmail(@Body() dto: ResendEmailDto) {
     return await this.authService.resendEmail(dto);
   }
