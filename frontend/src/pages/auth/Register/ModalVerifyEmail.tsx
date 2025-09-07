@@ -16,6 +16,9 @@ export function ModalVerifyEmail({ email }: ModalVerifyEmailProps) {
 	}
 
 	if (isOpen) {
+		{
+			console.log(`Modal abriu, email: ${email}`);
+		}
 		return (
 			<Modal isOpen={isOpen} closeHandler={handleModal}>
 				<Modal.Header title="Verifique o seu email" />
@@ -26,10 +29,10 @@ export function ModalVerifyEmail({ email }: ModalVerifyEmailProps) {
 					</p>
 					<p
 						onClick={async () => {
-							const response = await resendEmail({
+							/* const response =  */ await resendEmail({
 								email: email,
 							});
-							console.log(response);
+							/* console.log(response); */
 						}}
 						className={styles.resendEmailLink}
 					>

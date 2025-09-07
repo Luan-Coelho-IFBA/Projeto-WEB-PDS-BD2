@@ -6,10 +6,18 @@ type resendEmailBody = {
 };
 
 export async function resendEmail({ email }: resendEmailBody) {
-	const response = await api.get(apiRoutes.auth.resendEmail, {
-		data: {
-			email: email,
+	console.log(email);
+
+	const response = await api.post(
+		apiRoutes.auth.resendEmail,
+		{
+			"email": email,
 		},
-	});
+		{
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}
+	);
 	return response;
 }

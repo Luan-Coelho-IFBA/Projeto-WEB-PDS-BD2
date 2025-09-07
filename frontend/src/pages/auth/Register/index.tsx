@@ -3,7 +3,7 @@ import { Form } from "../../../components/Form";
 import { RouterLink } from "../../../components/RouterLink";
 import { RoutesName } from "../../../constants/RoutesName";
 import { registerUsers } from "../../../services/registerUser";
-import { ModalVerifyEmail } from "./ModalRegister";
+import { ModalVerifyEmail } from "./ModalVerifyEmail";
 import type { ApiErrorResponse } from "../../../server/types";
 
 import type { AxiosError } from "axios";
@@ -63,8 +63,6 @@ export function Register() {
 			}
 		}
 	};
-
-	console.log("render");
 
 	return (
 		<div className={styles.containerRegister}>
