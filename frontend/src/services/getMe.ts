@@ -1,11 +1,11 @@
 import { getParsedType } from "zod/v3";
-import { localStorageNameToken } from "../constants/localStorageNameToken";
 import api from "../server/api";
 import { apiRoutes } from "../server/apiRoutes";
 import type { AxiosError } from "axios";
+import { getLocalStorageToken } from "../utils/getLocalStorageToken";
 
 export async function getMe() {
-	const tokenData = localStorage.getItem(localStorageNameToken);
+	const tokenData = getLocalStorageToken();
 
 	if (getParsedType(tokenData) === "null") {
 		return;
