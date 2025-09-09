@@ -1,7 +1,7 @@
 import { Form } from "../../../components/Form";
 import styles from "./styles.module.css";
 import { RouterLink } from "../../../components/RouterLink";
-import { RoutesName } from "../../../constants/RoutesName";
+import { PageRoutesName } from "../../../constants/PageRoutesName";
 
 import { loginUser } from "../../../services/loginUser";
 
@@ -10,6 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import type { AxiosError } from "axios";
 import type { ApiErrorResponse } from "../../../server/types";
+import { setLocalStorageToken } from "../../../utils/setLocalStorageToken";
+import { useNavigate } from "react-router";
 
 const LoginSchema = z.object({
 	email: z
@@ -24,6 +26,8 @@ const LoginSchema = z.object({
 type LoginUserForm = z.infer<typeof LoginSchema>;
 
 export function LoginPage() {
+	const navigate = useNavigate();
+
 	const {
 		setError,
 		handleSubmit,
@@ -37,6 +41,8 @@ export function LoginPage() {
 		try {
 			const response = await loginUser(data);
 			console.log(response);
+			setLocalStorageToken(response.data.token);
+			navigate(PageRoutesName.home, { replace: true });
 		} catch (error) {
 			const axiosError = error as AxiosError<ApiErrorResponse>;
 			setError("root", {
@@ -85,10 +91,10 @@ export function LoginPage() {
 				<Form.Button type="submit" nameButton="Logar" />
 			</Form>
 			<div className={styles.links}>
-				<RouterLink href={RoutesName.forgotPassword}>
+				<RouterLink href={PageRoutesName.forgotPassword}>
 					Esqueci a senha
 				</RouterLink>
-				<RouterLink href={RoutesName.register}>
+				<RouterLink href={PageRoutesName.register}>
 					Não possui conta? Crie uma aqui
 				</RouterLink>
 			</div>

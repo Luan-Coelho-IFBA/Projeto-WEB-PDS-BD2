@@ -1,0 +1,1 @@
+export const localStorageNameToken = "token";
