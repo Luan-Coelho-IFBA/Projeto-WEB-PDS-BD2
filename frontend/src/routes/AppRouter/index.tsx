@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthRouter } from "../AuthRouter";
-import { RoutesName } from "../../constants/RoutesName";
+import { PageRoutesName } from "../../constants/PageRoutesName";
 import { LandingPage } from "../../pages/LandingPage";
 import { HomePage } from "../../pages/HomePage";
 
@@ -10,10 +10,10 @@ export function AppRouter() {
 		<BrowserRouter>
 			<Routes>
 				{/* Rota principal - Landing Page */}
-				<Route path={RoutesName.landing} element={<LandingPage />} />
+				<Route path={PageRoutesName.landing} element={<LandingPage />} />
 
 				{/* Rota protegida - Home após login */}
-				<Route path={RoutesName.home} element={<HomePage />} />
+				<Route path={PageRoutesName.home} element={<HomePage />} />
 
 				{/* Rotas de autenticação */}
 				<Route path="/auth/*" element={<AuthRouter />} />

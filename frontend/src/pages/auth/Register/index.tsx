@@ -1,7 +1,7 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Form } from "../../../components/Form";
 import { RouterLink } from "../../../components/RouterLink";
-import { RoutesName } from "../../../constants/RoutesName";
+import { PageRoutesName } from "../../../constants/PageRoutesName";
 import { registerUsers } from "../../../services/registerUser";
 import { ModalVerifyEmail } from "./ModalVerifyEmail";
 import type { ApiErrorResponse } from "../../../server/types";
@@ -142,7 +142,7 @@ export function Register() {
 			<div className={styles.links}>
 				<RouterLink
 					children="Já possui conta? Ir para login"
-					href={RoutesName.login}
+					href={PageRoutesName.login}
 				/>
 			</div>
 		</div>

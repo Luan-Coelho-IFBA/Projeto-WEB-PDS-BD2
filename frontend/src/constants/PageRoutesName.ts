@@ -1,4 +1,4 @@
-export const RoutesName = {
+export const PageRoutesName = {
 	// Rotas principais
 	landing: "/",
 	home: "/home",

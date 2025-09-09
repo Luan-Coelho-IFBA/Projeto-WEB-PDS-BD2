@@ -3,8 +3,7 @@ export const apiRoutes = {
 		login: "/auth/login",
 		register: "/auth/register",
 		resendEmail: "/auth/resendEmail",
+		getMe: "/auth",
 	},
-    article:{
-        
-    }
+	article: {},
 } as const;
