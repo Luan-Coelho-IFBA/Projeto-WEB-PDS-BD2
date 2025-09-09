@@ -12,7 +12,7 @@ import type { AxiosError } from "axios";
 import type { ApiErrorResponse } from "../../../server/types";
 import { setLocalStorageToken } from "../../../utils/setLocalStorageToken";
 import { useNavigate } from "react-router";
-import { ModalChangePassword } from "../../../components/ModalForgotPassword";
+import { ModalChangePassword } from "../../../components/ModalChangePassword";
 import { useState } from "react";
 
 const LoginSchema = z.object({
