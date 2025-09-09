@@ -11,21 +11,30 @@ type ModalProps = {
 	closeHandler: () => void;
 	isOpen: boolean;
 	children: React.ReactNode;
-};
+	closeButton?: boolean;
+} & React.ComponentProps<"div">;
 
-export function Modal({ closeHandler, isOpen, children }: ModalProps) {
+export function Modal({
+	closeHandler,
+	isOpen,
+	children,
+	closeButton,
+	className: additionalClass,
+}: ModalProps) {
 	if (isOpen) {
 		return (
 			<div className={styles.backgroundModal}>
-				<div className={styles.modal}>
+				<div className={`${styles.modal} ${additionalClass}`}>
 					{children}
 
-					{/* <CircleX
-						width={32}
-						height={32}
-						onClick={closeHandler}
-						className={styles.closeWindow}
-					/> */}
+					{closeButton && (
+						<CircleX
+							width={32}
+							height={32}
+							onClick={closeHandler}
+							className={styles.closeWindow}
+						/>
+					)}
 				</div>
 			</div>
 		);

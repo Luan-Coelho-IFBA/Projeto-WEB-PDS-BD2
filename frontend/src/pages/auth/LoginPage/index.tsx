@@ -12,6 +12,8 @@ import type { AxiosError } from "axios";
 import type { ApiErrorResponse } from "../../../server/types";
 import { setLocalStorageToken } from "../../../utils/setLocalStorageToken";
 import { useNavigate } from "react-router";
+import { ModalChangePassword } from "../../../components/ModalForgotPassword";
+import { useState } from "react";
 
 const LoginSchema = z.object({
 	email: z
@@ -27,6 +29,9 @@ type LoginUserForm = z.infer<typeof LoginSchema>;
 
 export function LoginPage() {
 	const navigate = useNavigate();
+
+	const [showForgotPasswordModal, setShowForgotPasswordModal] =
+		useState(false);
 
 	const {
 		setError,
@@ -91,13 +96,27 @@ export function LoginPage() {
 				<Form.Button type="submit" nameButton="Logar" />
 			</Form>
 			<div className={styles.links}>
-				<RouterLink href={PageRoutesName.forgotPassword}>
+				<RouterLink
+					onClick={() =>
+						setShowForgotPasswordModal(!showForgotPasswordModal)
+					}
+					href=""
+				>
 					Esqueci a senha
 				</RouterLink>
 				<RouterLink href={PageRoutesName.register}>
 					Não possui conta? Crie uma aqui
 				</RouterLink>
 			</div>
+
+			{showForgotPasswordModal && (
+				<ModalChangePassword
+					titleModal="Esqueceu a senha?"
+					subtitleModal="Digite sua nova senha nos campos abaixo"
+					isOpen={showForgotPasswordModal}
+					onClose={() => setShowForgotPasswordModal(false)}
+				/>
+			)}
 		</div>
 	);
 }
