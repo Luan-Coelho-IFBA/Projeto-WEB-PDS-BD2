@@ -2,7 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Form } from "../../../components/Form";
 import { RouterLink } from "../../../components/RouterLink";
 import { PageRoutesName } from "../../../constants/PageRoutesName";
-import { registerUsers } from "../../../services/registerUser";
+import { registerUsers } from "../../../services/auth/registerUser";
 import { ModalVerifyEmail } from "./ModalVerifyEmail";
 import type { ApiErrorResponse } from "../../../server/types";
 

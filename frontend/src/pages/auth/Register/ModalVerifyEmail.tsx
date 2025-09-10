@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal } from "../../../components/Modal";
-import { resendEmail } from "../../../services/resendEmail";
+import { resendEmail } from "../../../services/auth/resendEmail";
 
 import styles from "./styles.module.css";
 

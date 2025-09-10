@@ -1,8 +1,8 @@
 import { getParsedType } from "zod/v3";
-import api from "../server/api";
-import { apiRoutes } from "../server/apiRoutes";
+import api from "../../server/api";
+import { apiRoutes } from "../../server/apiRoutes";
 import type { AxiosError } from "axios";
-import { getLocalStorageToken } from "../utils/getLocalStorageToken";
+import { getLocalStorageToken } from "../../utils/getLocalStorageToken";
 
 export async function getMe() {
 	const tokenData = getLocalStorageToken();

@@ -1,5 +1,5 @@
-import { PageRoutesName } from "../constants/PageRoutesName";
-import api from "../server/api";
+import { PageRoutesName } from "../../constants/PageRoutesName";
+import api from "../../server/api";
 
 type bodyPostRegister = {
 	name: string;

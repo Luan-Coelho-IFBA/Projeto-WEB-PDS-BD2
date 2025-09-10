@@ -1,5 +1,5 @@
-import api from "../server/api";
-import { apiRoutes } from "../server/apiRoutes";
+import api from "../../server/api";
+import { apiRoutes } from "../../server/apiRoutes";
 
 type LoginUserProps = {
 	email: string;

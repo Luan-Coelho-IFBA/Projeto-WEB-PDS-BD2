@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import { RouterLink } from "../../../components/RouterLink";
 import { PageRoutesName } from "../../../constants/PageRoutesName";
 
-import { loginUser } from "../../../services/loginUser";
+import { loginUser } from "../../../services/auth/loginUser";
 
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
