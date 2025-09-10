@@ -6,5 +6,7 @@ export const apiRoutes = {
 		getMe: "/auth",
 		changeUser: "/auth",
 	},
-	article: {},
+	article: {
+		getAll: "/article",
+	},
 } as const;

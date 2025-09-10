@@ -5,7 +5,7 @@ import { Form } from "../Form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import styles from "./styles.module.css";
-import { updatePassword } from "../../services/updatePassword";
+import { updatePassword } from "../../services/auth/updatePassword";
 import type { AxiosError } from "axios";
 
 const ChangePasswordFieldsSchema = z
