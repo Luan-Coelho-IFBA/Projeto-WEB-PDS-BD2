@@ -3,13 +3,19 @@ import { DefaultLayout } from "../../layouts/DefaultLayout";
 import type { Article } from "../../types/Article";
 import { getAllArticles } from "../../services/articles/getAllArticles";
 
+import styles from "./styles.module.css";
+import { NewsSection } from "../../components/NewsSection";
+import { getLatestArticles } from "../../services/articles/getLatestArticles";
+
 export function HomePage() {
 	const [articles, setArticles] = useState<Article[]>([]);
 
+	const [newestArticles, setNewestArticles] = useState<Article[]>([]);
+
 	useEffect(() => {
-		getAllArticles(10)
+		getAllArticles(3, 0)
 			.then((data) => {
-				console.log(data.articles);
+				console.log("TODOS OS ARTIGOS", data.articles);
 
 				if (Array.isArray(data.articles)) {
 					setArticles(data.articles);
@@ -19,17 +25,33 @@ export function HomePage() {
 				console.error("Erro ao buscar artigos:", error);
 				setArticles([]);
 			});
+
+		getLatestArticles(3, 0)
+			.then((data) => {
+				console.log("Ultimos artigos:", data.articles);
+
+				if (Array.isArray(data.articles)) {
+					setNewestArticles(data.articles);
+				}
+			})
+			.catch((error) => {
+				console.log("Erro ao buscar os ultimos artigos", error);
+				setNewestArticles([]);
+			});
 	}, []);
 
 	return (
 		<DefaultLayout>
-			{Array.isArray(articles) &&
-				articles.map((article) => (
-					<div key={article.id}>
-						<h3>{article.title}</h3>
-						<p>{article.text}</p>
-					</div>
-				))}
+			<main className={styles.mainContent}>
+				{newestArticles.length > 0 && (
+					<NewsSection
+						articles={newestArticles}
+						title="Artigos recentes"
+					/>
+				)}
+
+				<NewsSection articles={articles} title="Todos os artigos" />
+			</main>
 		</DefaultLayout>
 	);
 }
