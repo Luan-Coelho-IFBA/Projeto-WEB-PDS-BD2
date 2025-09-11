@@ -220,6 +220,10 @@ export class ArticleService {
       ${PAGINATION_QUERY}`,
       {
         type: QueryTypes.SELECT,
+        replacements: {
+          page: pagination.page,
+          size: pagination.size,
+        },
       },
     );
 

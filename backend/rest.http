@@ -129,7 +129,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/article/latest HTTP/1.1
+GET http://localhost:3000/article/latest?size=3&page=0 HTTP/1.1
 
 ###
 
