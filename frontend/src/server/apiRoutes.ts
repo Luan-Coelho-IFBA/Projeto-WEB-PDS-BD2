@@ -8,5 +8,6 @@ export const apiRoutes = {
 	},
 	article: {
 		getAll: "/article",
+		getAllByLatest: "/article/latest",
 	},
 } as const;
