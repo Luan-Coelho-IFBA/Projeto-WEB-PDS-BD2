@@ -67,7 +67,7 @@ export const USER_STORED_PROCEDURE =
 export const USER_VIEW =
   /* sql */
   `CREATE OR REPLACE VIEW "ShowUsers" AS
-  SELECT id, "name", "email" FROM "Users"`;
+  SELECT id, "name", "email", "roleId", "isVerified" FROM "Users"`;
 
 export const LIKE_TRIGGER =
   /* sql */

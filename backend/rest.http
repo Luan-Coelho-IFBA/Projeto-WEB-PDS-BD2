@@ -34,6 +34,22 @@ GET http://localhost:3000/auth HTTP/1.1
 
 ###
 
+GET http://localhost:3000/auth/readers HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NzYzMjU3NywiZXhwIjoxNzU3ODA1Mzc3fQ.bJInUDHTI0wN8diTTIGZS_0Y_DyBSbtnGqgQpDrQEMU
+
+###
+
+GET http://localhost:3000/auth/readers/Luan HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NzYzMjU3NywiZXhwIjoxNzU3ODA1Mzc3fQ.bJInUDHTI0wN8diTTIGZS_0Y_DyBSbtnGqgQpDrQEMU
+
+###
+
+GET http://localhost:3000/auth/writers HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NzYzMjU3NywiZXhwIjoxNzU3ODA1Mzc3fQ.bJInUDHTI0wN8diTTIGZS_0Y_DyBSbtnGqgQpDrQEMU
+
+
+###
+
 PATCH http://localhost:3000/auth HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU2NTcxMzM4LCJleHAiOjE3NTY3NDQxMzh9.1_Je9pi2n_F52RiqU839iMjhmr_-eHUZDxHjKscJGXw
 Content-Type: application/json

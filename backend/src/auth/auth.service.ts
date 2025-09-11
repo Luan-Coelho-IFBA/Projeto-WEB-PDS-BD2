@@ -19,7 +19,13 @@ import { JWTType } from 'types';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Role } from 'src/role/entities/role.entity';
-import { ADMIN, USER_STORED_PROCEDURE, USER_VIEW } from 'consts';
+import {
+  ADMIN,
+  JORNALISTA,
+  LEITOR,
+  USER_STORED_PROCEDURE,
+  USER_VIEW,
+} from 'consts';
 import { ResendEmailDto } from './dto/resend-email.dto';
 
 @Injectable()
@@ -270,6 +276,63 @@ export class AuthService implements OnModuleInit {
     });
 
     return { response: 'Verifique o email' };
+  }
+
+  async getAllReaders() {
+    const users: User[] = await this.sequelize.query(
+      /* sql */
+      `SELECT u.*, ROW_TO_JSON(r.*) as role FROM "ShowUsers" u
+      LEFT JOIN "Roles" r
+      ON r.id = u."roleId"
+      WHERE r."name" = :name AND
+      u."isVerified" = TRUE`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          name: LEITOR,
+        },
+      },
+    );
+
+    return { users };
+  }
+
+  async searchReader(name: string) {
+    const users: User[] = await this.sequelize.query(
+      /* sql */
+      `SELECT u.*, ROW_TO_JSON(r.*) as role 
+      FROM "Users" u
+      LEFT JOIN "Roles" r ON r.id = u."roleId"
+      WHERE r."name" = :rolename AND
+      u."name" ILIKE '%' || :name || '%'`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          rolename: LEITOR,
+          name: name,
+        },
+      },
+    );
+
+    return { users };
+  }
+
+  async getAllWriters() {
+    const users: User[] = await this.sequelize.query(
+      /* sql */
+      `SELECT u.*, ROW_TO_JSON(r.*) as role FROM "ShowUsers" u
+      LEFT JOIN "Roles" r
+      ON r.id = u."roleId"
+      WHERE r."name" = :name`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          name: JORNALISTA,
+        },
+      },
+    );
+
+    return { users };
   }
 
   async updateUser(userJWT: JWTType, dto: UpdateUserDto) {

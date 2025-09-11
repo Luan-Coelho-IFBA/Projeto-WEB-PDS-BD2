@@ -16,6 +16,7 @@ import { UserJWT } from './auth.decorator';
 import { Authenticate } from './autenticate.decorator';
 import { TestOnly } from 'src/test/test.decorator';
 import { ResendEmailDto } from './dto/resend-email.dto';
+import { ADMIN } from 'consts';
 
 @Controller('auth')
 export class AuthController {
@@ -47,10 +48,22 @@ export class AuthController {
     return await this.authService.validateToken(token);
   }
 
-  @Get('test/verifyEmail')
-  @TestOnly()
-  async testVerifyEmail() {
-    return await this.authService.testVerifyEmail();
+  @Get('readers')
+  @Authenticate(ADMIN)
+  async getAllReaders() {
+    return await this.authService.getAllReaders();
+  }
+
+  @Get('readers/:name')
+  @Authenticate(ADMIN)
+  async searchReader(@Param('name') name: string) {
+    return await this.authService.searchReader(name);
+  }
+
+  @Get('writers')
+  @Authenticate(ADMIN)
+  async getAllWriters() {
+    return await this.authService.getAllWriters();
   }
 
   @Patch()
@@ -63,5 +76,11 @@ export class AuthController {
   @Authenticate()
   async deleteUser(@UserJWT() userJWT: JWTType) {
     return await this.authService.deleteUser(userJWT);
+  }
+
+  @Get('test/verifyEmail')
+  @TestOnly()
+  async testVerifyEmail() {
+    return await this.authService.testVerifyEmail();
   }
 }
