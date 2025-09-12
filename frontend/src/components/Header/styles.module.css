@@ -10,13 +10,23 @@
 }
 
 .menu {
-	flex: 40%;
+	cursor: pointer;
+	padding: 1rem;
 	display: flex;
 	align-items: center;
 	justify-content: left;
 	gap: 1rem;
 	font-size: 2rem;
 	color: white;
+
+	span {
+		border: 2px solid transparent;
+		transition: all 0.2s;
+	}
+
+	&:hover span {
+		border-bottom-color: white;
+	}
 }
 
 .rightSide {

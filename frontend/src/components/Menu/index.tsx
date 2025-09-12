@@ -1,18 +1,37 @@
-import { useState } from "react";
 import styles from "./styles.module.css";
 import { UserCog2Icon, XIcon } from "lucide-react";
 import { RouterLink } from "../RouterLink";
 import { PageRoutesName } from "../../constants/PageRoutesName";
 
-export function Menu() {
-	const [isOpen, setIsOpen] = useState<boolean>(true);
+interface MenuProps {
+	isOpen: boolean;
+	handlerCloseMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
+	const handleCloseMenu = () => {
+		handlerCloseMenu(false);
+	};
+
+	const handleBackgroundClick = (e: React.MouseEvent) => {
+		// Fechar apenas se clicar no fundo, não no conteúdo do menu
+		if (e.target === e.currentTarget) {
+			handleCloseMenu();
+		}
+	};
 
 	if (isOpen)
 		return (
-			<div className={styles.backgroundModal}>
-				<nav className={styles.containerModalMenu}>
+			<div
+				className={styles.backgroundModal}
+				onClick={handleBackgroundClick}
+			>
+				<nav
+					className={styles.containerModalMenu}
+					onClick={(e) => e.stopPropagation()} // Prevenir fechamento ao clicar no menu
+				>
 					<XIcon
-						onClick={() => setIsOpen((isopen) => !isopen)}
+						onClick={handleCloseMenu}
 						className={styles.closeModal}
 					/>
 
@@ -24,6 +43,7 @@ export function Menu() {
 						<RouterLink
 							href={PageRoutesName.home}
 							className={styles.item}
+							onClick={handleCloseMenu}
 						>
 							<span>Pagina Inicial</span>
 						</RouterLink>
@@ -49,6 +69,7 @@ export function Menu() {
 						<RouterLink
 							className={styles.link}
 							href={PageRoutesName.configUser}
+							onClick={handleCloseMenu}
 						>
 							<UserCog2Icon size={32} />
 							<span>Seu Perfil</span>

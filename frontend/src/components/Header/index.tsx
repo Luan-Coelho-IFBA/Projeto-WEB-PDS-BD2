@@ -14,38 +14,46 @@ export function Header() {
 	};
 
 	return (
-		<header className={styles.header}>
-			<nav className={styles.container}>
-				<div onClick={handleMenuClick} className={styles.menu}>
-					<MenuIcon size={32} />
-					<span>MENU</span>
-
-					{isMenuOpen && <Menu />}
-				</div>
-
-				<div className={styles.rightSide}>
-					<h1 className={styles.title}>{applicationName}</h1>
-
-					<div className={styles.containerLinks}>
-						<RouterLink href="" className={styles.itemLink}>
-							<span>Jornalistas</span>
-						</RouterLink>
-
-						<RouterLink href="" className={styles.itemLink}>
-							<span>Meus Artigos</span>
-						</RouterLink>
+		<>
+			<header className={styles.header}>
+				<nav className={styles.container}>
+					<div onClick={handleMenuClick} className={styles.menu}>
+						<MenuIcon size={32} />
+						<span>MENU</span>
 					</div>
-					<div className={styles.searchContainer}>
-						<SearchIcon className={styles.searchIcon} />
 
-						<input
-							className={styles.searchInput}
-							type="search"
-							placeholder="Pesquisar"
-						/>
+					<div className={styles.rightSide}>
+						<h1 className={styles.title}>{applicationName}</h1>
+
+						<div className={styles.containerLinks}>
+							<RouterLink href="" className={styles.itemLink}>
+								<span>Jornalistas</span>
+							</RouterLink>
+
+							<RouterLink href="" className={styles.itemLink}>
+								<span>Meus Artigos</span>
+							</RouterLink>
+						</div>
+						<div className={styles.searchContainer}>
+							<SearchIcon className={styles.searchIcon} />
+
+							<input
+								className={styles.searchInput}
+								type="search"
+								placeholder="Pesquisar"
+							/>
+						</div>
 					</div>
-				</div>
-			</nav>
-		</header>
+				</nav>
+			</header>
+
+			{/* Menu renderizado fora do header para evitar conflitos de evento */}
+			{isMenuOpen && (
+				<Menu
+					isOpen={isMenuOpen}
+					handlerCloseMenu={setIsMenuOpen}
+				/>
+			)}
+		</>
 	);
 }

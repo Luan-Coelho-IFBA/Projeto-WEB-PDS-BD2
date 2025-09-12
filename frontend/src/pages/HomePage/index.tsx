@@ -9,7 +9,6 @@ import { getLatestArticles } from "../../services/articles/getLatestArticles";
 
 export function HomePage() {
 	const [articles, setArticles] = useState<Article[]>([]);
-
 	const [newestArticles, setNewestArticles] = useState<Article[]>([]);
 
 	useEffect(() => {
@@ -43,14 +42,12 @@ export function HomePage() {
 	return (
 		<DefaultLayout>
 			<main className={styles.mainContent}>
-				{newestArticles.length > 0 && (
-					<NewsSection
-						articles={newestArticles}
-						title="Artigos recentes"
-					/>
-				)}
+				<NewsSection
+					articles={newestArticles}
+					title="Artigos recentes"
+				/>
 
-				<NewsSection articles={articles} title="Todos os artigos" />
+				<NewsSection articles={articles} title="Em alta" />
 			</main>
 		</DefaultLayout>
 	);

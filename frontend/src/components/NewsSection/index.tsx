@@ -1,3 +1,4 @@
+import { errorFetchingArticlesMessageText } from "../../constants/textContent";
 import type { Article } from "../../types/Article";
 
 import styles from "./styles.module.css";
@@ -14,6 +15,9 @@ export function NewsSection({ title, articles, limit }: NewsSectionProps) {
 		<section className={styles.contentRow}>
 			<h3 className={styles.titleSection}>{title}</h3>
 			<div className={styles.articleContainerList}>
+				{articles.length <= 0 && (
+					<p>{errorFetchingArticlesMessageText}</p>
+				)}
 				{displayedArticles.map((article) => (
 					<div className={styles.articleContent} key={article.id}>
 						<img

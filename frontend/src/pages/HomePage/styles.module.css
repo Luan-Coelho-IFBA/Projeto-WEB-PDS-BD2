@@ -4,7 +4,6 @@
 	padding: 3rem;
 	display: flex;
 	flex-flow: column;
-	border: 1px solid red;
 }
 
 .itemRow {
