@@ -1,0 +1,131 @@
+.menu {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.backgroundModal {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	z-index: 1000;
+	background-color: rgb(0, 0, 0, 0.7);
+}
+
+.closeModal {
+	color: white;
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	transition: all 0.1s;
+
+	&:hover {
+		cursor: pointer;
+		color: black;
+	}
+}
+.containerModalMenu {
+	position: relative;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	width: 20%;
+	height: 100dvh;
+	padding: 1rem;
+	background-color: var(--main-color);
+}
+
+.menuHeader {
+	width: 100%;
+	padding: 2rem 1rem 1rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	text-align: center;
+}
+
+.menuTitle {
+	color: white;
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+.containerList {
+	width: 100%;
+	max-height: 60rem;
+	list-style: none;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-flow: column;
+	gap: 0.5rem;
+	overflow-y: auto; /* scroll na lista */
+	padding: 1rem 0;
+
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: rgba(255, 255, 255, 0.3);
+		border-radius: 3px;
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		background: rgba(255, 255, 255, 0.5);
+	}
+
+	.item {
+		color: white;
+		text-decoration: none;
+		padding: 1rem;
+		text-align: center;
+		width: 80%;
+		border: 0.2rem solid transparent;
+		border-bottom-color: white;
+		transition: all 0.2s;
+		font-size: 1.6rem;
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.1);
+			border-left-color: white;
+			transform: translateX(4px);
+			color: #fff;
+		}
+	}
+}
+
+.link {
+	padding: 1.5rem;
+	border: none;
+	border-top: 1px solid rgba(255, 255, 255, 0.3);
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	transition: all 0.3s ease;
+	font-size: 2.5rem;
+	font-weight: 500;
+	background: rgba(0, 0, 0, 0.2);
+
+	&:hover {
+		cursor: pointer;
+		background-color: rgba(255, 255, 255, 0.1);
+		transform: translateY(-2px);
+	}
+}
+
+.profileContainer {
+	width: 100%;
+	position: relative;
+	bottom: 0;
+	margin-top: auto; /* vai pro final */
+}

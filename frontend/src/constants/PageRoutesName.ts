@@ -7,4 +7,5 @@ export const PageRoutesName = {
 	login: "/auth/login",
 	register: "/auth/register",
 	forgotPassword: "/auth/forgot-password",
+	configUser: "/auth/config",
 } as const;

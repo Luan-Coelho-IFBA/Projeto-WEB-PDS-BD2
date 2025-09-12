@@ -1,4 +1,4 @@
-import { CircleX } from "lucide-react";
+import { XIcon } from "lucide-react";
 import styles from "./styles.module.css";
 import { ModalHeader } from "./ModalHeader";
 import { ModalSubtitle } from "./ModalSubtitle";
@@ -28,9 +28,8 @@ export function Modal({
 					{children}
 
 					{closeButton && (
-						<CircleX
-							width={32}
-							height={32}
+						<XIcon
+							size={32}
 							onClick={closeHandler}
 							className={styles.closeWindow}
 						/>
