@@ -1,4 +1,4 @@
-export type Article = {
+export interface Article {
 	id: number;
 	title: string;
 	subtitle: string;
@@ -6,7 +6,7 @@ export type Article = {
 	image: any;
 	imageMimeType: any;
 	userId: number;
-};
+}
 
 export type ArticleApiResponse = {
 	articles: Article[];

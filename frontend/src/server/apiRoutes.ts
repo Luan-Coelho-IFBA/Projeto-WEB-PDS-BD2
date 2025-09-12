@@ -10,4 +10,7 @@ export const apiRoutes = {
 		getAll: "/article",
 		getAllByLatest: "/article/latest",
 	},
+	category: {
+		getAll: "category",
+	},
 } as const;

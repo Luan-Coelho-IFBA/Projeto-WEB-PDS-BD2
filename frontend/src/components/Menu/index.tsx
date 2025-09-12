@@ -2,6 +2,9 @@ import styles from "./styles.module.css";
 import { UserCog2Icon, XIcon } from "lucide-react";
 import { RouterLink } from "../RouterLink";
 import { PageRoutesName } from "../../constants/PageRoutesName";
+import { useEffect, useState } from "react";
+import { getAllCategories } from "../../services/categories/getAllCategories";
+import type { Category } from "../../types/Category";
 
 interface MenuProps {
 	isOpen: boolean;
@@ -9,16 +12,22 @@ interface MenuProps {
 }
 
 export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
+	const [categories, setCategories] = useState<Category[]>([]);
+
 	const handleCloseMenu = () => {
 		handlerCloseMenu(false);
 	};
 
 	const handleBackgroundClick = (e: React.MouseEvent) => {
-		// Fechar apenas se clicar no fundo, não no conteúdo do menu
+		// Fechar ao clicar no fundo
 		if (e.target === e.currentTarget) {
 			handleCloseMenu();
 		}
 	};
+
+	useEffect(() => {
+		getAllCategories().then((data) => setCategories(data.categories));
+	}, []);
 
 	if (isOpen)
 		return (
@@ -47,22 +56,13 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
 						>
 							<span>Pagina Inicial</span>
 						</RouterLink>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
-						<li className={styles.item}>LOREM</li>
+
+						{categories.length > 0 &&
+							categories.map((category) => (
+								<li key={category.id} className={styles.item}>
+									{category.name}
+								</li>
+							))}
 					</ul>
 
 					<footer className={styles.profileContainer}>
