@@ -1,53 +1,94 @@
-import { useEffect, useState } from "react";
+// pages/HomePage/index.tsx
 import { DefaultLayout } from "../../layouts/DefaultLayout";
-import type { Article } from "../../types/Article";
-import { getAllArticles } from "../../services/articles/getAllArticles";
-
-import styles from "./styles.module.css";
 import { NewsSection } from "../../components/NewsSection";
+import { getAllArticles } from "../../services/articles/getAllArticles";
 import { getLatestArticles } from "../../services/articles/getLatestArticles";
+import { useQuery } from "@tanstack/react-query";
+import {
+	errorFetchingArticlesMessageText,
+	loadingContentText,
+} from "../../constants/textContent";
+import styles from "./styles.module.css";
 
 export function HomePage() {
-	const [articles, setArticles] = useState<Article[]>([]);
-	const [newestArticles, setNewestArticles] = useState<Article[]>([]);
+	// Query para artigos em alta
+	const articlesQuery = useQuery({
+		queryKey: ["articles"],
+		queryFn: () => getAllArticles(3, 0),
+		retry: 2,
+		staleTime: 5 * 60 * 1000,
+	});
 
-	useEffect(() => {
-		getAllArticles(3, 0)
-			.then((data) => {
-				console.log("TODOS OS ARTIGOS", data.articles);
-
-				if (Array.isArray(data.articles)) {
-					setArticles(data.articles);
-				}
-			})
-			.catch((error) => {
-				console.error("Erro ao buscar artigos:", error);
-				setArticles([]);
-			});
-
-		getLatestArticles(3, 0)
-			.then((data) => {
-				console.log("Ultimos artigos:", data.articles);
-
-				if (Array.isArray(data.articles)) {
-					setNewestArticles(data.articles);
-				}
-			})
-			.catch((error) => {
-				console.log("Erro ao buscar os ultimos artigos", error);
-				setNewestArticles([]);
-			});
-	}, []);
+	// Query para artigos recentes
+	const latestArticlesQuery = useQuery({
+		queryKey: ["latestArticles"],
+		queryFn: () => getLatestArticles(3, 0),
+		retry: 2,
+		staleTime: 2 * 60 * 1000,
+	});
 
 	return (
 		<DefaultLayout>
 			<main className={styles.mainContent}>
-				<NewsSection
-					articles={newestArticles}
-					title="Artigos recentes"
-				/>
+				{/* Seção de artigos recentes */}
+				<div className={styles.section}>
+					{latestArticlesQuery.isLoading && (
+						<div className={styles.loading}>
+							{loadingContentText}
+						</div>
+					)}
 
-				<NewsSection articles={articles} title="Em alta" />
+					{latestArticlesQuery.isError && (
+						<div className={styles.error}>
+							<p>{errorFetchingArticlesMessageText}</p>
+							<button
+								onClick={() => latestArticlesQuery.refetch()}
+								className={styles.retryButton}
+							>
+								Tentar novamente
+							</button>
+						</div>
+					)}
+
+					{latestArticlesQuery.data &&
+						!latestArticlesQuery.isLoading && (
+							<NewsSection
+								title="Artigos recentes"
+								articles={latestArticlesQuery.data.articles}
+							/>
+						)}
+				</div>
+
+				{/* Seção de artigos em alta */}
+				<div className={styles.section}>
+					{articlesQuery.isLoading && (
+						<div className={styles.loading}>
+							{loadingContentText}
+						</div>
+					)}
+
+					{articlesQuery.isError && (
+						<div className={styles.error}>
+							<p>
+								{(articlesQuery.error as Error)?.message ||
+									"Erro ao carregar artigos em alta"}
+							</p>
+							<button
+								onClick={() => articlesQuery.refetch()}
+								className={styles.retryButton}
+							>
+								Tentar novamente
+							</button>
+						</div>
+					)}
+
+					{articlesQuery.data && !articlesQuery.isLoading && (
+						<NewsSection
+							title="Em alta"
+							articles={articlesQuery.data.articles}
+						/>
+					)}
+				</div>
 			</main>
 		</DefaultLayout>
 	);

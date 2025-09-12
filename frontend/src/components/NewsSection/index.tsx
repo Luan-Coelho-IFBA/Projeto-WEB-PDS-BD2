@@ -5,19 +5,18 @@ import styles from "./styles.module.css";
 
 type NewsSectionProps = {
 	title: string;
-	articles: Article[];
+	articles: Article[] | undefined;
 	limit?: number;
 };
 
 export function NewsSection({ title, articles, limit }: NewsSectionProps) {
+	if (!articles) return <p>{errorFetchingArticlesMessageText}</p>;
+
 	const displayedArticles = limit ? articles.slice(0, limit) : articles;
 	return (
 		<section className={styles.contentRow}>
 			<h3 className={styles.titleSection}>{title}</h3>
 			<div className={styles.articleContainerList}>
-				{articles.length <= 0 && (
-					<p>{errorFetchingArticlesMessageText}</p>
-				)}
 				{displayedArticles.map((article) => (
 					<div className={styles.articleContent} key={article.id}>
 						<img
