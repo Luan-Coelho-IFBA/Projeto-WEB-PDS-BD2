@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
-import { MenuIcon, UserCog2Icon, XIcon } from "lucide-react";
+import { UserCog2Icon, XIcon } from "lucide-react";
 import { RouterLink } from "../RouterLink";
 import { PageRoutesName } from "../../constants/PageRoutesName";
 
 export function Menu() {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isOpen, setIsOpen] = useState<boolean>(true);
 
 	if (isOpen)
 		return (
@@ -56,16 +56,5 @@ export function Menu() {
 					</footer>
 				</nav>
 			</div>
-		);
-
-	if (!isOpen)
-		return (
-			<nav
-				onClick={() => setIsOpen((isopen) => !isopen)}
-				className={styles.menu}
-			>
-				<MenuIcon />
-				<span>MENU</span>
-			</nav>
 		);
 }
