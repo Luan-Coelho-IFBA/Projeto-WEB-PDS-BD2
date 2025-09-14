@@ -1,5 +1,5 @@
 import { localStorageNameRole } from "../constants/localStorageNameRole";
 
-export function getLocalStorageToken() {
+export function getLocalStorageRole() {
     return localStorage.getItem(localStorageNameRole);
 }

@@ -54,7 +54,6 @@ export function LoginPage() {
             setError("root", {
                 message: axiosError.response?.data.message,
             });
-            console.log(error);
         }
     };
 
