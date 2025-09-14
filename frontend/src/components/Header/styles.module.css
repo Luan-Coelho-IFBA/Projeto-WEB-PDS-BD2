@@ -29,17 +29,22 @@
 	}
 }
 
-.rightSide {
-	flex: 60%;
+.title {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 2rem;
+	color: white;
+}
 
-	.title {
-		color: white;
-		font-size: 3.2rem;
-	}
+.title h1 {
+	text-align: center;
+}
+
+.rightSide {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
 }
 
 .searchContainer {
@@ -92,6 +97,6 @@
 	position: relative;
 	display: flex;
 	justify-content: space-between;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	padding: 0 2rem;
 }

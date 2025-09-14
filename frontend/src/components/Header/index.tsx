@@ -22,9 +22,10 @@ export function Header() {
 						<span>MENU</span>
 					</div>
 
+					<div className={styles.title}>
+						<h1>{applicationName}</h1>
+					</div>
 					<div className={styles.rightSide}>
-						<h1 className={styles.title}>{applicationName}</h1>
-
 						<div className={styles.containerLinks}>
 							<RouterLink href="" className={styles.itemLink}>
 								<span>Jornalistas</span>
@@ -49,10 +50,7 @@ export function Header() {
 
 			{/* Menu renderizado fora do header para evitar conflitos de evento */}
 			{isMenuOpen && (
-				<Menu
-					isOpen={isMenuOpen}
-					handlerCloseMenu={setIsMenuOpen}
-				/>
+				<Menu isOpen={isMenuOpen} handlerCloseMenu={setIsMenuOpen} />
 			)}
 		</>
 	);
