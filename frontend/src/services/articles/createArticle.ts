@@ -16,10 +16,11 @@ export async function createArticles({
     text,
     title,
 }: ArticleTypePostData) {
-    let fd = new FormData();
+    const fd = new FormData();
     fd.append("title", title);
     fd.append("subtitle", subtitle);
     fd.append("image", image);
+    fd.append("text", text);
     categoryId.forEach((v) => {
         fd.append("categoryId", v.toString());
     });

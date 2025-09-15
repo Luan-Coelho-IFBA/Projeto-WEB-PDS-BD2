@@ -8,7 +8,7 @@ import styles from "./styles.module.css";
 export default function SeeArticlePage() {
     const { id } = useParams();
 
-    const {} = useQuery({
+    const articleQuery = useQuery({
         queryKey: ["article"],
         queryFn: () => getArticle(Number(id)),
         retry: 2,

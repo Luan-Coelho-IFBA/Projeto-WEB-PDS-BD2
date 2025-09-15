@@ -1,4 +1,3 @@
-import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 
 import styles from "./styles.module.css";
@@ -12,7 +11,6 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 		<div className={styles.container}>
 			<Header />
 			{children}
-			{/* <Footer /> */}
 		</div>
 	);
 }
