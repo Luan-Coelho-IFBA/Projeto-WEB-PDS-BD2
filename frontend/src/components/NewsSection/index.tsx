@@ -1,32 +1,44 @@
+import { useNavigate } from "react-router";
 import { errorFetchingArticlesMessageText } from "../../constants/textContent";
 import type { Article } from "../../types/Article";
 
 import styles from "./styles.module.css";
+import { PageRoutesName } from "../../constants/PageRoutesName";
 
 type NewsSectionProps = {
-	title: string;
-	articles: Article[] | undefined;
-	limit?: number;
+    title: string;
+    articles: Article[] | undefined;
+    limit?: number;
 };
 
 export function NewsSection({ title, articles, limit }: NewsSectionProps) {
-	if (!articles) return <p>{errorFetchingArticlesMessageText}</p>;
+    const navigate = useNavigate();
 
-	const displayedArticles = limit ? articles.slice(0, limit) : articles;
-	return (
-		<section className={styles.contentRow}>
-			<h3 className={styles.titleSection}>{title}</h3>
-			<div className={styles.articleContainerList}>
-				{displayedArticles.map((article) => (
-					<div className={styles.articleContent} key={article.id}>
-						<img
-							src={`data:${article.imageMimeType};base64,${article.image}`}
-							alt={article.subtitle}
-						/>
-						<p>{article.title}</p>
-					</div>
-				))}
-			</div>
-		</section>
-	);
+    if (!articles) return <p>{errorFetchingArticlesMessageText}</p>;
+
+    const displayedArticles = limit ? articles.slice(0, limit) : articles;
+    return (
+        <section className={styles.contentRow}>
+            <h3 className={styles.titleSection}>{title}</h3>
+            <div className={styles.articleContainerList}>
+                {displayedArticles.map((article) => (
+                    <div
+                        className={styles.articleContent}
+                        key={article.id}
+                        onClick={() =>
+                            navigate({
+                                pathname: `${PageRoutesName.seeArticle}/${article.id}`,
+                            })
+                        }
+                    >
+                        <img
+                            src={`data:${article.imageMimeType};base64,${article.image}`}
+                            alt={article.subtitle}
+                        />
+                        <p>{article.title}</p>
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
 }

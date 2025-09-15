@@ -1,0 +1,5 @@
+.containerArticle{
+    display: flex;
+    flex-flow: column;
+    
+}
