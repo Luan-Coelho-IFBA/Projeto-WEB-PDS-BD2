@@ -4,6 +4,7 @@ import { PageRoutesName } from "../../constants/PageRoutesName";
 import { LandingPage } from "../../pages/LandingPage";
 import { HomePage } from "../../pages/HomePage";
 import { ArticleRouter } from "../ArticleRouter";
+import { CreateArticlePage } from "../../pages/article/CreateArticlePage";
 
 export function AppRouter() {
     return (
@@ -14,6 +15,12 @@ export function AppRouter() {
                     path={PageRoutesName.landing}
                     element={<LandingPage />}
                 />
+
+                {/*Criação de artigos*/}
+                <Route
+                    path={PageRoutesName.articles.createArticle}
+                    element={<CreateArticlePage />}
+                ></Route>
 
                 {/* Rota protegida - Home após login */}
                 <Route path={PageRoutesName.home} element={<HomePage />} />

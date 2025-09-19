@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router";
 import SeeArticlePage from "../../pages/article/SeeArticle";
 import ArticlesByCategory from "../../pages/article/ArticlesByCategory";
-
 export function ArticleRouter() {
     return (
         <Routes>

@@ -1,0 +1,72 @@
+.pageCointainer {
+    width: 100%;
+    margin-top: 5rem;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.formContainer {
+    width: 50%;
+    display: flex;
+    flex-flow: column;
+    gap: 4rem;
+}
+
+.formRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+input[type="text"],
+input[type="file"],
+select,
+textarea {
+    padding: 1rem;
+    box-shadow: 1px 1px 1px 3px rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+        outline: none;
+        border-color: var(--main-color);
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+}
+
+.footerFields {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-around;
+
+    .item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+#textareaField {
+    resize: none;
+    font-family: inherit;
+    line-height: 1.6;
+
+    /* Scroll interno quando necessário */
+    overflow-y: auto;
+
+    &::placeholder {
+        color: #888;
+    }
+}
+
+.formContainer input,
+.formContainer textarea,
+.formContainer select {
+    padding: 1rem;
+}

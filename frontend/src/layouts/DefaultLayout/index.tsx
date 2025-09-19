@@ -1,16 +1,17 @@
 import { Header } from "../../components/Header";
+import { Outlet } from "react-router";
 
 import styles from "./styles.module.css";
 
 type DefaultLayoutProps = {
-	children: React.ReactNode;
+    children: React.ReactNode;
 };
 
 export function DefaultLayout({ children }: DefaultLayoutProps) {
-	return (
-		<div className={styles.container}>
-			<Header />
-			{children}
-		</div>
-	);
+    return (
+        <div className={styles.container}>
+            <Header />
+            {children}
+        </div>
+    );
 }
