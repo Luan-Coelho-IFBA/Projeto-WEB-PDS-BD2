@@ -5,13 +5,14 @@
     flex-flow: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 5rem;
 }
 
 .formContainer {
     width: 50%;
     display: flex;
     flex-flow: column;
-    gap: 4rem;
+    gap: 3rem;
 }
 
 .formRow {
@@ -23,20 +24,33 @@
     color: #333;
 }
 
+.formTitle {
+    text-align: center;
+}
+
+input[type="file"] {
+    box-shadow: 1px 1px 1px 3px rgba(255, 255, 255, 0.3) !important;
+    padding: 0.3rem;
+}
+
 input[type="text"],
 input[type="file"],
 select,
 textarea {
+    border: 1px solid black;
     padding: 1rem;
-    box-shadow: 1px 1px 1px 3px rgba(255, 255, 255, 0.3);
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 1.4rem;
     transition: all 0.2s ease;
 
     &:focus {
         outline: none;
         border-color: var(--main-color);
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        box-shadow: 0 0 0 1px var(--main-color);
+    }
+
+    &::placeholder {
+        font-size: 1.4rem;
     }
 }
 
@@ -45,9 +59,10 @@ textarea {
     flex-direction: row !important;
     justify-content: space-around;
 
-    .item{
+    .item {
         display: flex;
-        align-items: center;
+        flex-flow: column;
+        align-items: left;
         justify-content: center;
     }
 }
@@ -56,8 +71,8 @@ textarea {
     resize: none;
     font-family: inherit;
     line-height: 1.6;
+    height: 400px;
 
-    /* Scroll interno quando necessário */
     overflow-y: auto;
 
     &::placeholder {
@@ -69,4 +84,27 @@ textarea {
 .formContainer textarea,
 .formContainer select {
     padding: 1rem;
+}
+
+.sendButton {
+    cursor: pointer;
+    color: white;
+    background-color: var(--main-color);
+    border: transparent;
+    border-radius: 0.8rem;
+    margin: 0 auto;
+    width: 20%;
+    padding: 1.2rem;
+    transition: all 0.15s;
+
+    &:hover {
+        opacity: 70%;
+        transform: translateY(-5%);
+    }
+}
+
+.error {
+    margin: 0;
+    margin-top: 0.3rem;
+    color: red;
 }

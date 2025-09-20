@@ -1,6 +1,7 @@
 import type { AxiosError, AxiosResponse } from "axios";
 import api from "../../server/api";
 import { apiRoutes } from "../../server/apiRoutes";
+import { getLocalStorageToken } from "../../utils/getLocalStorageToken";
 export interface ArticleTypePostData {
     title: string;
     subtitle: string;
@@ -28,6 +29,7 @@ export async function createArticles({
     try {
         const response = await api.post(apiRoutes.article.getAll, fd, {
             headers: {
+                Authorization: getLocalStorageToken(),
                 "Content-Type": "multipart/form-data",
             },
         });
