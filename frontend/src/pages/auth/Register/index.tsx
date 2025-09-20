@@ -142,7 +142,7 @@ export function Register() {
 			<div className={styles.links}>
 				<RouterLink
 					children="Já possui conta? Ir para login"
-					href={PageRoutesName.login}
+					href={PageRoutesName.auth.login}
 				/>
 			</div>
 		</div>

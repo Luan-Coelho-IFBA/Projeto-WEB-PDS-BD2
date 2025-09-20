@@ -104,7 +104,7 @@ export function LoginPage() {
                 >
                     Esqueci a senha
                 </RouterLink>
-                <RouterLink href={PageRoutesName.register}>
+                <RouterLink href={PageRoutesName.auth.register}>
                     Não possui conta? Crie uma aqui
                 </RouterLink>
             </div>

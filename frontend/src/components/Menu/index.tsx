@@ -66,7 +66,7 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
                                     className={styles.item}
                                     onClick={() => {
                                         navigate(
-                                            `${PageRoutesName.articlesByCategory}/${category.id}`
+                                            `${PageRoutesName.articles.articlesByCategory}/${category.id}`
                                         );
                                         handleCloseMenu();
                                     }}
@@ -79,7 +79,7 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
                     <footer className={styles.profileContainer}>
                         <RouterLink
                             className={styles.link}
-                            href={PageRoutesName.configUser}
+                            href={PageRoutesName.auth.configUser}
                             onClick={handleCloseMenu}
                         >
                             <UserCog2Icon size={32} />
