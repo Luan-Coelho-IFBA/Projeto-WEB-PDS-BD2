@@ -1,4 +1,4 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { getAllCategories } from "../../../services/categories/getAllCategories";
 import { useQuery } from "@tanstack/react-query";
@@ -13,14 +13,18 @@ import type { AxiosError } from "axios";
 import type { ApiErrorResponse } from "../../../server/types";
 
 import styles from "./styles.module.css";
+import { MultiSelectDropdown } from "../../../components/MultiSelectDropdown";
 
 const CreateArticleSchema = z.object({
-    categoryId: z.number().array(),
-    title: z.string().nonempty("O titulo precisa não pode ser vazio"),
+    categoryId: z
+        .number()
+        .array()
+        .nonempty("Você precisa escolher uma categoria."),
+    title: z.string().nonempty("O titulo precisa ser preenchido."),
     subtitle: z
         .string()
-        .nonempty("A descrição do seu artigo precisa ser preenchida"),
-    text: z.string().nonempty("Seu artigo precisa ter um corpo"),
+        .nonempty("Você precisa de uma descrição no seu artigo."),
+    text: z.string().nonempty("Seu artigo precisa ter um corpo."),
     image: z.any(),
 });
 
@@ -60,6 +64,7 @@ export function CreateArticlePage() {
             setError("root", {
                 message: axiosError.response?.data.message,
             });
+            console.log(axiosError);
         }
     };
 
@@ -71,57 +76,87 @@ export function CreateArticlePage() {
                     className={styles.formContainer}
                 >
                     <h2 className={styles.formTitle}>Criação de novo artigo</h2>
-                    <label className={styles.formRow}>
-                        TITULO
-                        <input
-                            {...register("title")}
-                            type="text"
-                            placeholder="Titulo do seu artigo"
-                        />
-                    </label>
-                    <label className={styles.formRow}>
-                        SUBTITULO
-                        <input
-                            {...register("title")}
-                            type="text"
-                            placeholder="Informe a descrição do seu artigo"
-                        />
-                    </label>
+
+                    <div className={styles.formRow}>
+                        <label className={styles.inputArea}>
+                            TITULO
+                            <input
+                                {...register("title")}
+                                type="text"
+                                placeholder="Titulo do seu artigo"
+                            />
+                        </label>
+                        {errors?.title?.message && (
+                            <p className={styles.error}>
+                                {errors.title.message}
+                            </p>
+                        )}
+                    </div>
+                    <div className={styles.formRow}>
+                        <label className={styles.inputArea}>
+                            SUBTITULO
+                            <input
+                                {...register("subtitle")}
+                                type="text"
+                                placeholder="Informe a descrição do seu artigo"
+                            />
+                        </label>
+                        {errors?.subtitle?.message && (
+                            <p className={styles.error}>
+                                {errors.subtitle.message}
+                            </p>
+                        )}
+                    </div>
 
                     {/* <img className={styles.formRow} /> */}
+                    <div className={styles.formRow}>
+                        <label className={styles.inputArea}>
+                            CONTEÚDO
+                            <textarea
+                                {...register("text")}
+                                id={styles.textareaField}
+                                placeholder="Informe o conteudo do seu artigo"
+                            />
+                        </label>
 
-                    <label className={styles.formRow}>
-                        CONTEÚDO
-                        <textarea
-                            {...register("text")}
-                            id={styles.textareaField}
-                            placeholder="Informe o conteudo do seu artigo"
-                        />
-                    </label>
+                        {errors?.text?.message && (
+                            <p className={styles.error}>
+                                {errors.text.message}
+                            </p>
+                        )}
+                    </div>
 
                     <div className={styles.formRow && styles.footerFields}>
                         <label className={styles.item}>
                             CAPA
                             <input {...register("image")} type="file" />
+                            {/* {errors?.image?.message && (
+                                <p className={styles.error}>
+                                    {errors.image.message}
+                                </p>
+                            )} */}
                         </label>
 
                         <label className={styles.item}>
-                            TIPO DE ARTIGO
-                            <select>
-                                {categoryQuery &&
-                                    categoryQuery.categories.length > 0 &&
-                                    categoryQuery.categories.map((category) => (
-                                        <option {...register("categoryId")}>
-                                            {category.name}
-                                        </option>
-                                    ))}
-                            </select>
+                            CATEGORIAS DO ARTIGO
+                            <MultiSelectDropdown
+                                options={categoryQuery?.categories.map(
+                                    (category) => category.name
+                                )}
+                            />
+                            {errors?.categoryId?.message && (
+                                <p className={styles.error}>
+                                    {errors.categoryId.message}
+                                </p>
+                            )}
                         </label>
                     </div>
 
-                    <button className={styles.sendButton} type="submit">
-                        Enviar formulario
-                    </button>
+                    <input
+                        className={styles.sendButton}
+                        type="submit"
+                        value={"Criar artigo"}
+                    />
                 </form>
             </main>
         </DefaultLayout>

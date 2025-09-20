@@ -1,0 +1,58 @@
+.container {
+    min-width: 30rem;
+    display: flex;
+    gap: 1rem;
+    position: relative;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.listContainer {
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    /* Animação mais elaborada */
+    animation: dropdownAppear 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dropdownAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.95);
+        filter: blur(1px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* Transição mais suave para o ícone */
+.icon {
+    position: absolute;
+    right: 0.5rem;
+    width: 20px;
+    height: 20px;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #666;
+}
+
+.iconRotated {
+    transform: rotate(180deg);
+    color: var(--main-color, #007bff);
+}
+
+.item {
+    cursor: pointer;
+    padding: 0.8rem;
+}
