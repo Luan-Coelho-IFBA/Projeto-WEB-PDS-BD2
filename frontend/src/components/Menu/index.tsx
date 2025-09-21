@@ -87,7 +87,10 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
                         className={`${styles.containerList} ${styles.navigationPages}`}
                     >
                         {isAdmin && (
-                            <RouterLink href="" className={styles.item}>
+                            <RouterLink
+                                href={PageRoutesName.admin.writers}
+                                className={styles.item}
+                            >
                                 <span>Jornalistas</span>
                             </RouterLink>
                         )}

@@ -27,6 +27,9 @@ export function ManageCategoryPage() {
     return (
         <DefaultLayout className={styles.generalContainer}>
             <main className={styles.sectionContainer}>
+                <h2 className={styles.title}>
+                    Gerenciar categorias existentes
+                </h2>
                 <div className={styles.addCategory}>
                     <PlusIcon className={styles.addIcon} />
                     <span>Adicionar Categoria</span>

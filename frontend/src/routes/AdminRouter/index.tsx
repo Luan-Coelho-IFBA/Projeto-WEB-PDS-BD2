@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router";
 import { ManageCategoryPage } from "../../pages/admin/ManageCategoryPage";
+import { ManageWritersPage } from "../../pages/admin/ManageWritersPage";
 
 export function AdminRouter() {
     return (
         <Routes>
             <Route path="categories" element={<ManageCategoryPage />} />
-            <Route path="writers" />
+            <Route path="writers" element={<ManageWritersPage />} />
         </Routes>
     );
 }
