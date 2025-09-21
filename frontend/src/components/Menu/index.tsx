@@ -92,7 +92,10 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
                             </RouterLink>
                         )}
                         {isAdmin && (
-                            <RouterLink href="" className={styles.item}>
+                            <RouterLink
+                                href={PageRoutesName.admin.categories}
+                                className={styles.item}
+                            >
                                 <span>Categorias</span>
                             </RouterLink>
                         )}
