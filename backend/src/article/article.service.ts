@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -33,7 +34,24 @@ export class ArticleService {
     const t = await this.sequelize.transaction();
     let article: Article | undefined;
 
-    const resized = await sharp(file.buffer)
+    const supportedMimeTypes = [
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/webp',
+      'image/gif',
+    ];
+    if (!supportedMimeTypes.includes(file.mimetype)) {
+      throw new BadRequestException('Unsupported image format');
+    }
+
+    const resized = await sharp(file.buffer, {
+      raw: {
+        width: 1,
+        height: 1,
+        channels: 3,
+      },
+    })
       .resize(RESIZE_WIDTH, RESIZE_HEIGHT, {
         fit: 'cover',
         withoutEnlargement: true,

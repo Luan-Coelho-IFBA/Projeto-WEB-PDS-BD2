@@ -8,6 +8,7 @@
   },
   "moduleNameMapper": {
     "consts": "<rootDir>/consts",
+    "utils": "<rootDir>/utils",
     "src/(.*)": "<rootDir>/src/$1"
   }
 }
