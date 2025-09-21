@@ -1,18 +1,17 @@
 import { useState } from "react";
-import { RouterLink } from "../RouterLink";
 
 import styles from "./styles.module.css";
 import { MenuIcon, SearchIcon } from "lucide-react";
 import { applicationName } from "../../constants/textContent";
 import { Menu } from "../Menu";
-import { getLocalStorageRole } from "../../utils/getLocalStorageRole";
+import { useLocation } from "react-router";
+import { PageRoutesName } from "../../constants/PageRoutesName";
 
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const role = getLocalStorageRole();
+    const location = useLocation();
 
-    const isAdmin = role == "ADMIN";
-    const isJornalista = role == "JORNALISTA";
+    const isHomePage = location.pathname === PageRoutesName.home;
 
     const handleMenuClick = () => {
         setIsMenuOpen((isopen) => !isopen);
@@ -30,34 +29,23 @@ export function Header() {
                     <div className={styles.title}>
                         <h1>{applicationName}</h1>
                     </div>
-                    <div className={styles.rightSide}>
-                        <div className={styles.containerLinks}>
-                            {isAdmin && (
-                                <RouterLink href="" className={styles.itemLink}>
-                                    <span>Jornalistas</span>
-                                </RouterLink>
-                            )}
 
-                            {(isAdmin || isJornalista) && (
-                                <RouterLink href="" className={styles.itemLink}>
-                                    <span>Meus Artigos</span>
-                                </RouterLink>
-                            )}
-                        </div>
-                        <div className={styles.searchContainer}>
-                            <SearchIcon className={styles.searchIcon} />
+                    {isHomePage && (
+                        <div className={styles.rightSide}>
+                            <div className={styles.searchContainer}>
+                                <SearchIcon className={styles.searchIcon} />
 
-                            <input
-                                className={styles.searchInput}
-                                type="search"
-                                placeholder="Pesquisar"
-                            />
+                                <input
+                                    className={styles.searchInput}
+                                    type="search"
+                                    placeholder="Pesquisar"
+                                />
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </nav>
             </header>
 
-            {/* Menu renderizado fora do header para evitar conflitos de evento */}
             {isMenuOpen && (
                 <Menu isOpen={isMenuOpen} handlerCloseMenu={setIsMenuOpen} />
             )}

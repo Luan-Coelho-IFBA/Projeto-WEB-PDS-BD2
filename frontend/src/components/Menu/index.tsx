@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getAllCategories } from "../../services/categories/getAllCategories";
 import type { Category } from "../../types/Category";
 import { useNavigate } from "react-router";
+import { getLocalStorageRole } from "../../utils/getLocalStorageRole";
 
 interface MenuProps {
     isOpen: boolean;
@@ -15,6 +16,10 @@ interface MenuProps {
 export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
     const [categories, setCategories] = useState<Category[]>([]);
     const navigate = useNavigate();
+
+    const role = getLocalStorageRole();
+    const isAdmin = role == "ADMIN";
+    const isJornalista = role == "JORNALISTA";
 
     const handleCloseMenu = () => {
         handlerCloseMenu(false);
@@ -61,20 +66,43 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
 
                         {categories.length > 0 &&
                             categories.map((category) => (
-                                <li
-                                    key={category.id}
-                                    className={styles.item}
-                                    onClick={() => {
-                                        navigate(
-                                            `${PageRoutesName.articles.articlesByCategory}/${category.id}`
-                                        );
-                                        handleCloseMenu();
-                                    }}
-                                >
-                                    {category.name}
-                                </li>
+                                <>
+                                    <li
+                                        key={category.id}
+                                        className={styles.item}
+                                        onClick={() => {
+                                            navigate(
+                                                `${PageRoutesName.articles.articlesByCategory}/${category.id}`
+                                            );
+                                            handleCloseMenu();
+                                        }}
+                                    >
+                                        {category.name}
+                                    </li>
+                                </>
                             ))}
                     </ul>
+
+                    <div
+                        className={`${styles.containerList} ${styles.navigationPages}`}
+                    >
+                        {isAdmin && (
+                            <RouterLink href="" className={styles.item}>
+                                <span>Jornalistas</span>
+                            </RouterLink>
+                        )}
+                        {isAdmin && (
+                            <RouterLink href="" className={styles.item}>
+                                <span>Categorias</span>
+                            </RouterLink>
+                        )}
+
+                        {(isAdmin || isJornalista) && (
+                            <RouterLink href="" className={styles.item}>
+                                <span>Meus Artigos</span>
+                            </RouterLink>
+                        )}
+                    </div>
 
                     <footer className={styles.profileContainer}>
                         <RouterLink

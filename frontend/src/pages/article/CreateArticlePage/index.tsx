@@ -1,4 +1,4 @@
-import { Controller, useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { getAllCategories } from "../../../services/categories/getAllCategories";
 import { useQuery } from "@tanstack/react-query";

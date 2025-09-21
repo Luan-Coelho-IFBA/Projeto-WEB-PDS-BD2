@@ -16,4 +16,9 @@ export const PageRoutesName = {
         seeArticle: "/articles",
         articlesByCategory: "/articles/category",
     },
+
+    admin: {
+        categories: "/admin/categories",
+        writers: "/admin/writers",
+    },
 } as const;

@@ -8,7 +8,7 @@ type bodyPostRegister = {
 };
 
 export async function registerUsers(data: bodyPostRegister) {
-	const response = await api.post(PageRoutesName.register, {
+	const response = await api.post(PageRoutesName.auth.register, {
 		name: data.name,
 		email: data.email,
 		password: data.password,
