@@ -5,6 +5,7 @@ import { LandingPage } from "../../pages/LandingPage";
 import { HomePage } from "../../pages/HomePage";
 import { ArticleRouter } from "../ArticleRouter";
 import { CreateArticlePage } from "../../pages/article/CreateArticlePage";
+import { AdminRouter } from "../AdminRouter";
 
 export function AppRouter() {
     return (
@@ -30,6 +31,9 @@ export function AppRouter() {
 
                 {/* Rotas de artigos */}
                 <Route path="/articles/*" element={<ArticleRouter />} />
+
+                {/* Rotas de admin */}
+                <Route path="/admin/*" element={<AdminRouter />} />
             </Routes>
         </BrowserRouter>
     );
