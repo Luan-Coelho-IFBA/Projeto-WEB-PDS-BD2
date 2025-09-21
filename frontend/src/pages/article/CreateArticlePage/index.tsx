@@ -34,7 +34,7 @@ export function CreateArticlePage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (getLocalStorageRole() === "JORNALISTA")
+        if (getLocalStorageRole() !== "JORNALISTA")
             navigate(PageRoutesName.home);
     }, []);
 

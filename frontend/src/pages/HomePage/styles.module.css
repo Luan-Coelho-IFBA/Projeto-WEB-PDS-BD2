@@ -1,60 +1,84 @@
 .mainContent {
-	width: 100%;
-	height: 90dvh;
-	padding: 3rem;
-	display: flex;
-	flex-flow: column;
+    width: 100%;
+    height: 90dvh;
+    padding: 3rem;
+    display: flex;
+    flex-flow: column;
 }
 
 .itemRow {
-	margin: 3rem !important;
+    margin: 3rem !important;
 }
 
 .section {
-	margin-bottom: 2rem;
+    margin-bottom: 2rem;
 }
 
 .loading {
-	padding: 1.5rem;
-	text-align: center;
-	background-color: #f5f5f5;
-	border-radius: 8px;
-	color: #666;
+    padding: 1.5rem;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    color: #666;
 }
 
 .error {
-	padding: 1rem 1.5rem;
-	background-color: #fff8f8;
-	border-left: 4px solid #ff6b6b;
-	margin: 1rem 0;
-	color: #d63031;
-	border-radius: 4px;
+    padding: 1rem 1.5rem;
+    background-color: #fff8f8;
+    border-left: 4px solid #ff6b6b;
+    margin: 1rem 0;
+    color: #d63031;
+    border-radius: 4px;
 }
 
 .errorMessage {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .retryButton {
-	background-color: #ff6b6b;
-	color: white;
-	border: none;
-	padding: 0.5rem 1rem;
-	border-radius: 4px;
-	cursor: pointer;
-	font-size: 0.9rem;
-	transition: background-color 0.2s;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
 }
 
 .retryButton:hover {
-	background-color: #e84040;
+    background-color: #e84040;
 }
 
 .mainContent {
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.createArticle {
+    background-color: white;
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid var(--main-color);
+    position: relative;
+    padding: 2rem;
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+
+    &:hover .createIcon {
+        rotate: 90deg;
+    }
+}
+
+.createIcon {
+    transition: all 0.2s;
 }

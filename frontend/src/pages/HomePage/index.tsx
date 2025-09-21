@@ -5,91 +5,110 @@ import { getAllArticles } from "../../services/articles/getAllArticles";
 import { getLatestArticles } from "../../services/articles/getLatestArticles";
 import { useQuery } from "@tanstack/react-query";
 import {
-	errorFetchingArticlesMessageText,
-	loadingContentText,
+    errorFetchingArticlesMessageText,
+    loadingContentText,
 } from "../../constants/textContent";
 import styles from "./styles.module.css";
+import { getLocalStorageRole } from "../../utils/getLocalStorageRole";
+import { PlusIcon } from "lucide-react";
+import { PageRoutesName } from "../../constants/PageRoutesName";
+import { useNavigate } from "react-router";
 
 export function HomePage() {
-	// Query para artigos em alta
-	const articlesQuery = useQuery({
-		queryKey: ["articles"],
-		queryFn: () => getAllArticles(3, 0),
-		retry: 2,
-		staleTime: 5 * 60 * 1000,
-	});
+    // Query para artigos em alta
+    const articlesQuery = useQuery({
+        queryKey: ["articles"],
+        queryFn: () => getAllArticles(3, 0),
+        retry: 2,
+        staleTime: 5 * 60 * 1000,
+    });
 
-	// Query para artigos recentes
-	const latestArticlesQuery = useQuery({
-		queryKey: ["latestArticles"],
-		queryFn: () => getLatestArticles(3, 0),
-		retry: 2,
-		staleTime: 2 * 60 * 1000,
-	});
+    // Query para artigos recentes
+    const latestArticlesQuery = useQuery({
+        queryKey: ["latestArticles"],
+        queryFn: () => getLatestArticles(3, 0),
+        retry: 2,
+        staleTime: 2 * 60 * 1000,
+    });
 
-	return (
-		<DefaultLayout>
-			<main className={styles.mainContent}>
-				{/* Seção de artigos recentes */}
-				<div className={styles.section}>
-					{latestArticlesQuery.isLoading && (
-						<div className={styles.loading}>
-							{loadingContentText}
-						</div>
-					)}
+    const navigate = useNavigate();
+    const role = getLocalStorageRole();
+    const isJornalista = role == "JORNALISTA";
 
-					{latestArticlesQuery.isError && (
-						<div className={styles.error}>
-							<p>{errorFetchingArticlesMessageText}</p>
-							<button
-								onClick={() => latestArticlesQuery.refetch()}
-								className={styles.retryButton}
-							>
-								Tentar novamente
-							</button>
-						</div>
-					)}
+    return (
+        <DefaultLayout>
+            <main className={styles.mainContent}>
+                {/* Seção de artigos recentes */}
+                <div className={styles.section}>
+                    {latestArticlesQuery.isLoading && (
+                        <div className={styles.loading}>
+                            {loadingContentText}
+                        </div>
+                    )}
 
-					{latestArticlesQuery.data &&
-						!latestArticlesQuery.isLoading && (
-							<NewsSection
-								title="Artigos recentes"
-								articles={latestArticlesQuery.data.articles}
-							/>
-						)}
-				</div>
+                    {latestArticlesQuery.isError && (
+                        <div className={styles.error}>
+                            <p>{errorFetchingArticlesMessageText}</p>
+                            <button
+                                onClick={() => latestArticlesQuery.refetch()}
+                                className={styles.retryButton}
+                            >
+                                Tentar novamente
+                            </button>
+                        </div>
+                    )}
 
-				{/* Seção de artigos em alta */}
-				<div className={styles.section}>
-					{articlesQuery.isLoading && (
-						<div className={styles.loading}>
-							{loadingContentText}
-						</div>
-					)}
+                    {latestArticlesQuery.data &&
+                        !latestArticlesQuery.isLoading && (
+                            <NewsSection
+                                title="Artigos recentes"
+                                articles={latestArticlesQuery.data.articles}
+                            />
+                        )}
+                </div>
 
-					{articlesQuery.isError && (
-						<div className={styles.error}>
-							<p>
-								{(articlesQuery.error as Error)?.message ||
-									"Erro ao carregar artigos em alta"}
-							</p>
-							<button
-								onClick={() => articlesQuery.refetch()}
-								className={styles.retryButton}
-							>
-								Tentar novamente
-							</button>
-						</div>
-					)}
+                {/* Seção de artigos em alta */}
+                <div className={styles.section}>
+                    {articlesQuery.isLoading && (
+                        <div className={styles.loading}>
+                            {loadingContentText}
+                        </div>
+                    )}
 
-					{articlesQuery.data && !articlesQuery.isLoading && (
-						<NewsSection
-							title="Em alta"
-							articles={articlesQuery.data.articles}
-						/>
-					)}
-				</div>
-			</main>
-		</DefaultLayout>
-	);
+                    {articlesQuery.isError && (
+                        <div className={styles.error}>
+                            <p>
+                                {(articlesQuery.error as Error)?.message ||
+                                    "Erro ao carregar artigos em alta"}
+                            </p>
+                            <button
+                                onClick={() => articlesQuery.refetch()}
+                                className={styles.retryButton}
+                            >
+                                Tentar novamente
+                            </button>
+                        </div>
+                    )}
+
+                    {articlesQuery.data && !articlesQuery.isLoading && (
+                        <NewsSection
+                            title="Em alta"
+                            articles={articlesQuery.data.articles}
+                        />
+                    )}
+                </div>
+                {isJornalista && (
+                    <div
+                        onClick={() => {
+                            navigate(PageRoutesName.articles.createArticle);
+                        }}
+                        className={styles.createArticle}
+                    >
+                        <PlusIcon className={styles.createIcon} />
+                        <span>Criar Artigo</span>
+                    </div>
+                )}
+            </main>
+        </DefaultLayout>
+    );
 }
