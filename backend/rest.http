@@ -99,14 +99,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsI
 ### Articles ###
 
 POST http://localhost:3000/article HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Njk0MDAxMSwiZXhwIjoxNzU3MTEyODExfQ.2ejOki5OEJeyqFkK3Lu5oUkRWYM0fcI0sKrbxWZbtas
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU4NDIyOTAzLCJleHAiOjE3NTg1OTU3MDN9.FuZj4BwN8CNMxCAky4cE92jqGQFFcISiUeCHTP0GIR0
 Content-Type: multipart/form-data; boundary=separation
 
 --separation
 Content-Disposition: form-data; name="image"; filename="article.jpg"
 Content-Type: image/jpeg
 
-< C:\Users\Luan\Documents\GitHub\PW\PW\11 - Flutuando elementos\elefante.jpg
+< C/home/luan/Documentos/GitHub/PW/PW/11 - Flutuando elementos/elefante.jpg
 
 --separation
 Content-Disposition: form-data; name="title"

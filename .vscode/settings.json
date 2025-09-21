@@ -1,0 +1,19 @@
+{
+  "sqltools.connections": [
+    {
+      "pgOptions": {
+        "ssl": {
+          "rejectUnauthorized": true
+        }
+      },
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "ep-raspy-waterfall-acio1ghy-pooler.sa-east-1.aws.neon.tech",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "ESTUDO",
+      "database": "neondb",
+      "username": "neondb_owner"
+    }
+  ]
+}
