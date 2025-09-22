@@ -70,7 +70,9 @@ export function ModalAddNewCategory({
                         )}
                     </div>
                     <div className={styles.field}>
-                        <label htmlFor="">Descrição da categoria</label>
+                        <label htmlFor="description">
+                            Descrição da categoria
+                        </label>
                         <input
                             {...register("description")}
                             id="description"
