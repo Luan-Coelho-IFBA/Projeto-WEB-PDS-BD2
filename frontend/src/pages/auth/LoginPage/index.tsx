@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import { ModalChangePassword } from "../../../components/ModalChangePassword";
 import { useState } from "react";
 import { setLocalStorageRole } from "../../../utils/setLocalStorageRole";
+import { DefaultLayout } from "../../../layouts/DefaultLayout";
 
 const LoginSchema = z.object({
     email: z
@@ -58,65 +59,69 @@ export function LoginPage() {
     };
 
     return (
-        <div className={styles.containerLogin}>
-            <Form onSubmit={handleSubmit(onSubmitForm)}>
-                <Form.Header
-                    title="Login"
-                    subtitle="Faça o login na sua conta"
-                />
-                <div className={styles.group}>
-                    <Form.Field
-                        {...register("email")}
-                        nameInput="email"
-                        label="EMAIL"
-                        placeholder="Informe o seu email"
-                        type="text"
+        <DefaultLayout>
+            <div className={styles.containerLogin}>
+                <Form onSubmit={handleSubmit(onSubmitForm)}>
+                    <Form.Header
+                        title="Login"
+                        subtitle="Faça o login na sua conta"
                     />
-                    {errors.email?.message && (
-                        <p className={styles.error}>{errors.email.message}</p>
+                    <div className={styles.group}>
+                        <Form.Field
+                            {...register("email")}
+                            nameInput="email"
+                            label="EMAIL"
+                            placeholder="Informe o seu email"
+                            type="text"
+                        />
+                        {errors.email?.message && (
+                            <p className={styles.error}>
+                                {errors.email.message}
+                            </p>
+                        )}
+                    </div>
+                    <div className={styles.group}>
+                        <Form.Field
+                            {...register("password")}
+                            nameInput="password"
+                            label="SENHA"
+                            placeholder="Digite a sua senha"
+                            type="password"
+                        />
+                        {errors.password?.message && (
+                            <p className={styles.error}>
+                                {errors.password.message}
+                            </p>
+                        )}
+                    </div>
+                    {errors.root?.message && (
+                        <p className={styles.error}>{errors.root.message}</p>
                     )}
+                    <Form.Button type="submit" nameButton="Logar" />
+                </Form>
+                <div className={styles.links}>
+                    <RouterLink
+                        onClick={() =>
+                            setShowForgotPasswordModal(!showForgotPasswordModal)
+                        }
+                        href=""
+                    >
+                        Esqueci a senha
+                    </RouterLink>
+                    <RouterLink href={PageRoutesName.auth.register}>
+                        Não possui conta? Crie uma aqui
+                    </RouterLink>
                 </div>
-                <div className={styles.group}>
-                    <Form.Field
-                        {...register("password")}
-                        nameInput="password"
-                        label="SENHA"
-                        placeholder="Digite a sua senha"
-                        type="password"
-                    />
-                    {errors.password?.message && (
-                        <p className={styles.error}>
-                            {errors.password.message}
-                        </p>
-                    )}
-                </div>
-                {errors.root?.message && (
-                    <p className={styles.error}>{errors.root.message}</p>
-                )}
-                <Form.Button type="submit" nameButton="Logar" />
-            </Form>
-            <div className={styles.links}>
-                <RouterLink
-                    onClick={() =>
-                        setShowForgotPasswordModal(!showForgotPasswordModal)
-                    }
-                    href=""
-                >
-                    Esqueci a senha
-                </RouterLink>
-                <RouterLink href={PageRoutesName.auth.register}>
-                    Não possui conta? Crie uma aqui
-                </RouterLink>
-            </div>
 
-            {showForgotPasswordModal && (
-                <ModalChangePassword
-                    titleModal="Esqueceu a senha?"
-                    subtitleModal="Digite sua nova senha nos campos abaixo"
-                    isOpen={showForgotPasswordModal}
-                    onClose={() => setShowForgotPasswordModal(false)}
-                />
-            )}
-        </div>
+                {showForgotPasswordModal && (
+                    <ModalChangePassword
+                        titleModal="Esqueceu a senha?"
+                        subtitleModal="Digite sua nova senha nos campos abaixo"
+                        isOpen={showForgotPasswordModal}
+                        onClose={() => setShowForgotPasswordModal(false)}
+                    />
+                )}
+            </div>
+        </DefaultLayout>
     );
 }
