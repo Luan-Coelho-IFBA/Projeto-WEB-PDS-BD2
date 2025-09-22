@@ -3,21 +3,22 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CategoryDto } from './dto/category.dto';
+import { CreateCategoryDto } from './dto/create-category.dto';
 import { Sequelize } from 'sequelize-typescript';
 import { InjectConnection } from '@nestjs/sequelize';
 import { QueryTypes } from 'sequelize';
 import { Category } from './entities/category.entity';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoryService {
   constructor(@InjectConnection() private readonly sequelize: Sequelize) {}
 
-  async create(dto: CategoryDto) {
+  async create(dto: CreateCategoryDto) {
     const categories: Category[] = await this.sequelize.query(
       /* sql */
-      `INSERT INTO "Categories" ("name", "createdAt", "updatedAt")
-      SELECT :name, NOW(), NOW()
+      `INSERT INTO "Categories" ("name", "description", "createdAt", "updatedAt")
+      SELECT :name, :description, NOW(), NOW()
       WHERE NOT EXISTS (
         SELECT * FROM "Categories"
         WHERE name = :name
@@ -26,6 +27,7 @@ export class CategoryService {
         type: QueryTypes.SELECT,
         replacements: {
           name: dto.name,
+          description: dto.description,
         },
       },
     );
@@ -69,11 +71,21 @@ export class CategoryService {
     return { category };
   }
 
-  async update(id: number, dto: CategoryDto) {
+  async update(id: number, dto: UpdateCategoryDto) {
+    let queries: string[] = [];
+
+    if ('name' in dto) {
+      queries.push(`"name" = :name`);
+    }
+
+    if ('description' in dto) {
+      queries.push(`"description" = :description`);
+    }
+
     const categories: Category[] = await this.sequelize.query(
       /* sql */
       `UPDATE "Categories"
-      SET "name" = :name, "updatedAt" = NOW()
+      SET ${queries.join(' ')}, "updatedAt" = NOW()
       WHERE id = :id
       RETURNING *`,
       {
@@ -81,6 +93,7 @@ export class CategoryService {
         replacements: {
           id: id,
           name: dto.name,
+          description: dto.description,
         },
       },
     );

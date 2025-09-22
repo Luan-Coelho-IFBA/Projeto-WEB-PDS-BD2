@@ -66,7 +66,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsI
 ### Category ###
 
 POST http://localhost:3000/category HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NjkzNzI1NywiZXhwIjoxNzU3MTEwMDU3fQ.9TrtYdvtq1Pcx2B3MqKGvg6DUaaGtm3uATGNm37FyFA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU4NDI0MjU3LCJleHAiOjE3NTg1OTcwNTd9.62VZ6dz5teMu2JPnEAoXwdGZl-B_wCprfI3zoLWgLWA
 Content-Type: application/json
 
 {
@@ -123,7 +123,7 @@ Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque inventore p
 --separation
 Content-Disposition: form-data; name="categoryId"
 
-2
+3
 --separation
 Content-Disposition: form-data; name="categoryId"
 

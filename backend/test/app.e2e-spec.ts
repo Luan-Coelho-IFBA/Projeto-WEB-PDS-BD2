@@ -8,7 +8,7 @@ import { LoginUserDto } from 'src/auth/dto/login-user.dto';
 import { ConfigService } from '@nestjs/config';
 import { UpdateUserDto } from 'src/auth/dto/update-user.dto';
 import { RegisterUserDto } from 'src/auth/dto/register-user.dto';
-import { CategoryDto } from 'src/category/dto/category.dto';
+import { CreateCategoryDto } from 'src/category/dto/create-category.dto';
 
 const PORT = 3333;
 
@@ -110,14 +110,14 @@ describe('AppController (e2e)', () => {
 
     describe('CATEGORIES', () => {
       it('should give an error if not jwt', () => {
-        const dto: CategoryDto = {
+        const dto: CreateCategoryDto = {
           name: 'Esporte',
         };
         return pactum.spec().post('/category').withBody(dto).expectStatus(401);
       });
 
       it('should create a category', () => {
-        const dto: CategoryDto = {
+        const dto: CreateCategoryDto = {
           name: 'Esporte',
         };
         return pactum
@@ -129,7 +129,7 @@ describe('AppController (e2e)', () => {
       });
 
       it('should create a category 2', () => {
-        const dto: CategoryDto = {
+        const dto: CreateCategoryDto = {
           name: 'Política',
         };
         return pactum
@@ -141,7 +141,7 @@ describe('AppController (e2e)', () => {
       });
 
       it('should update category', () => {
-        const dto: CategoryDto = {
+        const dto: CreateCategoryDto = {
           name: 'Entretenimento',
         };
         return pactum

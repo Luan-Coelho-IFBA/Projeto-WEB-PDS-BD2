@@ -8,9 +8,10 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { CategoryDto } from './dto/category.dto';
+import { CreateCategoryDto } from './dto/create-category.dto';
 import { Authenticate } from 'src/auth/autenticate.decorator';
 import { ADMIN } from 'consts';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('category')
 export class CategoryController {
@@ -18,7 +19,7 @@ export class CategoryController {
 
   @Post()
   @Authenticate(ADMIN)
-  async create(@Body() createCategoryDto: CategoryDto) {
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
     return await this.categoryService.create(createCategoryDto);
   }
 
@@ -36,7 +37,7 @@ export class CategoryController {
   @Authenticate(ADMIN)
   async update(
     @Param('id') id: string,
-    @Body() updateCategoryDto: CategoryDto,
+    @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return await this.categoryService.update(+id, updateCategoryDto);
   }
