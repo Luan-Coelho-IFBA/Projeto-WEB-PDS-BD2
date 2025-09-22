@@ -1,7 +1,5 @@
 export const PageRoutesName = {
-    // Rotas principais
-    landing: "/",
-    home: "/home",
+    home: "/",
 
     // Rotas de autenticação (com prefixo /auth)
     auth: {

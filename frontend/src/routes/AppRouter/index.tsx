@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthRouter } from "../AuthRouter";
 import { PageRoutesName } from "../../constants/PageRoutesName";
-import { LandingPage } from "../../pages/LandingPage";
 import { HomePage } from "../../pages/HomePage";
 import { ArticleRouter } from "../ArticleRouter";
 import { CreateArticlePage } from "../../pages/article/CreateArticlePage";
@@ -11,20 +10,14 @@ export function AppRouter() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* Rota principal - Landing Page */}
-                <Route
-                    path={PageRoutesName.landing}
-                    element={<LandingPage />}
-                />
+                {/* Home*/}
+                <Route path={PageRoutesName.home} element={<HomePage />} />
 
                 {/*Criação de artigos*/}
                 <Route
                     path={PageRoutesName.articles.createArticle}
                     element={<CreateArticlePage />}
                 ></Route>
-
-                {/* Rota protegida - Home após login */}
-                <Route path={PageRoutesName.home} element={<HomePage />} />
 
                 {/* Rotas de autenticação */}
                 <Route path="/auth/*" element={<AuthRouter />} />
