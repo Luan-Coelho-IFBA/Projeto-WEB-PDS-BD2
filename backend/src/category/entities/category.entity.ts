@@ -11,8 +11,8 @@ import { Article } from 'src/article/entities/article.entity';
 
 @Table
 export class Category extends Model {
-  @Column
   @Unique
+  @Column
   name: string;
 
   @Column({ type: DataType.TEXT })
