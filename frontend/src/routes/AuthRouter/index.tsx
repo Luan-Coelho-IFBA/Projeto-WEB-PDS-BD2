@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router";
 import { LoginPage } from "../../pages/auth/LoginPage";
-import { Register } from "../../pages/auth/Register";
-import { ForgotPassword } from "../../pages/auth/ForgotPassword";
+import { RegisterPage } from "../../pages/auth/RegisterPage";
+import { ConfigPage } from "../../pages/auth/ConfigPage";
 
 export function AuthRouter() {
-	return (
-		<Routes>
-			<Route path="login" element={<LoginPage />} />
-			<Route path="register" element={<Register />} />
-			<Route path="forgot-password" element={<ForgotPassword />} />
-		</Routes>
-	);
+    return (
+        <Routes>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="config" element={<ConfigPage />} />
+        </Routes>
+    );
 }

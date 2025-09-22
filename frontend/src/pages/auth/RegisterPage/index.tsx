@@ -34,7 +34,7 @@ const registerSchema = z
 
 type FormFields = z.infer<typeof registerSchema>;
 
-export function Register() {
+export function RegisterPage() {
 	const {
 		getValues,
 		setError,
