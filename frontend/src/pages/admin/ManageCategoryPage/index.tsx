@@ -5,14 +5,26 @@ import styles from "./styles.module.css";
 import { getAllCategories } from "../../../services/categories/getAllCategories";
 import { useQuery } from "@tanstack/react-query";
 import { errorFetchingData } from "../../../constants/textContent";
+import { useState } from "react";
+import { ModalAddNewCategory } from "../../../components/ModalAddNewCategory";
 
 export function ManageCategoryPage() {
-    const { data, isSuccess, isError, isLoading, refetch } = useQuery({
+    const {
+        data: allCategoriesQueries,
+        isSuccess,
+        isError,
+        isLoading,
+        refetch,
+    } = useQuery({
         queryKey: ["categoryAdmin"],
         queryFn: getAllCategories,
         retry: 2,
         staleTime: 2 * 60 * 1000,
     });
+
+    const [modalNewCategory, setModalNewCategory] = useState(false);
+    const [modalEditACategory, setModalEditACategory] = useState(false);
+    const [modalRemoveCategory, setModalRemoveCategory] = useState(false);
 
     function formatDate(dateString: string) {
         return new Date(dateString).toLocaleDateString("pt-BR", {
@@ -30,61 +42,90 @@ export function ManageCategoryPage() {
                 <h2 className={styles.title}>
                     Gerenciar categorias existentes
                 </h2>
-                <div className={styles.addCategory}>
+                <div
+                    onClick={() => setModalNewCategory((prev) => !prev)}
+                    className={styles.addCategory}
+                >
                     <PlusIcon className={styles.addIcon} />
                     <span>Adicionar Categoria</span>
                 </div>
 
+                {/* MODAL DE ADICIONAR NOVA CATEGORIA */}
+                {modalNewCategory && (
+                    <ModalAddNewCategory
+                        handleModal={setModalNewCategory}
+                        isOpen={modalNewCategory}
+                    />
+                )}
+
                 <div className={styles.tableContainer}>
-                    {isSuccess && data.categories.length === 0 && (
-                        <div className={styles.feedbackMessage}>
-                            <p>
-                                Nenhuma categoria registrada. Clique em
-                                adicionar categoria para criar uma nova
-                            </p>
-                        </div>
-                    )}
-                    {isSuccess && data.categories.length > 0 && (
-                        <table className={styles.tableList}>
-                            <thead>
-                                <tr>
-                                    <th>Nome da Categoria</th>
-                                    <th>ID da Categoria</th>
-                                    <th>Data de Criação</th>
-                                    <th>Editar</th>
-                                    <th>Remover</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.categories.map((category) => (
-                                    <tr
-                                        key={category.id}
-                                        className={styles.tableLineData}
-                                    >
-                                        <td>
-                                            <span>{category.name}</span>
-                                        </td>
-                                        <td>
-                                            <span>{category.id}</span>
-                                        </td>
-                                        <td>
-                                            <span>
-                                                {formatDate(category.createdAt)}
-                                            </span>
-                                        </td>
-                                        <td className={styles.iconAction}>
-                                            <PencilIcon />
-                                            <span>Alterar Categoria</span>
-                                        </td>
-                                        <td className={styles.iconAction}>
-                                            <TrashIcon color="red" />
-                                            <span>Remover Categoria</span>
-                                        </td>
+                    {isSuccess &&
+                        allCategoriesQueries.categories.length === 0 && (
+                            <div className={styles.feedbackMessage}>
+                                <p>
+                                    Nenhuma categoria registrada. Clique em
+                                    adicionar categoria para criar uma nova
+                                </p>
+                            </div>
+                        )}
+                    {isSuccess &&
+                        allCategoriesQueries.categories.length > 0 && (
+                            <table className={styles.tableList}>
+                                <thead>
+                                    <tr>
+                                        <th>Nome da Categoria</th>
+                                        <th>ID da Categoria</th>
+                                        <th>Data de Criação</th>
+                                        <th>Editar</th>
+                                        <th>Remover</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
+                                </thead>
+                                <tbody>
+                                    {allCategoriesQueries.categories.map(
+                                        (category) => (
+                                            <tr
+                                                key={category.id}
+                                                className={styles.tableLineData}
+                                            >
+                                                <td>
+                                                    <span>{category.name}</span>
+                                                </td>
+                                                <td>
+                                                    <span>{category.id}</span>
+                                                </td>
+                                                <td>
+                                                    <span>
+                                                        {formatDate(
+                                                            category.createdAt
+                                                        )}
+                                                    </span>
+                                                </td>
+                                                <td
+                                                    className={
+                                                        styles.iconAction
+                                                    }
+                                                >
+                                                    <PencilIcon />
+                                                    <span>
+                                                        Alterar Categoria
+                                                    </span>
+                                                </td>
+                                                <td
+                                                    className={
+                                                        styles.iconAction
+                                                    }
+                                                >
+                                                    <TrashIcon color="red" />
+                                                    <span>
+                                                        Remover Categoria
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        )
+                                    )}
+                                </tbody>
+                            </table>
+                        )}
                     {isError && (
                         <div className={styles.feedbackMessage}>
                             <p className={styles.error}>{errorFetchingData}</p>

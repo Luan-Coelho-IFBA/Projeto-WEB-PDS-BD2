@@ -1,0 +1,35 @@
+.field {
+    width: 80%;
+    display: flex;
+    flex-flow: column;
+    justify-content: left;
+    gap: 0.3rem;
+}
+
+.actionButton {
+    width: 150px;
+    font-size: 18px;
+    border: none;
+    padding: 1.5rem 2.5rem;
+    transition: all 0.15s;
+    border-radius: 0.8rem;
+
+    &:hover {
+        cursor: pointer;
+        transform: translateY(-5%);
+    }
+}
+
+.cancel {
+    background-color: var(--button-grey);
+}
+
+.confirm {
+    background-color: var(--main-color);
+}
+
+p.error {
+    text-align: left;
+    color: red;
+    margin: 0;
+}
