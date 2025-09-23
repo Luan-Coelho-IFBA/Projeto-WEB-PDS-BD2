@@ -41,7 +41,7 @@ export function ModalAddNewCategory({
             console.log(error);
 
             const axiosError = error as AxiosError<ApiErrorResponse>;
-            setError("root", { message: axiosError.message });
+            setError("root", { message: axiosError.response?.data.message });
         }
     };
 
@@ -87,6 +87,11 @@ export function ModalAddNewCategory({
                     </div>
                     {errors.root?.message && (
                         <p className={styles.error}>{errors.root.message}</p>
+                    )}
+                    {isSubmitSuccessful && (
+                        <p className={styles.sucess}>
+                            Categoria criada com sucesso
+                        </p>
                     )}
                 </Modal.BodyText>
                 <Modal.Actions>

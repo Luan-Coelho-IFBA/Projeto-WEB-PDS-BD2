@@ -77,8 +77,8 @@
     text-align: center; /* ID centralizado */
 }
 
-.tableList th:nth-child(4),
-.tableList th:nth-child(5) {
+.tableList th:nth-child(5),
+.tableList th:nth-child(6) {
     text-align: center; /* Ações centralizadas */
 }
 
@@ -121,6 +121,11 @@
 }
 
 .tableList td:nth-child(3) span {
+    text-align: justify;
+    color: #718096;
+    font-size: 1.3rem;
+}
+.tableList td:nth-child(4) span {
     color: #718096;
     font-size: 1.3rem;
 }

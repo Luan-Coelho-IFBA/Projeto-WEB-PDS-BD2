@@ -2,20 +2,39 @@ import { ArrowRightIcon, UserIcon } from "lucide-react";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
 
 import styles from "./styles.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalChangePassword } from "../../../components/ModalChangePassword";
+import { useQuery } from "@tanstack/react-query";
+import { getMe } from "../../../services/auth/getMe";
 
 export function ConfigPage() {
     const [modalChangePassword, setModalChangePassword] =
         useState<boolean>(false);
 
+    /* const { data: user, isError } = useQuery({
+        queryKey: ["myUserQuery"],
+        queryFn: getMe,
+    }); */
+
+    useEffect(() => {
+        let user;
+        try {
+            getMe().then((data) => {
+                user = data;
+                console.log(user);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
     return (
         <DefaultLayout>
             <main className={styles.mainSection}>
                 <h2 className={styles.titleSection}>Configurações</h2>
 
-                <UserIcon className={styles.userPhotoSection} />
-
+                <div>
+                    <UserIcon className={styles.userPhotoSection} />
+                </div>
                 <section className={styles.inputSections}>
                     <div className={styles.inputSectionRow}>
                         <label htmlFor="changeName">Alterar Nome</label>

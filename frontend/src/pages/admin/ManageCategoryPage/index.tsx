@@ -76,6 +76,7 @@ export function ManageCategoryPage() {
                                         <th>Nome da Categoria</th>
                                         <th>ID da Categoria</th>
                                         <th>Data de Criação</th>
+                                        <th>Descrição</th>
                                         <th>Editar</th>
                                         <th>Remover</th>
                                     </tr>
@@ -98,6 +99,15 @@ export function ManageCategoryPage() {
                                                         {formatDate(
                                                             category.createdAt
                                                         )}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        title={
+                                                            category.description
+                                                        }
+                                                    >
+                                                        {category.description}
                                                     </span>
                                                 </td>
                                                 <td

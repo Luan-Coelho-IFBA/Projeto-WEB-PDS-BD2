@@ -40,3 +40,9 @@ p.error {
     color: red;
     margin: 0;
 }
+
+p.sucess {
+    text-align: center;
+    color: green;
+    margin: 0;
+}
