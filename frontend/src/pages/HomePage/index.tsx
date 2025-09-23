@@ -34,6 +34,7 @@ export function HomePage() {
     const navigate = useNavigate();
     const role = getLocalStorageRole();
     const isJornalista = role == "JORNALISTA";
+    const isAdmin = role == "ADMIN";
 
     return (
         <DefaultLayout>
@@ -97,7 +98,7 @@ export function HomePage() {
                         />
                     )}
                 </div>
-                {isJornalista && (
+                {isJornalista || isAdmin && (
                     <div
                         onClick={() => {
                             navigate(PageRoutesName.articles.createArticle);

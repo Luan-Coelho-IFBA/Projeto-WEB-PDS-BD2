@@ -109,6 +109,7 @@ textarea {
 }
 
 .error {
+    text-align: left;
     font-size: 1.4rem;
     margin: 0;
     color: red;

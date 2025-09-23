@@ -59,20 +59,48 @@
     gap: 2rem;
 }
 
+.changePasswordButton {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: var(--main-color);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    transition: all 0.2s ease;
+    border: none;
+
+    &:hover {
+        background-color: var(--main-color-hover);
+        transform: translateY(-5%);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+    }
+}
+
 .createArticle {
-    background-color: white;
+    background-color: var(--main-color);
     cursor: pointer;
     z-index: 999;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    color: white;
     border: 1px solid var(--main-color);
+    border-radius: 1rem;
     position: relative;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
     position: fixed;
     right: 2rem;
     bottom: 2rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: var(--main-color-hover);
+        transform: translateY(-5%);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+    }
 
     &:hover .createIcon {
         rotate: 90deg;

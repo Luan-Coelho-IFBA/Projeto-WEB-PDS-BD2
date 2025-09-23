@@ -25,7 +25,7 @@ const CreateArticleSchema = z.object({
         .string()
         .nonempty("Você precisa de uma descrição no seu artigo."),
     text: z.string().nonempty("Seu artigo precisa ter um corpo."),
-    image: z.any(),
+    image: z.file(),
 });
 
 type CreateArticleForm = z.infer<typeof CreateArticleSchema>;
@@ -34,7 +34,10 @@ export function CreateArticlePage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (getLocalStorageRole() !== "JORNALISTA")
+        if (
+            getLocalStorageRole() === null ||
+            getLocalStorageRole() === "LEITOR"
+        )
             navigate(PageRoutesName.home);
     }, []);
 
@@ -130,13 +133,14 @@ export function CreateArticlePage() {
                         <label className={styles.item}>
                             CAPA
                             <input {...register("image")} type="file" />
-                            {/* {errors?.image?.message && (
+                            {errors?.image?.message && (
                                 <p className={styles.error}>
                                     {errors.image.message}
                                 </p>
-                            )} */}
+                            )}
                         </label>
-
+                        
+                        {/*  */}
                         <label className={styles.item}>
                             CATEGORIAS DO ARTIGO
                             <MultiSelectDropdown
