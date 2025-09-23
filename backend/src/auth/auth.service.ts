@@ -188,7 +188,7 @@ export class AuthService implements OnModuleInit {
       `SELECT u.*, ROW_TO_JSON(r.*) as role FROM "Users" u
       LEFT JOIN "Roles" r
       ON r.id = u."roleId"
-      WHERE id = :id
+      WHERE u.id = :id
       LIMIT 1`,
       {
         type: QueryTypes.SELECT,

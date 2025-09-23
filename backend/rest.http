@@ -31,6 +31,7 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/auth HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU4NjcxNTMwLCJleHAiOjE3NTg4NDQzMzB9.SnmpJJoBnw8ckvL9KPD34yJYzBFV2P_ZfmxomTZMbw0
 
 ###
 
