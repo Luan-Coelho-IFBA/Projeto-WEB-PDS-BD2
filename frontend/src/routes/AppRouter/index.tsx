@@ -5,6 +5,7 @@ import { HomePage } from "../../pages/HomePage";
 import { ArticleRouter } from "../ArticleRouter";
 import { CreateArticlePage } from "../../pages/article/CreateArticlePage";
 import { AdminRouter } from "../AdminRouter";
+import { NotFoundPage } from "../../pages/NotFoundPage";
 
 export function AppRouter() {
     return (
@@ -27,6 +28,8 @@ export function AppRouter() {
 
                 {/* Rotas de admin */}
                 <Route path="/admin/*" element={<AdminRouter />} />
+
+                <Route path="/*" element={<NotFoundPage />} />
             </Routes>
         </BrowserRouter>
     );
