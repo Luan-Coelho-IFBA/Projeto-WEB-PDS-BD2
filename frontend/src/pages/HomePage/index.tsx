@@ -13,22 +13,25 @@ import { getLocalStorageRole } from "../../utils/getLocalStorageRole";
 import { PlusIcon } from "lucide-react";
 import { PageRoutesName } from "../../constants/PageRoutesName";
 import { useNavigate } from "react-router";
+import { getMostViewed } from "../../services/articles/getMostViewed";
 
 export function HomePage() {
-    // Query para artigos em alta
-    const articlesQuery = useQuery({
-        queryKey: ["articles"],
-        queryFn: () => getAllArticles(3, 0),
-        retry: 2,
-        staleTime: 5 * 60 * 1000,
-    });
-
     // Query para artigos recentes
     const latestArticlesQuery = useQuery({
         queryKey: ["latestArticles"],
         queryFn: () => getLatestArticles(3, 0),
         retry: 2,
         staleTime: 2 * 60 * 1000,
+        gcTime: 0,
+    });
+
+    // Query para artigos em alta
+    const moostViewedArticlesQr = useQuery({
+        queryKey: ["articles"],
+        queryFn: () => getMostViewed(3, 0),
+        retry: 2,
+        staleTime: 5 * 60 * 1000,
+        gcTime: 0,
     });
 
     const navigate = useNavigate();
@@ -70,20 +73,21 @@ export function HomePage() {
 
                 {/* Seção de artigos em alta */}
                 <div className={styles.section}>
-                    {articlesQuery.isLoading && (
+                    {moostViewedArticlesQr.isLoading && (
                         <div className={styles.loading}>
                             {loadingContentText}
                         </div>
                     )}
 
-                    {articlesQuery.isError && (
+                    {moostViewedArticlesQr.isError && (
                         <div className={styles.error}>
                             <p>
-                                {(articlesQuery.error as Error)?.message ||
+                                {(moostViewedArticlesQr.error as Error)
+                                    ?.message ||
                                     "Erro ao carregar artigos em alta"}
                             </p>
                             <button
-                                onClick={() => articlesQuery.refetch()}
+                                onClick={() => moostViewedArticlesQr.refetch()}
                                 className={styles.retryButton}
                             >
                                 Tentar novamente
@@ -91,24 +95,26 @@ export function HomePage() {
                         </div>
                     )}
 
-                    {articlesQuery.data && !articlesQuery.isLoading && (
-                        <NewsSection
-                            title="Em alta"
-                            articles={articlesQuery.data.articles}
-                        />
-                    )}
+                    {moostViewedArticlesQr.data &&
+                        !moostViewedArticlesQr.isLoading && (
+                            <NewsSection
+                                title="Em alta"
+                                articles={moostViewedArticlesQr.data.articles}
+                            />
+                        )}
                 </div>
-                {isJornalista || isAdmin && (
-                    <div
-                        onClick={() => {
-                            navigate(PageRoutesName.articles.createArticle);
-                        }}
-                        className={styles.createArticle}
-                    >
-                        <PlusIcon className={styles.createIcon} />
-                        <span>Criar Artigo</span>
-                    </div>
-                )}
+                {isJornalista ||
+                    (isAdmin && (
+                        <div
+                            onClick={() => {
+                                navigate(PageRoutesName.articles.createArticle);
+                            }}
+                            className={styles.createArticle}
+                        >
+                            <PlusIcon className={styles.createIcon} />
+                            <span>Criar Artigo</span>
+                        </div>
+                    ))}
             </main>
         </DefaultLayout>
     );

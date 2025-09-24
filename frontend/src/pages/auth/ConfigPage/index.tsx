@@ -19,6 +19,8 @@ export function ConfigPage() {
     const { data: user, isLoading } = useQuery({
         queryKey: ["myUserQuery"],
         queryFn: getMe,
+        retry: 2,
+        gcTime: 0,
     });
 
     if (!getLocalStorageRole() || !getLocalStorageToken()) {

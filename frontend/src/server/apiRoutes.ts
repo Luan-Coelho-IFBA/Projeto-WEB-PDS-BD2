@@ -7,6 +7,7 @@ export const apiRoutes = {
         changeUser: "/auth",
     },
     article: {
+        mostViewed: "/article/most-viewed",
         getAll: "/article",
         getById: "/article",
         getAllByLatest: "/article/latest",
