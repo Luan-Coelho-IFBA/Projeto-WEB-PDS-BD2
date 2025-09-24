@@ -39,7 +39,7 @@ export function LoginPage() {
         setError,
         handleSubmit,
         register,
-        formState: { errors },
+        formState: { errors, isLoading },
     } = useForm({ resolver: zodResolver(LoginSchema) });
 
     const onSubmitForm: SubmitHandler<LoginUserForm> = async (
@@ -97,7 +97,11 @@ export function LoginPage() {
                     {errors.root?.message && (
                         <p className={styles.error}>{errors.root.message}</p>
                     )}
-                    <Form.Button type="submit" nameButton="Logar" />
+                    <Form.Button
+                        disabled={isLoading ? true : false}
+                        type="submit"
+                        nameButton="Logar"
+                    />
                 </Form>
                 <div className={styles.links}>
                     <RouterLink
