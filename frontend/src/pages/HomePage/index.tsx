@@ -1,7 +1,6 @@
 // pages/HomePage/index.tsx
 import { DefaultLayout } from "../../layouts/DefaultLayout";
 import { NewsSection } from "../../components/NewsSection";
-import { getAllArticles } from "../../services/articles/getAllArticles";
 import { getLatestArticles } from "../../services/articles/getLatestArticles";
 import { useQuery } from "@tanstack/react-query";
 import {
