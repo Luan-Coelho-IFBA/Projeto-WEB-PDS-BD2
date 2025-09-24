@@ -64,6 +64,7 @@ export function CreateArticlePage() {
     const {
         setError,
         register,
+        control,
         handleSubmit,
         formState: { errors },
     } = useForm({
@@ -158,6 +159,9 @@ export function CreateArticlePage() {
                         <label className={styles.item}>
                             CATEGORIAS DO ARTIGO
                             <MultiSelectDropdown
+                                name="categoryId"
+                                // @ts-ignore
+                                control={control}
                                 options={categoryQuery?.categories.map((c) => ({
                                     label: c.name,
                                     value: c.id,
