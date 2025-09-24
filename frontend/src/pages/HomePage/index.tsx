@@ -21,6 +21,7 @@ export function HomePage() {
         queryFn: () => getAllArticles(3, 0),
         retry: 2,
         staleTime: 5 * 60 * 1000,
+        gcTime: 0,
     });
 
     // Query para artigos recentes
@@ -29,6 +30,7 @@ export function HomePage() {
         queryFn: () => getLatestArticles(3, 0),
         retry: 2,
         staleTime: 2 * 60 * 1000,
+        gcTime: 0,
     });
 
     const navigate = useNavigate();
@@ -98,17 +100,18 @@ export function HomePage() {
                         />
                     )}
                 </div>
-                {isJornalista || isAdmin && (
-                    <div
-                        onClick={() => {
-                            navigate(PageRoutesName.articles.createArticle);
-                        }}
-                        className={styles.createArticle}
-                    >
-                        <PlusIcon className={styles.createIcon} />
-                        <span>Criar Artigo</span>
-                    </div>
-                )}
+                {isJornalista ||
+                    (isAdmin && (
+                        <div
+                            onClick={() => {
+                                navigate(PageRoutesName.articles.createArticle);
+                            }}
+                            className={styles.createArticle}
+                        >
+                            <PlusIcon className={styles.createIcon} />
+                            <span>Criar Artigo</span>
+                        </div>
+                    ))}
             </main>
         </DefaultLayout>
     );

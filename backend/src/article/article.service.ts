@@ -85,6 +85,8 @@ export class ArticleService {
 
       return { message: 'Artigo criado' };
     } catch (error) {
+      this.logger.error(error);
+
       if (article == undefined) {
         throw new NotFoundException('Usuário não encontrado');
       }
