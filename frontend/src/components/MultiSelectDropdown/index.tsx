@@ -53,9 +53,10 @@ export function MultiSelectDropdown({
                                         <label>
                                             <input
                                                 type="checkbox"
-                                                checked={options
-                                                    .map((o) => o.value)
-                                                    .includes(option.value)}
+                                                value={option.value}
+                                                checked={value.includes(
+                                                    option.value
+                                                )}
                                                 onChange={() => {
                                                     const newValue =
                                                         value.includes(
