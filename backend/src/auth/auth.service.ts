@@ -179,7 +179,12 @@ export class AuthService implements OnModuleInit {
     };
     const token = await this.jwtService.signAsync(payload, { expiresIn: '2d' });
 
-    return { token: token, role: user.role.name };
+    return {
+      name: user.name,
+      email: user.email,
+      token: token,
+      role: user.role.name,
+    };
   }
 
   async getMe(userJWT: JWTType) {
@@ -212,7 +217,12 @@ export class AuthService implements OnModuleInit {
     };
     const token = await this.jwtService.signAsync(payload, { expiresIn: '2d' });
 
-    return { token: token, role: user.role.name };
+    return {
+      name: user.name,
+      email: user.email,
+      token: token,
+      role: user.role.name,
+    };
   }
 
   async validateToken(token: string) {
