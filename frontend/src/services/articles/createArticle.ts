@@ -7,7 +7,7 @@ export interface ArticleTypePostData {
     subtitle: string;
     text: string;
     categoryId: number[];
-    image: File;
+    image: FileList;
 }
 
 export async function createArticles({
@@ -20,8 +20,8 @@ export async function createArticles({
     const fd = new FormData();
     fd.append("title", title);
     fd.append("subtitle", subtitle);
-    fd.append("image", image);
     fd.append("text", text);
+    fd.append("image", image[0]);
     categoryId.forEach((v) => {
         fd.append("categoryId", v.toString());
     });

@@ -2,16 +2,17 @@ import { useState } from "react";
 
 import styles from "./styles.module.css";
 import { ChevronDownIcon } from "lucide-react";
+import type { DropdownOptions } from "../../types/DropdownOptions";
 
 interface MultiSelectDropdownProps {
-    options: string[] | undefined;
+    options: DropdownOptions[] | undefined;
 }
 
 export function MultiSelectDropdown({ options }: MultiSelectDropdownProps) {
     const [showDropdown, setShowDropdown] = useState<boolean>(false);
-    const [selectedItems, setSelectedItems] = useState<string[]>([]);
+    const [selectedItems, setSelectedItems] = useState<DropdownOptions[]>([]);
 
-    const handleCheckboxChange = (option: string) => {
+    const handleCheckboxChange = (option: DropdownOptions) => {
         if (selectedItems.includes(option)) {
             setSelectedItems(selectedItems.filter((item) => item !== option));
         } else {
@@ -43,16 +44,18 @@ export function MultiSelectDropdown({ options }: MultiSelectDropdownProps) {
                 <div className={styles.listContainer}>
                     {options &&
                         options.map((option) => (
-                            <div key={option} className={styles.item}>
+                            <div key={option.value} className={styles.item}>
                                 <label>
                                     <input
                                         type="checkbox"
-                                        checked={selectedItems.includes(option)}
+                                        checked={options
+                                            .map((o) => o.value)
+                                            .includes(option.value)}
                                         onChange={() =>
                                             handleCheckboxChange(option)
                                         }
                                     />
-                                    {option}
+                                    {option.label}
                                 </label>
                             </div>
                         ))}

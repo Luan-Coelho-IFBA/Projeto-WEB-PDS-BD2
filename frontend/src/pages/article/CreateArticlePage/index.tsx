@@ -25,7 +25,21 @@ const CreateArticleSchema = z.object({
         .string()
         .nonempty("Você precisa de uma descrição no seu artigo."),
     text: z.string().nonempty("Seu artigo precisa ter um corpo."),
-    image: z.file(),
+    image: z
+        .custom<FileList>()
+        .refine(
+            (files) => files.length === 1,
+            "Você precisa enviar uma imagem."
+        )
+        .refine(
+            (fileList) =>
+                ["image/jpeg", "image/png", "image/webp"].includes(
+                    fileList[0].type
+                ),
+            {
+                message: "A imagem precisa ser do tipo JPG, PNG ou WEBP.",
+            }
+        ),
 });
 
 type CreateArticleForm = z.infer<typeof CreateArticleSchema>;
@@ -139,14 +153,15 @@ export function CreateArticlePage() {
                                 </p>
                             )}
                         </label>
-                        
+
                         {/*  */}
                         <label className={styles.item}>
                             CATEGORIAS DO ARTIGO
                             <MultiSelectDropdown
-                                options={categoryQuery?.categories.map(
-                                    (category) => category.name
-                                )}
+                                options={categoryQuery?.categories.map((c) => ({
+                                    label: c.name,
+                                    value: c.id,
+                                }))}
                             />
                             {errors?.categoryId?.message && (
                                 <p className={styles.error}>

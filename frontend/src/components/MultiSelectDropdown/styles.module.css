@@ -9,9 +9,7 @@
 }
 
 .listContainer {
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: absolute;
     background: white;
     border: 2px solid #ddd;
     border-radius: 8px;
