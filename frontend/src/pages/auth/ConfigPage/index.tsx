@@ -16,7 +16,11 @@ ConfigPage.Form = ConfigPageForm;
 ConfigPage.Actions = ConfigPageActions;
 
 export function ConfigPage() {
-    const { data: user, isLoading } = useQuery({
+    const {
+        data: user,
+        isLoading,
+        refetch,
+    } = useQuery({
         queryKey: ["myUserQuery"],
         queryFn: getMe,
         retry: 2,
@@ -91,7 +95,7 @@ export function ConfigPage() {
                 {/* Só mostrar os formulários quando não estiver carregando */}
                 {!isLoading && user && (
                     <>
-                        <ConfigPage.Form />
+                        <ConfigPage.Form refetchUserData={refetch} />
                         <ConfigPage.Actions />
                     </>
                 )}

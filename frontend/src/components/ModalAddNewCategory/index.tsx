@@ -10,6 +10,7 @@ import styles from "./styles.module.css";
 
 type ModalAddNewCategoryProps = {
     isOpen: boolean;
+    refetchCategories?: () => void;
     handleModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -22,6 +23,7 @@ type CreateNewCategory = z.infer<typeof createNewCategoryForm>;
 
 export function ModalAddNewCategory({
     isOpen,
+    refetchCategories,
     handleModal,
 }: ModalAddNewCategoryProps) {
     const {
@@ -35,8 +37,9 @@ export function ModalAddNewCategory({
         console.log(data);
 
         try {
-            const response = await createCategory(data.name, data.description);
-            console.log(response);
+            await createCategory(data.name, data.description);
+            refetchCategories?.();
+            handleModal(false);
         } catch (error) {
             console.log(error);
 

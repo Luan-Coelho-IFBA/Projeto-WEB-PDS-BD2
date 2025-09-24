@@ -14,7 +14,11 @@ const ChangeNameSchema = z.object({
 
 type ChangeNameField = z.infer<typeof ChangeNameSchema>;
 
-export function ConfigPageForm() {
+type ConfigPageFormProps = {
+    refetchUserData?: () => void;
+};
+
+export function ConfigPageForm({ refetchUserData }: ConfigPageFormProps) {
     const {
         setError,
         handleSubmit,
@@ -26,8 +30,8 @@ export function ConfigPageForm() {
         data: ChangeNameField
     ) => {
         try {
-            const response = await updateUsername(data.name);
-            console.log(response);
+            await updateUsername(data.name);
+            refetchUserData?.();
         } catch (error) {
             const axiosError = error as AxiosError<ApiErrorResponse>;
             setError("root", {

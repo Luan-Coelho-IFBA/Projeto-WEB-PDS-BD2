@@ -54,6 +54,7 @@ export function ManageCategoryPage() {
                 {modalNewCategory && (
                     <ModalAddNewCategory
                         handleModal={setModalNewCategory}
+                        refetchCategories={refetch}
                         isOpen={modalNewCategory}
                     />
                 )}
