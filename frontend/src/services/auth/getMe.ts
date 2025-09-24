@@ -4,6 +4,7 @@ import { apiRoutes } from "../../server/apiRoutes";
 import type { AxiosError } from "axios";
 import { getLocalStorageToken } from "../../utils/getLocalStorageToken";
 import type { ApiErrorResponse } from "../../server/types";
+import type { User } from "../../types/User";
 
 export async function getMe() {
     const tokenData = getLocalStorageToken();
@@ -15,7 +16,7 @@ export async function getMe() {
             const response = await api.get(apiRoutes.auth.getMe, {
                 headers: { Authorization: tokenData },
             });
-            return response.data;
+            return response.data as User;
         } catch (error) {
             throw error as AxiosError<ApiErrorResponse>;
         }

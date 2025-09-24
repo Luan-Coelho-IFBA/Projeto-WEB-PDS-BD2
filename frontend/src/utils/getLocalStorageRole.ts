@@ -1,6 +1,7 @@
 import { localStorageNameRole } from "../constants/localStorageNameRole";
+import type { RoleTypes } from "../types/User";
 
-type RoleTypes = "ADMIN" | "JORNALISTA" | "LEITOR";
+
 export function getLocalStorageRole() {
     const role = localStorage.getItem(localStorageNameRole);
 
