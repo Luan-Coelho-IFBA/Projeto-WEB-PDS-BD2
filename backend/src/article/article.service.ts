@@ -130,11 +130,17 @@ export class ArticleService {
         FROM "ArticleCategories" ac
         INNER JOIN "Categories" c ON c.id = ac."categoryId"
         WHERE ac."articleId" = a.id
-      ) AS categories
+      ) AS categories,
+      ${PAGINATION_COUNT}
       FROM "Articles" a
-      INNER JOIN "ShowUsers" u ON u.id = a."userId"`,
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"
+      ${PAGINATION_QUERY}`,
       {
         type: QueryTypes.SELECT,
+        replacements: {
+          page: pagination.page ?? null,
+          size: pagination.size ?? null,
+        },
       },
     );
 
