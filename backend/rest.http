@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "email": "admin@admin.com",
-  "password": "123456"
+  "password": "12345678"
 }
 
 ###
@@ -147,6 +147,15 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/article/latest?size=3&page=0 HTTP/1.1
+
+###
+
+GET http://localhost:3000/article/most-viewed?size=3&page=0 HTTP/1.1
+
+###
+
+GET http://localhost:3000/article/mine HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU4NzUyNDkyLCJleHAiOjE3NTg5MjUyOTJ9.w8LJ9zLHO8II7Pd98XivUkzhNz9L0LIKBy1f94EJ2sg
 
 ###
 

@@ -237,6 +237,68 @@ export class ArticleService {
     return { articles: mappedImages, pages };
   }
 
+  async getMostViewed(pagination: RequestPaginationType) {
+    const articles: Article[] = await this.sequelize.query(
+      /* sql */
+      `SELECT a.*, row_to_json(u.*) AS users,
+      (
+        SELECT json_agg(row_to_json(c.*))
+        FROM "ArticleCategories" ac
+        INNER JOIN "Categories" c ON c.id = ac."categoryId"
+        WHERE ac."articleId" = a.id
+      ) AS categories,
+      COUNT(cm.id) AS likes,
+      ${PAGINATION_COUNT}
+      FROM "Articles" a
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"
+      LEFT JOIN "Comments" cm ON cm."articleId" = a.id
+      GROUP BY a.id, u.id, u.*
+      ORDER BY COUNT(cm.id)
+      ${PAGINATION_QUERY}`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          page: pagination.page,
+          size: pagination.size,
+        },
+      },
+    );
+
+    const mappedImages = articles.map((a) => {
+      return { ...a, image: a.image.toString('base64') };
+    });
+
+    return { articles: mappedImages };
+  }
+
+  async getAllMine(userJWT: JWTType) {
+    const articles: (Article & PaginationType)[] = await this.sequelize.query(
+      /* sql */
+      `SELECT a.*, row_to_json(u.*) AS users,
+      (
+        SELECT json_agg(row_to_json(c.*))
+        FROM "ArticleCategories" ac
+        INNER JOIN "Categories" c ON c.id = ac."categoryId"
+        WHERE ac."articleId" = a.id
+      ) AS categories
+      FROM "Articles" a
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"
+      WHERE a."userId" = :userId`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          userId: userJWT.sub,
+        },
+      },
+    );
+
+    const mappedImages = articles.map((a) => {
+      return { ...a, image: a.image.toString('base64') };
+    });
+
+    return { articles: mappedImages };
+  }
+
   async getById(id: number) {
     const articles: Article[] = await this.sequelize.query(
       /* sql */

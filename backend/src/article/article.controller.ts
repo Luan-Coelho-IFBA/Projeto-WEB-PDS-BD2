@@ -61,6 +61,17 @@ export class ArticleController {
     return await this.articleService.getAllByLatest(pagination);
   }
 
+  @Get('most-viewed')
+  async getAllByMostViewed(@Query() pagination: RequestPaginationType) {
+    return await this.articleService.getMostViewed(pagination);
+  }
+
+  @Get('mine')
+  @Authenticate(JORNALISTA, ADMIN)
+  async getAllByUser(@UserJWT() userJWT: JWTType) {
+    return await this.articleService.getAllMine(userJWT);
+  }
+
   @Get(':id')
   async getById(@Param('id') id: number) {
     return await this.articleService.getById(id);

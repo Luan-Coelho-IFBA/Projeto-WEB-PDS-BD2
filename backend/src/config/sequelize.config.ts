@@ -19,12 +19,15 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
   password: config.get('DB_PASSWORD'),
   database: config.get('DB_DATABASE'),
   models: [Role, User, Article, Category, ArticleCategory, Comment, Like],
-  autoLoadModels: false,
-  synchronize: false,
+  autoLoadModels: true,
+  synchronize: true,
+  dialectOptions: {
+    ssl: {
+      require: true,
+    },
+  },
   hooks: {
     afterConnect: async (_, options) => {
-      console.log('Test');
-
       const sequelize: Sequelize = new Sequelize({
         dialect: 'postgres',
         ...(options as any),
