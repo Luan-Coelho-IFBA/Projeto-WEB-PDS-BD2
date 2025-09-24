@@ -29,7 +29,6 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
     afterConnect: async (connection: Client, options) => {
       console.log('Database connected');
 
-      console.log(options);
       const sequelize = new Sequelize({
         dialect: 'postgres',
         host: options.host,
