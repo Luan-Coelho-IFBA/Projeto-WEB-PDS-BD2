@@ -61,7 +61,7 @@ export function ModalAddNewCategory({
                             {...register("name")}
                             id="categoryName"
                             type="text"
-                            placeholder="Informe o nome da nova categoria a ser adicionada"
+                            placeholder="Informe o nome da nova categoria."
                         />
                         {errors?.name?.message && (
                             <p className={styles.error}>

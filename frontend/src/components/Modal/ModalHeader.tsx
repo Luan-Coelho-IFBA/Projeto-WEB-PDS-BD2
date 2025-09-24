@@ -1,9 +1,9 @@
-import "./styles.module.css";
+import styles from "./styles.module.css";
 
 type ModalHeaderProps = {
 	title: string;
 };
 
 export function ModalHeader({ title }: ModalHeaderProps) {
-	return <h1 className="header">{title}</h1>;
+	return <h1 className={styles.header}>{title}</h1>;
 }

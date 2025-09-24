@@ -39,12 +39,11 @@ export function ConfigPageForm() {
     return (
         <section className={styles.inputSections}>
             <div className={styles.inputSectionRow}>
-                <label htmlFor="changeName">Alterar Nome</label>
-
                 <form
                     onSubmit={handleSubmit(onSubmitForm)}
                     className={styles.changeNameArea}
                 >
+                    <label htmlFor="changeName">Alterar Nome</label>
                     <input
                         {...register("name")}
                         type="text"

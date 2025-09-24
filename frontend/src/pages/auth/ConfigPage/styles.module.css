@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     gap: 3rem;
+    margin-bottom: 5rem;
 }
 
 .titleSection {
@@ -97,7 +98,7 @@
 }
 
 .roleName {
-    font-size: 0.875rem;
+    font-size: 1.2rem;
     font-weight: 600;
 }
 
@@ -259,11 +260,11 @@
     }
 }
 
-.logoutModalButton{
+.logoutModalButton {
     background-color: var(--main-color);
     color: white;
 
-    &:hover{
+    &:hover {
         background-color: var(--main-color-hover);
     }
 }
@@ -276,7 +277,7 @@
         background-color: rgb(121, 13, 13);
     }
 
-    &:disabled{
+    &:disabled {
         background-color: grey;
     }
 }
@@ -284,4 +285,49 @@
 .actionDiv .icon {
     position: absolute;
     right: 2rem;
+}
+
+.actionSection {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+@media (max-width: 1555px) {
+    .actionSection .actionDiv {
+        width: 25%;
+    }
+
+    .changeNameArea input {
+        width: 80%;
+    }
+}
+@media (max-width: 1070px) {
+    .actionSection .actionDiv {
+        width: 45%;
+    }
+
+    .inputSectionRow {
+        width: 60%;
+    }
+
+    .changeNameButton{
+        width: 60%;
+    }
+}
+@media (max-width: 530px) {
+    .actionSection .actionDiv {
+        width: 70%;
+    }
+
+    .inputSectionRow {
+        width: 100%;
+    }
+
+    .changeNameButton{
+        width: 60%;
+    }
 }

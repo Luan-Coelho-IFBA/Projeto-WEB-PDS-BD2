@@ -44,7 +44,7 @@ export function ConfigPageActions() {
     }
 
     return (
-        <>
+        <section className={styles.actionSection}>
             <div
                 onClick={() => setModalChangePassword((prev) => !prev)}
                 className={`${styles.actionDiv} ${styles.changePasswordButton}`}
@@ -147,6 +147,6 @@ export function ConfigPageActions() {
                     </Modal.Actions>
                 </Modal>
             )}
-        </>
+        </section>
     );
 }

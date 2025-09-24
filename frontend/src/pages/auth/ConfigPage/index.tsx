@@ -1,16 +1,16 @@
-import { LoaderIcon, UserIcon } from "lucide-react";
-import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { useQuery } from "@tanstack/react-query";
-import { getMe } from "../../../services/auth/getMe";
+import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { getLocalStorageRole } from "../../../utils/getLocalStorageRole";
 import { getLocalStorageToken } from "../../../utils/getLocalStorageToken";
-import { getRoleIcon, getTextFromRoleName } from "./roleInteractions";
 import { ConfigPageActions } from "./ConfigPageActions";
 import { ConfigPageForm } from "./ConfigPageForm";
+import { getMe } from "../../../services/auth/getMe";
 
 import styles from "./styles.module.css";
+import { UserIcon, LoaderIcon } from "lucide-react";
 import { RouterLink } from "../../../components/RouterLink";
 import { PageRoutesName } from "../../../constants/PageRoutesName";
+import { getRoleIcon, getTextFromRoleName } from "./roleInteractions";
 
 ConfigPage.Form = ConfigPageForm;
 ConfigPage.Actions = ConfigPageActions;
@@ -43,9 +43,9 @@ export function ConfigPage() {
                         </div>
                     </section>
                     <p>
-                        Crie sua conta na pagina de{" "}
-                        <RouterLink href={PageRoutesName.auth.register}>
-                            cadastro
+                        Faça login na conta na pagina de{" "}
+                        <RouterLink href={PageRoutesName.auth.login}>
+                            login
                         </RouterLink>
                     </p>
                 </main>
@@ -58,15 +58,17 @@ export function ConfigPage() {
             <main className={styles.mainSection}>
                 <h2 className={styles.titleSection}>Configurações</h2>
 
-                {/* area com icone do usuario */}
                 <section className={styles.profileSection}>
                     <div className={styles.userPhotoContainer}>
                         <UserIcon className={styles.userPhotoSection} />
                     </div>
 
-                    {isLoading && <LoaderIcon />}
-
-                    {user && (
+                    {isLoading ? (
+                        <div className={styles.loadingSection}>
+                            <LoaderIcon className={styles.loadingIcon} />
+                            <span>Carregando dados do usuário...</span>
+                        </div>
+                    ) : user ? (
                         <div className={styles.userInfo}>
                             <h3 className={styles.userName}>{user.name}</h3>
                             <p className={styles.userName}>{user.email}</p>
@@ -77,10 +79,20 @@ export function ConfigPage() {
                                 </span>
                             </div>
                         </div>
+                    ) : (
+                        <div className={styles.loadingSection}>
+                            <span>Erro ao carregar dados do usuário</span>
+                        </div>
                     )}
                 </section>
-                <ConfigPage.Form />
-                <ConfigPage.Actions />
+
+                {/* Só mostrar os formulários quando não estiver carregando */}
+                {!isLoading && user && (
+                    <>
+                        <ConfigPage.Form />
+                        <ConfigPage.Actions />
+                    </>
+                )}
             </main>
         </DefaultLayout>
     );

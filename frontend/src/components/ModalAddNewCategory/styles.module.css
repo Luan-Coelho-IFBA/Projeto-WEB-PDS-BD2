@@ -46,3 +46,14 @@ p.sucess {
     color: green;
     margin: 0;
 }
+
+@media (max-width: 425px){
+	.actionButton{
+		width: 10rem !important;
+		padding: 1rem !important;
+	}
+
+    .field{
+        width: 100%;
+    }
+}
