@@ -66,20 +66,18 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
 
                         {categories.length > 0 &&
                             categories.map((category) => (
-                                <>
-                                    <li
-                                        key={category.id}
-                                        className={styles.item}
-                                        onClick={() => {
-                                            navigate(
-                                                `${PageRoutesName.articles.articlesByCategory}/${category.id}`
-                                            );
-                                            handleCloseMenu();
-                                        }}
-                                    >
-                                        {category.name}
-                                    </li>
-                                </>
+                                <li
+                                    key={category.id}
+                                    className={styles.item}
+                                    onClick={() => {
+                                        navigate(
+                                            `${PageRoutesName.articles.articlesByCategory}/${category.id}`
+                                        );
+                                        handleCloseMenu();
+                                    }}
+                                >
+                                    {category.name}
+                                </li>
                             ))}
                     </ul>
 

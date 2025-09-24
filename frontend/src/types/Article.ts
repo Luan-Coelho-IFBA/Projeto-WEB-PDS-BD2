@@ -1,4 +1,7 @@
+import type { Category } from "./Category";
+
 export interface Article {
+    categories: Category[];
     id: number;
     title: string;
     subtitle: string;
