@@ -1,6 +1,7 @@
 import {
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/sequelize';
@@ -23,6 +24,8 @@ import { extractTotalPages } from 'utils';
 
 @Injectable()
 export class ArticleService {
+  private readonly logger: Logger = new Logger(ArticleService.name);
+
   constructor(@InjectConnection() private readonly sequelize: Sequelize) {}
 
   async create(
@@ -119,6 +122,8 @@ export class ArticleService {
   }
 
   async getAll(pagination: RequestPaginationType) {
+    this.logger.log(Date.now() + ' - Início da query');
+
     const articles: (Article & PaginationType)[] = await this.sequelize.query(
       /* sql */
       `SELECT a.*, row_to_json(u.*) AS users,
@@ -127,19 +132,15 @@ export class ArticleService {
         FROM "ArticleCategories" ac
         INNER JOIN "Categories" c ON c.id = ac."categoryId"
         WHERE ac."articleId" = a.id
-      ) AS categories,
-      ${PAGINATION_COUNT}
+      ) AS categories
       FROM "Articles" a
-      INNER JOIN "ShowUsers" u ON u.id = a."userId"
-      ${PAGINATION_QUERY}`,
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"`,
       {
         type: QueryTypes.SELECT,
-        replacements: {
-          page: pagination.page ?? null,
-          size: pagination.size ?? null,
-        },
       },
     );
+
+    this.logger.log(Date.now() + ' - Fim da query');
 
     const { result, pages } = extractTotalPages(
       articles,
@@ -147,9 +148,13 @@ export class ArticleService {
       pagination.size,
     );
 
+    this.logger.log(Date.now() + ' - Início do mapeamento');
+
     const mappedImages = result.map((a) => {
       return { ...a, image: a.image.toString('base64') };
     });
+
+    this.logger.log(Date.now() + ' - Fim do mapeamento');
 
     return { articles: mappedImages, pages };
   }

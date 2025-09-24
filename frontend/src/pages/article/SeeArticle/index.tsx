@@ -13,6 +13,7 @@ export default function SeeArticlePage() {
         queryFn: () => getArticle(Number(id)),
         retry: 2,
         staleTime: 2 * 60 * 1000,
+        gcTime: 0,
     });
 
     console.log(data);
