@@ -122,8 +122,6 @@ export class ArticleService {
   }
 
   async getAll(pagination: RequestPaginationType) {
-    this.logger.log(Date.now() + ' - Início da query');
-
     const articles: (Article & PaginationType)[] = await this.sequelize.query(
       /* sql */
       `SELECT a.*, row_to_json(u.*) AS users,
@@ -140,21 +138,15 @@ export class ArticleService {
       },
     );
 
-    this.logger.log(Date.now() + ' - Fim da query');
-
     const { result, pages } = extractTotalPages(
       articles,
       pagination.page,
       pagination.size,
     );
 
-    this.logger.log(Date.now() + ' - Início do mapeamento');
-
     const mappedImages = result.map((a) => {
       return { ...a, image: a.image.toString('base64') };
     });
-
-    this.logger.log(Date.now() + ' - Fim do mapeamento');
 
     return { articles: mappedImages, pages };
   }
