@@ -27,7 +27,7 @@ export function NewsSection({ title, articles, limit }: NewsSectionProps) {
                         key={article.id}
                         onClick={() =>
                             navigate({
-                                pathname: `${PageRoutesName.seeArticle}/${article.id}`,
+                                pathname: `${PageRoutesName.articles.seeArticle}/${article.id}`,
                             })
                         }
                     >
