@@ -16,6 +16,7 @@ import { useNavigate } from "react-router";
 import { getMostViewed } from "../../services/articles/getMostViewed";
 
 export function HomePage() {
+
     // Query para artigos recentes
     const latestArticlesQuery = useQuery({
         queryKey: ["latestArticles"],

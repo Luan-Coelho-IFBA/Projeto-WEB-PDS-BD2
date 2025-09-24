@@ -28,7 +28,7 @@ export default function SeeArticlePage() {
                 </small>
                 <h2>{data?.article.title}</h2>
                 <h2>{data?.article.subtitle}</h2>
-                <p>{data?.article.text}</p>
+                <p style={{ whiteSpace: "pre-wrap" }}>{data?.article.text}</p>
                 <img
                     src={`data:${data?.article.imageMimeType};base64,${data?.article.image}`}
                     alt={data?.article.subtitle}
