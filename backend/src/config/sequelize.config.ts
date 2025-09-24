@@ -1,5 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
+import { Client } from 'pg';
+import { Sequelize } from 'sequelize-typescript';
 import { ArticleCategory } from 'src/article/entities/article-category.entity';
 import { Article } from 'src/article/entities/article.entity';
 import { User } from 'src/auth/entities/user.entity';
@@ -16,11 +18,33 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
   password: config.get('DB_PASSWORD'),
   database: config.get('DB_DATABASE'),
   models: [Role, User, Article, Category, ArticleCategory, Comment, Like],
-  autoLoadModels: true,
-  synchronize: true,
+  autoLoadModels: false,
+  synchronize: false,
   dialectOptions: {
     ssl: {
       require: true,
+    },
+  },
+  hooks: {
+    afterConnect: async (connection: Client, options) => {
+      console.log('Database connected');
+
+      console.log(options);
+      const sequelize = new Sequelize({
+        dialect: 'postgres',
+        host: options.host,
+        username: options.username,
+        password: options.password as string,
+        database: options.database,
+        port: Number(options.port),
+        dialectOptions: {
+          ssl: {
+            require: true,
+          },
+        },
+      });
+
+      await sequelize.authenticate();
     },
   },
 });
