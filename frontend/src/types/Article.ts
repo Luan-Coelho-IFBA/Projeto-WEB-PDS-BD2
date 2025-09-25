@@ -9,6 +9,8 @@ export interface Article {
     image: FormData;
     imageMimeType: string;
     userId: number;
+    updatedAt: string;
+    createdAt: string;
 }
 
 export type ArticleApiResponse = {

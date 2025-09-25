@@ -110,16 +110,15 @@ export class CategoryService {
     const transaction = await this.sequelize.transaction();
 
     try {
-      // 1. First, delete articles that ONLY have this category
       await this.sequelize.query(
         /* sql */
         `DELETE FROM "Articles" 
-       WHERE id IN (
-         SELECT ac."articleId" 
-         FROM "ArticleCategories" ac
-         LEFT JOIN "ArticleCategories" ac2 ON ac."articleId" = ac2."articleId" AND ac2."categoryId" != :id
-         WHERE ac."categoryId" = :id 
-         AND ac2."articleId" IS NULL
+        WHERE id IN (
+        SELECT ac."articleId" 
+        FROM "ArticleCategories" ac
+        LEFT JOIN "ArticleCategories" ac2 ON ac."articleId" = ac2."articleId" AND ac2."categoryId" != :id
+        WHERE ac."categoryId" = :id 
+        AND ac2."articleId" IS NULL
        )`,
         {
           type: QueryTypes.DELETE,
@@ -128,11 +127,10 @@ export class CategoryService {
         },
       );
 
-      // 2. Delete all ArticleCategory records for this category
       await this.sequelize.query(
         /* sql */
         `DELETE FROM "ArticleCategories" 
-       WHERE "categoryId" = :id`,
+        WHERE "categoryId" = :id`,
         {
           type: QueryTypes.DELETE,
           replacements: { id },
@@ -140,11 +138,10 @@ export class CategoryService {
         },
       );
 
-      // 3. Finally delete the category itself
       await this.sequelize.query(
         /* sql */
         `DELETE FROM "Categories" 
-       WHERE id = :id`,
+        WHERE id = :id`,
         {
           type: QueryTypes.DELETE,
           replacements: { id },

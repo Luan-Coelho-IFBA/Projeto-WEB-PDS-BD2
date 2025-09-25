@@ -15,6 +15,7 @@ export const PageRoutesName = {
         mostViewed: "/articles/most-viewed",
         latest: "/articles/latest",
         articlesByCategory: "/articles/category",
+        myArticles: "/articles/my-articles",
     },
 
     admin: {

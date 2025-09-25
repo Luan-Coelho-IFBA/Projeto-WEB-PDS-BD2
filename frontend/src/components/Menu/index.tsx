@@ -102,7 +102,10 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
                         )}
 
                         {(isAdmin || isJornalista) && (
-                            <RouterLink href="" className={styles.item}>
+                            <RouterLink
+                                href={PageRoutesName.articles.myArticles}
+                                className={styles.item}
+                            >
                                 <span>Meus Artigos</span>
                             </RouterLink>
                         )}

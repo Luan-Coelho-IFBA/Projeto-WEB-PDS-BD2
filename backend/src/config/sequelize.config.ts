@@ -17,8 +17,8 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
   password: config.get('DB_PASSWORD'),
   database: config.get('DB_DATABASE'),
   models: [Role, User, Article, Category, ArticleCategory, Comment, Like],
-  autoLoadModels: true,
-  synchronize: true,
+  autoLoadModels: false,
+  synchronize: false,
   dialectOptions: {
     ssl: {
       require: true,

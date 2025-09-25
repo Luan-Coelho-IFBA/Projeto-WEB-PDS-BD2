@@ -29,8 +29,6 @@ export function ManageCategoryPage() {
 
     const [selectedCategoryEdit, setSelectedCategoryEdit] =
         useState<Category>();
-    // const [selectedCategoryRemove, setSelectedCategoryRemove] =
-    //     useState<Category>();
 
     const [modalNewCategory, setModalNewCategory] = useState(false);
     const [modalEditACategory, setModalEditACategory] = useState(false);
