@@ -4,14 +4,21 @@ import type { Article } from "../../types/Article";
 
 import styles from "./styles.module.css";
 import { PageRoutesName } from "../../constants/PageRoutesName";
+import { RouterLink } from "../RouterLink";
 
 type NewsSectionProps = {
     title: string;
     articles: Article[] | undefined;
     limit?: number;
+    link?: string;
 };
 
-export function NewsSection({ title, articles, limit }: NewsSectionProps) {
+export function NewsSection({
+    title,
+    articles,
+    limit,
+    link,
+}: NewsSectionProps) {
     const navigate = useNavigate();
 
     if (!articles) return <p>{errorFetchingArticlesMessageText}</p>;
@@ -19,7 +26,10 @@ export function NewsSection({ title, articles, limit }: NewsSectionProps) {
     const displayedArticles = limit ? articles.slice(0, limit) : articles;
     return (
         <section className={styles.contentRow}>
-            <h3 className={styles.titleSection}>{title}</h3>
+            <div className={styles.articleHeaderContainer}>
+                <h3 className={styles.titleSection}>{title}</h3>
+                {link && <RouterLink href={link}>Ver mais</RouterLink>}
+            </div>
             <div className={styles.articleContainerList}>
                 {displayedArticles.map((article) => (
                     <div

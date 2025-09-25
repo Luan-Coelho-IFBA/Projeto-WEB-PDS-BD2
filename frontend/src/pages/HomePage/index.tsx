@@ -65,6 +65,7 @@ export function HomePage() {
                         !latestArticlesQuery.isLoading && (
                             <NewsSection
                                 title="Artigos recentes"
+                                link={PageRoutesName.articles.latest}
                                 articles={latestArticlesQuery.data.articles}
                             />
                         )}
@@ -98,6 +99,7 @@ export function HomePage() {
                         !mostViewedArticlesQr.isLoading && (
                             <NewsSection
                                 title="Em alta"
+                                link={PageRoutesName.articles.mostViewed}
                                 articles={mostViewedArticlesQr.data.articles}
                             />
                         )}

@@ -222,7 +222,7 @@ export class ArticleService {
       INNER JOIN "ArticleCategories" ac ON ac."articleId" = a.id
       GROUP BY a.id, u.id, u.*
       ORDER BY a."createdAt" DESC
-      ${PAGINATION_QUERY}`,
+      ${pagination.size ? PAGINATION_QUERY : ''}`,
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -262,7 +262,7 @@ export class ArticleService {
       LEFT JOIN "Comments" cm ON cm."articleId" = a.id
       GROUP BY a.id, u.id, u.*
       ORDER BY COUNT(cm.id)
-      ${PAGINATION_QUERY}`,
+      ${pagination.size ? PAGINATION_QUERY : ''}`,
       {
         type: QueryTypes.SELECT,
         replacements: {
