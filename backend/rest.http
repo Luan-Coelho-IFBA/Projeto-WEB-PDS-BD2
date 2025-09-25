@@ -84,12 +84,13 @@ GET http://localhost:3000/category/2 HTTP/1.1
 
 ###
 
-PATCH http://localhost:3000/category/3 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU2NTE3MDkxLCJleHAiOjE3NTY2ODk4OTF9.z5_pR9T0_D_UW306vrwAruGuidNaL9ziXFPptX8AIxc
+PATCH http://localhost:3000/category/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU4NzY4NDc1LCJleHAiOjE3NTg5NDEyNzV9.7lUhsHc3QOvK_iNddTfWdgHfbWXq9kdJ3UNz8Y4Yz-4
 Content-Type: application/json
 
 {
-  "name": "Esporte"
+  "name": "Tecnologia",
+  "description": "Novidades do mundo tech"
 }
 
 ###

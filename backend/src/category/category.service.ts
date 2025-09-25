@@ -75,17 +75,17 @@ export class CategoryService {
     let queries: string[] = [];
 
     if ('name' in dto) {
-      queries.push(`"name" = :name`);
+      queries.push(`"name" = :name,`);
     }
 
     if ('description' in dto) {
-      queries.push(`"description" = :description`);
+      queries.push(`"description" = :description,`);
     }
 
     const categories: Category[] = await this.sequelize.query(
       /* sql */
       `UPDATE "Categories"
-      SET ${queries.join(' ')}, "updatedAt" = NOW()
+      SET ${queries.join(' ')} "updatedAt" = NOW()
       WHERE id = :id
       RETURNING *`,
       {
