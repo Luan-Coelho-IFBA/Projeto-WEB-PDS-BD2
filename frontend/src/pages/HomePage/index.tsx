@@ -17,7 +17,7 @@ import { getMostViewed } from "../../services/articles/getMostViewed";
 export function HomePage() {
     // Query para artigos recentes
     const latestArticlesQuery = useQuery({
-        queryKey: ["latestArticles"],
+        queryKey: ["latestArticlesPage"],
         queryFn: () => getLatestArticles(3, 0),
         retry: 2,
         staleTime: 2 * 60 * 1000,
