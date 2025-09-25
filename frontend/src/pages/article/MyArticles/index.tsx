@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import styles from "./styles.module.css";
 import { getMyArticles } from "../../../services/articles/getMyArticles";
-import { useState } from "react";
+// import { useState } from "react";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
-import { Article } from "../../../types/Article";
+// import { Article } from "../../../types/Article";
 import { formatDate } from "../../../utils/formatDate";
 import { useNavigate } from "react-router";
 import { PencilIcon, TrashIcon } from "lucide-react";
