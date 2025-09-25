@@ -26,9 +26,9 @@ export default function MyArticles() {
         gcTime: 0,
     });
 
-    const [selectedArticleRemove, setSelectedArticleRemove] =
+    /* const [selectedArticleRemove, setSelectedArticleRemove] =
         useState<Article>();
-    const [modalRemoveArticle, setModalRemoveArticle] = useState(false);
+    const [modalRemoveArticle, setModalRemoveArticle] = useState(false); */
 
     return (
         <DefaultLayout className={styles.generalContainer}>
@@ -106,12 +106,12 @@ export default function MyArticles() {
                                         <td
                                             className={styles.iconAction}
                                             onClick={() => {
-                                                setSelectedArticleRemove(
+                                                /* setSelectedArticleRemove(
                                                     article
                                                 );
                                                 setModalRemoveArticle(
                                                     (prev) => !prev
-                                                );
+                                                ); */
                                             }}
                                         >
                                             <TrashIcon color="red" />
