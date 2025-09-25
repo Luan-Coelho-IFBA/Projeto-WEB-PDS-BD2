@@ -2,6 +2,12 @@ import { useParams } from "react-router";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { useQuery } from "@tanstack/react-query";
 import { getArticlesByCategory } from "../../../services/articles/getArticlesByCategory";
+import styles from "./styles.module.css";
+import {
+    errorFetchingArticlesMessageText,
+    loadingContentText,
+} from "../../../constants/textContent";
+import { NewsSection } from "../../../components/NewsSection";
 
 export default function ArticlesByCategory() {
     const { id } = useParams();
@@ -16,20 +22,36 @@ export default function ArticlesByCategory() {
 
     return (
         <DefaultLayout>
-            <main>
-                {getAllByCategoriesQuery.isLoading && <p>Loading...</p>}
-                {getAllByCategoriesQuery.isError && (
-                    <p>Error loading articles</p>
-                )}
-                {getAllByCategoriesQuery.data && (
-                    <ul>
-                        {getAllByCategoriesQuery.data.articles.map(
-                            (article) => (
-                                <li key={article.id}>{article.title}</li>
-                            )
+            <main className={styles.mainContent}>
+                <div className={styles.section}>
+                    {getAllByCategoriesQuery.isLoading && (
+                        <div className={styles.loading}>
+                            {loadingContentText}
+                        </div>
+                    )}
+
+                    {getAllByCategoriesQuery.isError && (
+                        <div className={styles.error}>
+                            <p>{errorFetchingArticlesMessageText}</p>
+                            <button
+                                onClick={() =>
+                                    getAllByCategoriesQuery.refetch()
+                                }
+                                className={styles.retryButton}
+                            >
+                                Tentar novamente
+                            </button>
+                        </div>
+                    )}
+
+                    {getAllByCategoriesQuery.data &&
+                        !getAllByCategoriesQuery.isLoading && (
+                            <NewsSection
+                                title="Categorias"
+                                articles={getAllByCategoriesQuery.data.articles}
+                            />
                         )}
-                    </ul>
-                )}
+                </div>
             </main>
         </DefaultLayout>
     );
