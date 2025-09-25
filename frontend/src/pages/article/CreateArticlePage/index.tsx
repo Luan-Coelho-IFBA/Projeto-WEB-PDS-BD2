@@ -76,8 +76,8 @@ export function CreateArticlePage() {
         data: CreateArticleForm
     ) => {
         try {
-            const response = await createArticles({ ...data });
-            console.log(response);
+            await createArticles({ ...data });
+            navigate(PageRoutesName.home);
         } catch (error) {
             const axiosError = error as AxiosError<ApiErrorResponse>;
             setError("root", {

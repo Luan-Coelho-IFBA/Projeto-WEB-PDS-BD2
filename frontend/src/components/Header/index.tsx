@@ -4,12 +4,13 @@ import styles from "./styles.module.css";
 import { MenuIcon, SearchIcon } from "lucide-react";
 import { applicationName } from "../../constants/textContent";
 import { Menu } from "../Menu";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { PageRoutesName } from "../../constants/PageRoutesName";
 
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
+    const navigation = useNavigate();
 
     const isHomePage = location.pathname === PageRoutesName.home;
 
@@ -26,7 +27,10 @@ export function Header() {
                         <span>MENU</span>
                     </div>
 
-                    <div className={styles.title}>
+                    <div
+                        className={styles.title}
+                        onClick={() => navigation(PageRoutesName.home)}
+                    >
                         <h1>{applicationName}</h1>
                     </div>
 

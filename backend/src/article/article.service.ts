@@ -123,7 +123,7 @@ export class ArticleService {
     }
   }
 
-  async getAll(pagination: RequestPaginationType) {
+  async getAll() {
     const articles: (Article & PaginationType)[] = await this.sequelize.query(
       /* sql */
       `SELECT a.*, row_to_json(u.*) AS users,
@@ -132,37 +132,22 @@ export class ArticleService {
         FROM "ArticleCategories" ac
         INNER JOIN "Categories" c ON c.id = ac."categoryId"
         WHERE ac."articleId" = a.id
-      ) AS categories,
-      ${PAGINATION_COUNT}
+      ) AS categories
       FROM "Articles" a
-      INNER JOIN "ShowUsers" u ON u.id = a."userId"
-      ${PAGINATION_QUERY}`,
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"`,
       {
         type: QueryTypes.SELECT,
-        replacements: {
-          page: pagination.page ?? null,
-          size: pagination.size ?? null,
-        },
       },
     );
 
-    const { result, pages } = extractTotalPages(
-      articles,
-      pagination.page,
-      pagination.size,
-    );
-
-    const mappedImages = result.map((a) => {
+    const mappedImages = articles.map((a) => {
       return { ...a, image: a.image.toString('base64') };
     });
 
-    return { articles: mappedImages, pages };
+    return { articles: mappedImages };
   }
 
-  async getAllByCategories(
-    pagination: RequestPaginationType,
-    dto: GetCategories,
-  ) {
+  async getAllByCategories(dto: GetCategories) {
     const articles: Article[] = await this.sequelize.query(
       /* sql */
       `SELECT
@@ -173,35 +158,25 @@ export class ArticleService {
         FROM "ArticleCategories" ac_sub
         INNER JOIN "Categories" c ON c.id = ac_sub."categoryId"
         WHERE ac_sub."articleId" = a.id
-      ) AS categories,
-      ${PAGINATION_COUNT}
+      ) AS categories
       FROM "Articles" a
       INNER JOIN "ShowUsers" u ON u.id = a."userId"
       INNER JOIN "ArticleCategories" ac ON ac."articleId" = a.id
-      WHERE ac."categoryId" IN (:categoriesId)
-      GROUP BY a.id, u.id, u.*
-      ${PAGINATION_QUERY}`,
+      WHERE ac."categoryId" = :categoriesId
+      GROUP BY a.id, u.id, u.*`,
       {
         type: QueryTypes.SELECT,
         replacements: {
           categoriesId: dto.categoriesId,
-          page: pagination.page ?? null,
-          size: pagination.size ?? null,
         },
       },
     );
 
-    const { result, pages } = extractTotalPages(
-      articles,
-      pagination.page,
-      pagination.size,
-    );
-
-    const mappedImages = result.map((a) => {
+    const mappedImages = articles.map((a) => {
       return { ...a, image: a.image.toString('base64') };
     });
 
-    return { articles: mappedImages, pages };
+    return { articles: mappedImages };
   }
 
   async getAllByLatest(pagination: RequestPaginationType) {

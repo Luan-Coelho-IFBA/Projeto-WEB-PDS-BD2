@@ -44,16 +44,13 @@ export class ArticleController {
   }
 
   @Get()
-  async getAll(@Query() pagination: RequestPaginationType) {
-    return await this.articleService.getAll(pagination);
+  async getAll() {
+    return await this.articleService.getAll();
   }
 
   @Get('categories')
-  async getAllByCategories(
-    @Query() pagination: RequestPaginationType,
-    @Body() dto: GetCategories,
-  ) {
-    return await this.articleService.getAllByCategories(pagination, dto);
+  async getAllByCategories(@Query() dto: GetCategories) {
+    return await this.articleService.getAllByCategories(dto);
   }
 
   @Get('latest')

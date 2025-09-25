@@ -1,21 +1,6 @@
 services:
   backend:
     build: ./backend
-    environment:
-      DB_HOST=ep-raspy-waterfall-acio1ghy-pooler.sa-east-1.aws.neon.tech
-      DB_PORT=5432
-      DB_USERNAME=neondb_owner
-      DB_PASSWORD=npg_frOa6PM2gZUI
-      DB_DATABASE=neondb
-      JWT_SECRET=7b253dc9affca552ffad80803e8a3dbaa0cf09693c80fec20dfea1f23a531dd4f0b925f66aa653643fc90c2a8979c586405662c32806846d41e18fc6ab8c5e0e
-      MAIL_HOST=smtp.gmail.com
-      MAIL_PORT=587
-      MAIL_USER=luancgoes100@gmail.com
-      MAIL_PASSWORD="heez gcel ydjv bxoa"
-      MAIL_FROM=Comunet
-      ADMIN_NAME="ADMIN"
-      ADMIN_EMAIL="admin@admin.com"
-      ADMIN_PASSWORD="123456"
     ports:
       - "3000:3000"
 
