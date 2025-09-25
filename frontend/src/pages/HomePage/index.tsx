@@ -25,7 +25,7 @@ export function HomePage() {
     });
 
     // Query para artigos em alta
-    const moostViewedArticlesQr = useQuery({
+    const mostViewedArticlesQr = useQuery({
         queryKey: ["articles"],
         queryFn: () => getMostViewed(3, 0),
         retry: 2,
@@ -72,21 +72,21 @@ export function HomePage() {
 
                 {/* Seção de artigos em alta */}
                 <div className={styles.section}>
-                    {moostViewedArticlesQr.isLoading && (
+                    {mostViewedArticlesQr.isLoading && (
                         <div className={styles.loading}>
                             {loadingContentText}
                         </div>
                     )}
 
-                    {moostViewedArticlesQr.isError && (
+                    {mostViewedArticlesQr.isError && (
                         <div className={styles.error}>
                             <p>
-                                {(moostViewedArticlesQr.error as Error)
+                                {(mostViewedArticlesQr.error as Error)
                                     ?.message ||
                                     "Erro ao carregar artigos em alta"}
                             </p>
                             <button
-                                onClick={() => moostViewedArticlesQr.refetch()}
+                                onClick={() => mostViewedArticlesQr.refetch()}
                                 className={styles.retryButton}
                             >
                                 Tentar novamente
@@ -94,11 +94,11 @@ export function HomePage() {
                         </div>
                     )}
 
-                    {moostViewedArticlesQr.data &&
-                        !moostViewedArticlesQr.isLoading && (
+                    {mostViewedArticlesQr.data &&
+                        !mostViewedArticlesQr.isLoading && (
                             <NewsSection
                                 title="Em alta"
-                                articles={moostViewedArticlesQr.data.articles}
+                                articles={mostViewedArticlesQr.data.articles}
                             />
                         )}
                 </div>
