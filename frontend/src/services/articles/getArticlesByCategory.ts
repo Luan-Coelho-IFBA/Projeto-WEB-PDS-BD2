@@ -5,9 +5,11 @@ import type { ArticleApiResponse } from "../../types/Article";
 
 export async function getArticlesByCategory(categoryId: number) {
     try {
+        console.log(categoryId);
+
         const response = await api.get(apiRoutes.article.getAllByCategory, {
-            data: {
-                categoriesId: [categoryId],
+            params: {
+                categoriesId: categoryId,
             },
         });
         return response.data as ArticleApiResponse;
