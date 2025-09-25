@@ -1,0 +1,48 @@
+.errorMessage {
+    color: #e74c3c;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.sucessMessage {
+    color: green;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.buttonActionModal {
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    transition: all 0.2s;
+
+    &:hover {
+        transform: translateY(-5%);
+    }
+}
+
+.cancel {
+    background-color: silver;
+    color: black;
+
+    &:hover {
+        color: white;
+        background-color: rgb(105, 104, 104);
+    }
+}
+
+.remove {
+    background: rgb(224, 58, 58);
+    color: white;
+
+    &:hover {
+        background-color: rgb(121, 13, 13);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: grey;
+    }
+}

@@ -10,6 +10,7 @@ import { ModalAddNewCategory } from "../../../components/ModalAddNewCategory";
 import { formatDate } from "../../../utils/formatDate";
 import { ModalEditCategory } from "../../../components/ModalEditCategory";
 import type { Category } from "../../../types/Category";
+import { ModalRemoveCategory } from "../../../components/ModalRemoveCategory";
 
 export function ManageCategoryPage() {
     const {
@@ -26,7 +27,10 @@ export function ManageCategoryPage() {
         gcTime: 0,
     });
 
-    const [selectedCategory, setSelectedCategory] = useState<Category>();
+    const [selectedCategoryEdit, setSelectedCategoryEdit] =
+        useState<Category>();
+    const [selectedCategoryRemove, setSelectedCategoryRemove] =
+        useState<Category>();
 
     const [modalNewCategory, setModalNewCategory] = useState(false);
     const [modalEditACategory, setModalEditACategory] = useState(false);
@@ -55,12 +59,20 @@ export function ManageCategoryPage() {
                     />
                 )}
 
-                {selectedCategory && modalEditACategory && (
+                {selectedCategoryEdit && modalEditACategory && (
                     <ModalEditCategory
-                        category={selectedCategory}
+                        category={selectedCategoryEdit}
                         handleModal={setModalEditACategory}
                         refetchCategories={refetch}
                         isOpen={modalEditACategory}
+                    />
+                )}
+                {selectedCategoryEdit && modalRemoveCategory && (
+                    <ModalRemoveCategory
+                        category={selectedCategoryEdit}
+                        handleModal={setModalRemoveCategory}
+                        refetchCategories={refetch}
+                        isOpen={modalRemoveCategory}
                     />
                 )}
 
@@ -119,7 +131,7 @@ export function ManageCategoryPage() {
                                                 {/* ALTERAR CATEGORIA */}
                                                 <td
                                                     onClick={() => {
-                                                        setSelectedCategory(
+                                                        setSelectedCategoryEdit(
                                                             category
                                                         );
                                                         setModalEditACategory(
@@ -142,8 +154,11 @@ export function ManageCategoryPage() {
                                                         styles.iconAction
                                                     }
                                                     onClick={() => {
-                                                        setSelectedCategory(
+                                                        setSelectedCategoryEdit(
                                                             category
+                                                        );
+                                                        setModalRemoveCategory(
+                                                            (prev) => !prev
                                                         );
                                                     }}
                                                 >
