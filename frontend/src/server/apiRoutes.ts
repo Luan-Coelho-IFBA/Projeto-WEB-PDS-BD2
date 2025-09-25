@@ -14,6 +14,7 @@ export const apiRoutes = {
         getAllByCategory: "/article/categories",
     },
     category: {
-        getAll: "category",
+        getAll: "/category",
+        id: "/category",
     },
 } as const;
