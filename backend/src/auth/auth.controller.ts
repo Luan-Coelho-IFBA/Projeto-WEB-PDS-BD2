@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -17,14 +18,15 @@ import { Authenticate } from './autenticate.decorator';
 import { TestOnly } from '../test/test.decorator';
 import { ResendEmailDto } from './dto/resend-email.dto';
 import { ADMIN } from 'consts';
+import type { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  async register(@Body() dto: RegisterUserDto) {
-    return await this.authService.register(dto);
+  async register(@Req() req: Request, @Body() dto: RegisterUserDto) {
+    return await this.authService.register(req, dto);
   }
 
   @Post('login')

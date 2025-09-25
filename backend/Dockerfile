@@ -7,25 +7,22 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Projeto
-ENV URL
-
 # Banco de dados
-ENV DB_HOST
-ENV DB_PORT
-ENV DB_USERNAME
-ENV DB_PASSWORD
-ENV DB_DATABASE
+ENV DB_HOST=ep-raspy-waterfall-acio1ghy-pooler.sa-east-1.aws.neon.tech
+ENV DB_PORT=5432
+ENV DB_USERNAME=neondb_owner
+ENV DB_PASSWORD=npg_frOa6PM2gZUI
+ENV DB_DATABASE=neondb
 
 # Autentificação
 ENV JWT_SECRET=7b253dc9affca552ffad80803e8a3dbaa0cf09693c80fec20dfea1f23a531dd4f0b925f66aa653643fc90c2a8979c586405662c32806846d41e18fc6ab8c5e0e
 
 # Mailer
-ENV MAIL_HOST
-ENV MAIL_PORT
-ENV MAIL_USER
-ENV MAIL_PASSWORD
-ENV MAIL_FROM
+ENV MAIL_HOST=smtp.gmail.com
+ENV MAIL_PORT=587
+ENV MAIL_USER=luancgoes100@gmail.com
+ENV MAIL_PASSWORD="heez gcel ydjv bxoa"
+ENV MAIL_FROM=Comunet
 
 # Usuário ADMIN
 ENV ADMIN_NAME="ADMIN"

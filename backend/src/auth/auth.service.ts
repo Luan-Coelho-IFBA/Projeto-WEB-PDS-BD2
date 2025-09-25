@@ -27,6 +27,7 @@ import {
   USER_VIEW,
 } from 'consts';
 import { ResendEmailDto } from './dto/resend-email.dto';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
@@ -84,7 +85,10 @@ export class AuthService implements OnModuleInit {
     await this.sequelize.query(USER_VIEW);
   }
 
-  async register(dto: RegisterUserDto) {
+  async register(req: Request, dto: RegisterUserDto) {
+    const url = req.protocol + '://' + req.get('host');
+    if (!url) throw new InternalServerErrorException('URL inválida');
+
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(dto.password, salt);
 
@@ -134,7 +138,7 @@ export class AuthService implements OnModuleInit {
     await this.emailService.sendMail({
       to: dto.email,
       /* html */
-      html: `<a href="${this.config.get('URL')}/auth/verifyEmail/${token}" target="_blank">Clique aqui para verificar a sua conta</a>`,
+      html: `<a href="${url}/auth/verifyEmail/${token}" target="_blank">Clique aqui para verificar a sua conta</a>`,
     });
 
     return { response: 'Verifique o email' };
