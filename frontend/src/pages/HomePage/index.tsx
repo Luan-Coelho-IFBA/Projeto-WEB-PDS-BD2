@@ -25,8 +25,8 @@ export function HomePage() {
     });
 
     // Query para artigos em alta
-    const mostViewedArticlesQr = useQuery({
-        queryKey: ["articles"],
+    const mostViewedArticlesQuery = useQuery({
+        queryKey: ["mostViewedArticlesPage"],
         queryFn: () => getMostViewed(3, 0),
         retry: 2,
         staleTime: 5 * 60 * 1000,
@@ -73,21 +73,23 @@ export function HomePage() {
 
                 {/* Seção de artigos em alta */}
                 <div className={styles.section}>
-                    {mostViewedArticlesQr.isLoading && (
+                    {mostViewedArticlesQuery.isLoading && (
                         <div className={styles.loading}>
                             {loadingContentText}
                         </div>
                     )}
 
-                    {mostViewedArticlesQr.isError && (
+                    {mostViewedArticlesQuery.isError && (
                         <div className={styles.error}>
                             <p>
-                                {(mostViewedArticlesQr.error as Error)
+                                {(mostViewedArticlesQuery.error as Error)
                                     ?.message ||
                                     "Erro ao carregar artigos em alta"}
                             </p>
                             <button
-                                onClick={() => mostViewedArticlesQr.refetch()}
+                                onClick={() =>
+                                    mostViewedArticlesQuery.refetch()
+                                }
                                 className={styles.retryButton}
                             >
                                 Tentar novamente
@@ -95,12 +97,12 @@ export function HomePage() {
                         </div>
                     )}
 
-                    {mostViewedArticlesQr.data &&
-                        !mostViewedArticlesQr.isLoading && (
+                    {mostViewedArticlesQuery.data &&
+                        !mostViewedArticlesQuery.isLoading && (
                             <NewsSection
                                 title="Em alta"
                                 link={PageRoutesName.articles.mostViewed}
-                                articles={mostViewedArticlesQr.data.articles}
+                                articles={mostViewedArticlesQuery.data.articles}
                             />
                         )}
                 </div>

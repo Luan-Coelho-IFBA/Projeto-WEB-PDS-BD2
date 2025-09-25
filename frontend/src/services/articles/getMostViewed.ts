@@ -18,7 +18,7 @@ import api from "../../server/api";
 import { apiRoutes } from "../../server/apiRoutes";
 import type { ArticleApiResponse } from "../../types/Article";
 
-export async function getMostViewed(size: number, page: number) {
+export async function getMostViewed(size?: number, page: number = 0) {
     try {
         const response = await api.get(apiRoutes.article.mostViewed, {
             params: {
