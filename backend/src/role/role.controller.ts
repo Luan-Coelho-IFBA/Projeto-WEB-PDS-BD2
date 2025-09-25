@@ -1,6 +1,6 @@
 import { Controller, Param, Patch } from '@nestjs/common';
 import { ADMIN } from 'consts';
-import { Authenticate } from 'src/auth/autenticate.decorator';
+import { Authenticate } from '../auth/autenticate.decorator';
 import { RoleService } from './role.service';
 
 @Controller('role')

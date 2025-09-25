@@ -8,10 +8,10 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from '../../auth/entities/user.entity';
 import { ArticleCategory } from './article-category.entity';
-import { Category } from 'src/category/entities/category.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
+import { Category } from '../../category/entities/category.entity';
+import { Comment } from '../../comment/entities/comment.entity';
 
 @Table
 export class Article extends Model {

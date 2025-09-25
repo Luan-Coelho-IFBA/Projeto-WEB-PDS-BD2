@@ -6,9 +6,9 @@ import * as pactum from 'pactum';
 import { Sequelize } from 'sequelize-typescript';
 import { LoginUserDto } from 'src/auth/dto/login-user.dto';
 import { ConfigService } from '@nestjs/config';
-import { UpdateUserDto } from 'src/auth/dto/update-user.dto';
-import { RegisterUserDto } from 'src/auth/dto/register-user.dto';
-import { CreateCategoryDto } from 'src/category/dto/create-category.dto';
+import { UpdateUserDto } from '../src/auth/dto/update-user.dto';
+import { RegisterUserDto } from '../src/auth/dto/register-user.dto';
+import { CreateCategoryDto } from '../src/category/dto/create-category.dto';
 
 const PORT = 3333;
 
@@ -112,6 +112,7 @@ describe('AppController (e2e)', () => {
       it('should give an error if not jwt', () => {
         const dto: CreateCategoryDto = {
           name: 'Esporte',
+          description: 'Tudo sobre esportes',
         };
         return pactum.spec().post('/category').withBody(dto).expectStatus(401);
       });
@@ -119,6 +120,7 @@ describe('AppController (e2e)', () => {
       it('should create a category', () => {
         const dto: CreateCategoryDto = {
           name: 'Esporte',
+          description: 'Tudo sobre esportes',
         };
         return pactum
           .spec()
@@ -131,6 +133,7 @@ describe('AppController (e2e)', () => {
       it('should create a category 2', () => {
         const dto: CreateCategoryDto = {
           name: 'Política',
+          description: 'Tudo sobre política',
         };
         return pactum
           .spec()
@@ -143,6 +146,7 @@ describe('AppController (e2e)', () => {
       it('should update category', () => {
         const dto: CreateCategoryDto = {
           name: 'Entretenimento',
+          description: 'Tudo sobre entretenimento',
         };
         return pactum
           .spec()

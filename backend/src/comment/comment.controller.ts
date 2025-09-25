@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CommentService } from './comment.service';
-import { Authenticate } from 'src/auth/autenticate.decorator';
-import { UserJWT } from 'src/auth/auth.decorator';
+import { Authenticate } from '../auth/autenticate.decorator';
+import { UserJWT } from '../auth/auth.decorator';
 import type { JWTType } from 'types';
 import { CreateCommentDto } from './dto/create-comment.dto';
 

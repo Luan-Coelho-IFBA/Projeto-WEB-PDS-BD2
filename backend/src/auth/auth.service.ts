@@ -18,7 +18,7 @@ import { ConfigService } from '@nestjs/config';
 import { JWTType } from 'types';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Role } from 'src/role/entities/role.entity';
+import { Role } from '../role/entities/role.entity';
 import {
   ADMIN,
   JORNALISTA,

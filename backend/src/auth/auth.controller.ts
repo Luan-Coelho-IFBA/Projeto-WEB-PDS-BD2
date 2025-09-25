@@ -14,7 +14,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import type { JWTType } from 'types';
 import { UserJWT } from './auth.decorator';
 import { Authenticate } from './autenticate.decorator';
-import { TestOnly } from 'src/test/test.decorator';
+import { TestOnly } from '../test/test.decorator';
 import { ResendEmailDto } from './dto/resend-email.dto';
 import { ADMIN } from 'consts';
 

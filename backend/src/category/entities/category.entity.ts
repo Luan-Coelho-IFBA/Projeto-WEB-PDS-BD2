@@ -6,8 +6,8 @@ import {
   Table,
   Unique,
 } from 'sequelize-typescript';
-import { ArticleCategory } from 'src/article/entities/article-category.entity';
-import { Article } from 'src/article/entities/article.entity';
+import { ArticleCategory } from '../../article/entities/article-category.entity';
+import { Article } from '../../article/entities/article.entity';
 
 @Table
 export class Category extends Model {

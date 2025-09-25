@@ -4,7 +4,7 @@ import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { AuthStrategy } from './auth.strategy';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { RoleModule } from 'src/role/role.module';
+import { RoleModule } from '../role/role.module';
 
 @Module({
   imports: [PassportModule, MailerModule, RoleModule],

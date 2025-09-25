@@ -2,7 +2,7 @@ import { Controller, Delete, Param, Post } from '@nestjs/common';
 import { LikeService } from './like.service';
 import { UserJWT } from 'src/auth/auth.decorator';
 import type { JWTType } from 'types';
-import { Authenticate } from 'src/auth/autenticate.decorator';
+import { Authenticate } from '../auth/autenticate.decorator';
 
 @Controller('like')
 export class LikeController {

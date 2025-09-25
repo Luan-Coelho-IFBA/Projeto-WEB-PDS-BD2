@@ -1,15 +1,13 @@
 import { ConfigService } from '@nestjs/config';
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
-import { Client } from 'pg';
 import { Sequelize } from 'sequelize-typescript';
-import sequelize from 'sequelize/lib/sequelize';
-import { ArticleCategory } from 'src/article/entities/article-category.entity';
-import { Article } from 'src/article/entities/article.entity';
-import { User } from 'src/auth/entities/user.entity';
-import { Category } from 'src/category/entities/category.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
-import { Like } from 'src/like/entities/like.entity';
-import { Role } from 'src/role/entities/role.entity';
+import { ArticleCategory } from '../article/entities/article-category.entity';
+import { Article } from '../article/entities/article.entity';
+import { User } from '../auth/entities/user.entity';
+import { Category } from '../category/entities/category.entity';
+import { Comment } from '../comment/entities/comment.entity';
+import { Like } from '../like/entities/like.entity';
+import { Role } from '../role/entities/role.entity';
 
 const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
   dialect: 'postgres',

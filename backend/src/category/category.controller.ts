@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { Authenticate } from 'src/auth/autenticate.decorator';
+import { Authenticate } from '../auth/autenticate.decorator';
 import { ADMIN } from 'consts';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 

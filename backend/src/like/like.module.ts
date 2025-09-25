@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { LikeController } from './like.controller';
 import { LikeService } from './like.service';
-import { AuthModule } from 'src/auth/auth.module';
-import { CommentModule } from 'src/comment/comment.module';
+import { AuthModule } from '../auth/auth.module';
+import { CommentModule } from '../comment/comment.module';
 
 @Module({
   imports: [AuthModule, CommentModule],

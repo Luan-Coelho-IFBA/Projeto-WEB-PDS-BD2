@@ -6,7 +6,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Article } from './article.entity';
-import { Category } from 'src/category/entities/category.entity';
+import { Category } from '../../category/entities/category.entity';
 
 @Table
 export class ArticleCategory extends Model {

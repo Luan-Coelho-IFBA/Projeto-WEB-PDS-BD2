@@ -14,9 +14,9 @@ import {
 import { ArticleService } from './article.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateArticleDto } from './dto/create-article.dto';
-import { UserJWT } from 'src/auth/auth.decorator';
+import { UserJWT } from '../auth/auth.decorator';
 import type { JWTType, RequestPaginationType } from 'types';
-import { Authenticate } from 'src/auth/autenticate.decorator';
+import { Authenticate } from '../auth/autenticate.decorator';
 import { ADMIN, JORNALISTA } from 'consts';
 import { GetCategories } from './dto/get-categories.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';

@@ -5,8 +5,8 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { User } from 'src/auth/entities/user.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
+import { User } from '../../auth/entities/user.entity';
+import { Comment } from '../../comment/entities/comment.entity';
 
 @Table({
   indexes: [

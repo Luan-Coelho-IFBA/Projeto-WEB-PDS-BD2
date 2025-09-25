@@ -7,9 +7,9 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Article } from 'src/article/entities/article.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
-import { Role } from 'src/role/entities/role.entity';
+import { Article } from '../../article/entities/article.entity';
+import { Comment } from '../../comment/entities/comment.entity';
+import { Role } from '../../role/entities/role.entity';
 
 @Table
 export class User extends Model {
