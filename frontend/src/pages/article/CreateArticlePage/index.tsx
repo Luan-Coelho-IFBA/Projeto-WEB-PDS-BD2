@@ -59,6 +59,7 @@ export function CreateArticlePage() {
         queryKey: ["categories"],
         queryFn: getAllCategories,
         retry: 2,
+        gcTime: 0,
     });
 
     const {
@@ -66,7 +67,7 @@ export function CreateArticlePage() {
         register,
         control,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitSuccessful, isLoading },
     } = useForm({
         resolver: zodResolver(CreateArticleSchema),
     });
@@ -174,11 +175,20 @@ export function CreateArticlePage() {
                             )}
                         </label>
                     </div>
-
+                    {isSubmitSuccessful && (
+                        <p className={styles.sucess}>Artigo criado</p>
+                    )}
                     <input
+                        disabled={
+                            isSubmitSuccessful || isLoading ? true : false
+                        }
                         className={styles.sendButton}
                         type="submit"
-                        value={"Criar artigo"}
+                        value={
+                            isSubmitSuccessful
+                                ? "Artigo criado"
+                                : "Criar artigo"
+                        }
                     />
                 </form>
             </main>

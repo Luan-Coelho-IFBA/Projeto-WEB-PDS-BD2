@@ -24,7 +24,7 @@
     display: flex;
     flex-flow: column;
     gap: 0.5rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     font-weight: 600;
     color: #333;
 }
@@ -106,6 +106,18 @@ textarea {
         opacity: 70%;
         transform: translateY(-5%);
     }
+
+    &:disabled {
+        background-color: grey;
+        color: white;
+        cursor: not-allowed;
+    }
+}
+
+.sucess {
+    font-size: 1.4rem;
+    margin: 0;
+    color: green;
 }
 
 .error {
