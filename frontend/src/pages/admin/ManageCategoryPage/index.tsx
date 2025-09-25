@@ -7,6 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import { errorFetchingData } from "../../../constants/textContent";
 import { useState } from "react";
 import { ModalAddNewCategory } from "../../../components/ModalAddNewCategory";
+import { formatDate } from "../../../utils/formatDate";
+import { ModalEditCategory } from "../../../components/ModalEditCategory";
+import type { Category } from "../../../types/Category";
 
 export function ManageCategoryPage() {
     const {
@@ -20,21 +23,14 @@ export function ManageCategoryPage() {
         queryFn: getAllCategories,
         retry: 2,
         staleTime: 2 * 60 * 1000,
+        gcTime: 0,
     });
+
+    const [selectedCategory, setSelectedCategory] = useState<Category>();
 
     const [modalNewCategory, setModalNewCategory] = useState(false);
     const [modalEditACategory, setModalEditACategory] = useState(false);
     const [modalRemoveCategory, setModalRemoveCategory] = useState(false);
-
-    function formatDate(dateString: string) {
-        return new Date(dateString).toLocaleDateString("pt-BR", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-    }
 
     return (
         <DefaultLayout className={styles.generalContainer}>
@@ -56,6 +52,15 @@ export function ManageCategoryPage() {
                         handleModal={setModalNewCategory}
                         refetchCategories={refetch}
                         isOpen={modalNewCategory}
+                    />
+                )}
+
+                {selectedCategory && modalEditACategory && (
+                    <ModalEditCategory
+                        category={selectedCategory}
+                        handleModal={setModalEditACategory}
+                        refetchCategories={refetch}
+                        isOpen={modalEditACategory}
                     />
                 )}
 
@@ -111,7 +116,16 @@ export function ManageCategoryPage() {
                                                         {category.description}
                                                     </span>
                                                 </td>
+                                                {/* ALTERAR CATEGORIA */}
                                                 <td
+                                                    onClick={() => {
+                                                        setSelectedCategory(
+                                                            category
+                                                        );
+                                                        setModalEditACategory(
+                                                            (prev) => !prev
+                                                        );
+                                                    }}
                                                     className={
                                                         styles.iconAction
                                                     }
@@ -121,10 +135,17 @@ export function ManageCategoryPage() {
                                                         Alterar Categoria
                                                     </span>
                                                 </td>
+
+                                                {/* REMOVER CATEGORIA */}
                                                 <td
                                                     className={
                                                         styles.iconAction
                                                     }
+                                                    onClick={() => {
+                                                        setSelectedCategory(
+                                                            category
+                                                        );
+                                                    }}
                                                 >
                                                     <TrashIcon color="red" />
                                                     <span>
