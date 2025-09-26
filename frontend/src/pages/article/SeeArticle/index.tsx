@@ -4,11 +4,12 @@ import { getArticle } from "../../../services/articles/getArticle";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
 
 import styles from "./styles.module.css";
+import { Loader } from "../../../components/Loader";
 
 export default function SeeArticlePage() {
     const { id } = useParams();
 
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["articleID"],
         queryFn: () => getArticle(Number(id)),
         retry: 2,
@@ -20,20 +21,32 @@ export default function SeeArticlePage() {
 
     return (
         <DefaultLayout>
-            <main className={styles.containerArticle}>
-                <small>
-                    {data?.article.categories
-                        .map((category) => category.name)
-                        .join(",")}
-                </small>
-                <h2>{data?.article.title}</h2>
-                <h2>{data?.article.subtitle}</h2>
-                <p style={{ whiteSpace: "pre-wrap" }}>{data?.article.text}</p>
-                <img
-                    src={`data:${data?.article.imageMimeType};base64,${data?.article.image}`}
-                    alt={data?.article.subtitle}
+            {isLoading && (
+                <Loader
+                    color="black"
+                    direction="column"
+                    textMessage="Carregando artigo..."
                 />
-            </main>
+            )}
+
+            {!isLoading && data && (
+                <main className={styles.containerArticle}>
+                    <small>
+                        {data?.article.categories
+                            .map((category) => category.name)
+                            .join(",")}
+                    </small>
+                    <h2>{data?.article.title}</h2>
+                    <h2>{data?.article.subtitle}</h2>
+                    <p style={{ whiteSpace: "pre-wrap" }}>
+                        {data?.article.text}
+                    </p>
+                    <img
+                        src={`data:${data?.article.imageMimeType};base64,${data?.article.image}`}
+                        alt={data?.article.subtitle}
+                    />
+                </main>
+            )}
         </DefaultLayout>
     );
 }

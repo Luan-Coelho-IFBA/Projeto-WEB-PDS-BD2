@@ -14,7 +14,7 @@ import type { ApiErrorResponse } from "../../../server/types";
 
 import styles from "./styles.module.css";
 import { MultiSelectDropdown } from "../../../components/MultiSelectDropdown";
-import { Loader2Icon } from "lucide-react";
+import { Loader } from "../../../components/Loader";
 
 const CreateArticleSchema = z.object({
     categoryId: z
@@ -186,10 +186,18 @@ export function CreateArticlePage() {
                         }`}
                         type="submit"
                     >
-                        {isSubmitting ? (
-                            <div className={styles.loadingContainer}>
-                                Criando artigo...
-                                <Loader2Icon className={styles.loadingIcon} />
+                        {!isSubmitting ? (
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexFlow: "row",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    gap: "1rem",
+                                }}
+                            >
+                                <span>Criando artigo</span>
+                                <Loader color="white" direction="row" />
                             </div>
                         ) : isSubmitSuccessful ? (
                             "Criado"

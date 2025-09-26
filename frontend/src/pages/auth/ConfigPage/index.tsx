@@ -7,10 +7,11 @@ import { ConfigPageForm } from "./ConfigPageForm";
 import { getMe } from "../../../services/auth/getMe";
 
 import styles from "./styles.module.css";
-import { UserIcon, LoaderIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 import { RouterLink } from "../../../components/RouterLink";
 import { PageRoutesName } from "../../../constants/PageRoutesName";
 import { getRoleIcon, getTextFromRoleName } from "./roleInteractions";
+import { Loader } from "../../../components/Loader";
 
 ConfigPage.Form = ConfigPageForm;
 ConfigPage.Actions = ConfigPageActions;
@@ -70,10 +71,11 @@ export function ConfigPage() {
                     </div>
 
                     {isLoading ? (
-                        <div className={styles.loadingSection}>
-                            <LoaderIcon className={styles.loadingIcon} />
-                            <span>Carregando dados do usuário...</span>
-                        </div>
+                        <Loader
+                            /* color="black" */
+                            textMessage="Carregando dados do usuário..."
+                            direction="column"
+                        />
                     ) : user ? (
                         <div className={styles.userInfo}>
                             <h3 className={styles.userName}>{user.name}</h3>

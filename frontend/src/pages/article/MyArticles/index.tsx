@@ -8,6 +8,7 @@ import { formatDate } from "../../../utils/formatDate";
 import { useNavigate } from "react-router";
 import { PencilIcon, TrashIcon } from "lucide-react";
 import { errorFetchingData } from "../../../constants/textContent";
+import { Loader } from "../../../components/Loader";
 
 export default function MyArticles() {
     const navigate = useNavigate();
@@ -134,9 +135,10 @@ export default function MyArticles() {
                         </div>
                     )}
                     {isLoading && (
-                        <div className={styles.feedbackMessage}>
-                            <p>Carregando conteúdo, aguarde...</p>
-                        </div>
+                        <Loader
+                            direction="column"
+                            textMessage="Carregando conteudo, Aguarde..."
+                        />
                     )}
                 </div>
             </main>

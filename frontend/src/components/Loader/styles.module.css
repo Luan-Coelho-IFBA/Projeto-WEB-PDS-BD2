@@ -1,0 +1,40 @@
+.loadingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.textMessage {
+    color: #718096;
+    font-size: 1.4rem;
+    line-height: 1.5;
+}
+
+.loadingIcon {
+    width: 2rem;
+    height: 2rem;
+    animation: spin 1s linear infinite;
+    color: white;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.maincolor {
+    color: var(--main-color);
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

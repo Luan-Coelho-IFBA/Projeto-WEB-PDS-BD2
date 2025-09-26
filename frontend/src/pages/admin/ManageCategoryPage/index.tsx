@@ -11,6 +11,7 @@ import { formatDate } from "../../../utils/formatDate";
 import { ModalEditCategory } from "../../../components/ModalEditCategory";
 import type { Category } from "../../../types/Category";
 import { ModalRemoveCategory } from "../../../components/ModalRemoveCategory";
+import { Loader } from "../../../components/Loader";
 
 export function ManageCategoryPage() {
     const {
@@ -184,7 +185,10 @@ export function ManageCategoryPage() {
                     )}
                     {isLoading && (
                         <div className={styles.feedbackMessage}>
-                            <p>Carregando conteúdo, aguarde...</p>
+                            <Loader
+                                direction="row"
+                                textMessage="Carregando conteudo..."
+                            />
                         </div>
                     )}
                 </div>
