@@ -2,11 +2,11 @@ import styles from "./styles.module.css";
 import { UserCog2Icon, XIcon } from "lucide-react";
 import { RouterLink } from "../RouterLink";
 import { PageRoutesName } from "../../constants/PageRoutesName";
-import { useEffect, useState } from "react";
 import { getAllCategories } from "../../services/categories/getAllCategories";
-import type { Category } from "../../types/Category";
 import { useNavigate } from "react-router";
 import { getLocalStorageRole } from "../../utils/getLocalStorageRole";
+import { useQuery } from "@tanstack/react-query";
+import { Loader } from "../Loader";
 
 interface MenuProps {
     isOpen: boolean;
@@ -14,7 +14,12 @@ interface MenuProps {
 }
 
 export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
-    const [categories, setCategories] = useState<Category[]>([]);
+    const { data: categories, isLoading } = useQuery({
+        queryKey: ["categoriesMenu"],
+        queryFn: getAllCategories,
+        staleTime: 60 * 1000,
+        gcTime: 0,
+    });
     const navigate = useNavigate();
 
     const role = getLocalStorageRole();
@@ -31,10 +36,6 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
             handleCloseMenu();
         }
     };
-
-    useEffect(() => {
-        getAllCategories().then((data) => setCategories(data.categories));
-    }, []);
 
     if (isOpen)
         return (
@@ -64,7 +65,21 @@ export function Menu({ isOpen, handlerCloseMenu }: MenuProps) {
                             <span>Pagina Inicial</span>
                         </RouterLink>
 
-                        {categories.length > 0 &&
+                        {isLoading && (
+                            <Loader
+                                className={styles.loaderContainerMenu}
+                                direction="column"
+                            >
+                                <Loader.TextMessage
+                                    color="white"
+                                    feedbackMessage="Carregando ..."
+                                />
+                                <Loader.Icon color="white" />
+                            </Loader>
+                        )}
+
+                        {categories &&
+                            categories.length > 0 &&
                             categories.map((category) => (
                                 <li
                                     key={category.id}

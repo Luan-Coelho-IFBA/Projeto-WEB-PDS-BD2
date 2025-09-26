@@ -4,7 +4,10 @@ import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import styles from "./styles.module.css";
 import { getAllCategories } from "../../../services/categories/getAllCategories";
 import { useQuery } from "@tanstack/react-query";
-import { errorFetchingData } from "../../../constants/textContent";
+import {
+    errorFetchingData,
+    loadingContentText,
+} from "../../../constants/textContent";
 import { useState } from "react";
 import { ModalAddNewCategory } from "../../../components/ModalAddNewCategory";
 import { formatDate } from "../../../utils/formatDate";
@@ -76,102 +79,84 @@ export function ManageCategoryPage() {
                 )}
 
                 <div className={styles.tableContainer}>
-                    {isSuccess &&
-                        allCategoriesQueries.categories.length === 0 && (
-                            <div className={styles.feedbackMessage}>
-                                <p>
-                                    Nenhuma categoria registrada. Clique em
-                                    adicionar categoria para criar uma nova
-                                </p>
-                            </div>
-                        )}
-                    {isSuccess &&
-                        allCategoriesQueries.categories.length > 0 && (
-                            <table className={styles.tableList}>
-                                <thead>
-                                    <tr>
-                                        <th>Nome da Categoria</th>
-                                        <th>ID da Categoria</th>
-                                        <th>Data de Criação</th>
-                                        <th>Descrição</th>
-                                        <th>Editar</th>
-                                        <th>Remover</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {allCategoriesQueries.categories.map(
-                                        (category) => (
-                                            <tr
-                                                key={category.id}
-                                                className={styles.tableLineData}
-                                            >
-                                                <td>
-                                                    <span>{category.name}</span>
-                                                </td>
-                                                <td>
-                                                    <span>{category.id}</span>
-                                                </td>
-                                                <td>
-                                                    <span>
-                                                        {formatDate(
-                                                            category.createdAt
-                                                        )}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        title={
-                                                            category.description
-                                                        }
-                                                    >
-                                                        {category.description}
-                                                    </span>
-                                                </td>
-                                                {/* ALTERAR CATEGORIA */}
-                                                <td
-                                                    onClick={() => {
-                                                        setSelectedCategoryEdit(
-                                                            category
-                                                        );
-                                                        setModalEditACategory(
-                                                            (prev) => !prev
-                                                        );
-                                                    }}
-                                                    className={
-                                                        styles.iconAction
-                                                    }
-                                                >
-                                                    <PencilIcon />
-                                                    <span>
-                                                        Alterar Categoria
-                                                    </span>
-                                                </td>
+                    {isSuccess && allCategoriesQueries.length === 0 && (
+                        <div className={styles.feedbackMessage}>
+                            <p>
+                                Nenhuma categoria registrada. Clique em
+                                adicionar categoria para criar uma nova
+                            </p>
+                        </div>
+                    )}
+                    {isSuccess && allCategoriesQueries.length > 0 && (
+                        <table className={styles.tableList}>
+                            <thead>
+                                <tr>
+                                    <th>Nome da Categoria</th>
+                                    <th>ID da Categoria</th>
+                                    <th>Data de Criação</th>
+                                    <th>Descrição</th>
+                                    <th>Editar</th>
+                                    <th>Remover</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {allCategoriesQueries.map((category) => (
+                                    <tr
+                                        key={category.id}
+                                        className={styles.tableLineData}
+                                    >
+                                        <td>
+                                            <span>{category.name}</span>
+                                        </td>
+                                        <td>
+                                            <span>{category.id}</span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                {formatDate(category.createdAt)}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span title={category.description}>
+                                                {category.description}
+                                            </span>
+                                        </td>
+                                        {/* ALTERAR CATEGORIA */}
+                                        <td
+                                            onClick={() => {
+                                                setSelectedCategoryEdit(
+                                                    category
+                                                );
+                                                setModalEditACategory(
+                                                    (prev) => !prev
+                                                );
+                                            }}
+                                            className={styles.iconAction}
+                                        >
+                                            <PencilIcon />
+                                            <span>Alterar Categoria</span>
+                                        </td>
 
-                                                {/* REMOVER CATEGORIA */}
-                                                <td
-                                                    className={
-                                                        styles.iconAction
-                                                    }
-                                                    onClick={() => {
-                                                        setSelectedCategoryEdit(
-                                                            category
-                                                        );
-                                                        setModalRemoveCategory(
-                                                            (prev) => !prev
-                                                        );
-                                                    }}
-                                                >
-                                                    <TrashIcon color="red" />
-                                                    <span>
-                                                        Remover Categoria
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        )
-                                    )}
-                                </tbody>
-                            </table>
-                        )}
+                                        {/* REMOVER CATEGORIA */}
+                                        <td
+                                            className={styles.iconAction}
+                                            onClick={() => {
+                                                setSelectedCategoryEdit(
+                                                    category
+                                                );
+                                                setModalRemoveCategory(
+                                                    (prev) => !prev
+                                                );
+                                            }}
+                                        >
+                                            <TrashIcon color="red" />
+                                            <span>Remover Categoria</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                     {isError && (
                         <div className={styles.feedbackMessage}>
                             <p className={styles.error}>{errorFetchingData}</p>
@@ -185,10 +170,13 @@ export function ManageCategoryPage() {
                     )}
                     {isLoading && (
                         <div className={styles.feedbackMessage}>
-                            <Loader
-                                direction="row"
-                                textMessage="Carregando conteudo..."
-                            />
+                            <Loader direction="column">
+                                <Loader.TextMessage
+                                    color="grey"
+                                    feedbackMessage={loadingContentText}
+                                />
+                                <Loader.Icon />
+                            </Loader>
                         </div>
                     )}
                 </div>

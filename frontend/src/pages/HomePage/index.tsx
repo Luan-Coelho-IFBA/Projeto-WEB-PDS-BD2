@@ -13,6 +13,7 @@ import { PlusIcon } from "lucide-react";
 import { PageRoutesName } from "../../constants/PageRoutesName";
 import { useNavigate } from "react-router";
 import { getMostViewed } from "../../services/articles/getMostViewed";
+import { Loader } from "../../components/Loader";
 
 export function HomePage() {
     // Query para artigos recentes
@@ -45,7 +46,13 @@ export function HomePage() {
                 <div className={styles.section}>
                     {latestArticlesQuery.isLoading && (
                         <div className={styles.loading}>
-                            {loadingContentText}
+                            <Loader direction="column">
+                                <Loader.TextMessage
+                                    color="grey"
+                                    feedbackMessage={loadingContentText}
+                                />
+                                <Loader.Icon />
+                            </Loader>
                         </div>
                     )}
 
@@ -75,7 +82,13 @@ export function HomePage() {
                 <div className={styles.section}>
                     {mostViewedArticlesQuery.isLoading && (
                         <div className={styles.loading}>
-                            {loadingContentText}
+                            <Loader direction="column">
+                                <Loader.TextMessage
+                                    color="grey"
+                                    feedbackMessage={loadingContentText}
+                                />
+                                <Loader.Icon />
+                            </Loader>
                         </div>
                     )}
 

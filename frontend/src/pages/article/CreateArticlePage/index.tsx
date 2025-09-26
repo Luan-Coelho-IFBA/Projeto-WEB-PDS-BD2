@@ -14,7 +14,6 @@ import type { ApiErrorResponse } from "../../../server/types";
 
 import styles from "./styles.module.css";
 import { MultiSelectDropdown } from "../../../components/MultiSelectDropdown";
-import { Loader } from "../../../components/Loader";
 
 const CreateArticleSchema = z.object({
     categoryId: z
@@ -164,7 +163,7 @@ export function CreateArticlePage() {
                                 name="categoryId"
                                 // @ts-ignore
                                 control={control}
-                                options={categoryQuery?.categories.map((c) => ({
+                                options={categoryQuery?.map((c) => ({
                                     label: c.name,
                                     value: c.id,
                                 }))}
@@ -197,7 +196,7 @@ export function CreateArticlePage() {
                                 }}
                             >
                                 <span>Criando artigo</span>
-                                <Loader color="white" direction="row" />
+                                {/* <Loader color="white" direction="row" /> */}
                             </div>
                         ) : isSubmitSuccessful ? (
                             "Criado"

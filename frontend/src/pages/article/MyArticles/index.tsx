@@ -7,7 +7,7 @@ import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { formatDate } from "../../../utils/formatDate";
 import { useNavigate } from "react-router";
 import { PencilIcon, TrashIcon } from "lucide-react";
-import { errorFetchingData } from "../../../constants/textContent";
+import { errorFetchingData, loadingContentText } from "../../../constants/textContent";
 import { Loader } from "../../../components/Loader";
 
 export default function MyArticles() {
@@ -135,10 +135,15 @@ export default function MyArticles() {
                         </div>
                     )}
                     {isLoading && (
-                        <Loader
-                            direction="column"
-                            textMessage="Carregando conteudo, Aguarde..."
-                        />
+                        <div className={styles.feedbackMessage}>
+                            <Loader direction="column">
+                                <Loader.TextMessage
+                                    color="grey"
+                                    feedbackMessage={loadingContentText}
+                                />
+                                <Loader.Icon />
+                            </Loader>
+                        </div>
                     )}
                 </div>
             </main>

@@ -8,7 +8,7 @@ export async function getAllCategories() {
 		const response = (await api.get(
 			apiRoutes.category.getAll
 		)) as CategoryResponseApi;
-		return response.data;
+		return response.data.categories;
 	} catch (error) {
 		const axiosError = error as AxiosError;
 		throw axiosError;
