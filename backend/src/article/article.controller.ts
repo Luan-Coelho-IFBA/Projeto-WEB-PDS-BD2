@@ -69,6 +69,11 @@ export class ArticleController {
     return await this.articleService.getAllMine(userJWT);
   }
 
+  @Get('search')
+  async searchArticles(@Query('search') search: string) {
+    return await this.articleService.searchArticles(search);
+  }
+
   @Get(':id')
   async getById(@Param('id') id: number) {
     return await this.articleService.getById(id);

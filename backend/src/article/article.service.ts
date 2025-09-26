@@ -282,6 +282,34 @@ export class ArticleService {
     return { articles: mappedImages };
   }
 
+  async searchArticles(search: string) {
+    const articles: Article[] = await this.sequelize.query(
+      /* sql */
+      `SELECT a.*, row_to_json(u.*) AS users,
+      (
+        SELECT json_agg(row_to_json(c.*))
+        FROM "ArticleCategories" ac
+        INNER JOIN "Categories" c ON c.id = ac."categoryId"
+        WHERE ac."articleId" = a.id
+      ) AS categories
+      FROM "Articles" a
+      INNER JOIN "ShowUsers" u ON u.id = a."userId"
+      WHERE UPPER(a."title") LIKE UPPER(:search)`,
+      {
+        type: QueryTypes.SELECT,
+        replacements: {
+          search: '%' + search + '%',
+        },
+      },
+    );
+
+    const mappedImages = articles.map((a) => {
+      return { ...a, image: a.image.toString('base64') };
+    });
+
+    return { articles: mappedImages };
+  }
+
   async getById(id: number) {
     const articles: Article[] = await this.sequelize.query(
       /* sql */

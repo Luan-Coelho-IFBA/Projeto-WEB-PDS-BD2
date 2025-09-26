@@ -160,6 +160,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsI
 
 ###
 
+GET http://localhost:3000/article/search?search=jubi HTTP/1.1
+
+###
+
 GET http://localhost:3000/article/1 HTTP/1.1
 
 ###
