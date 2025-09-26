@@ -16,6 +16,7 @@ export const PageRoutesName = {
         latest: "/articles/latest",
         articlesByCategory: "/articles/category",
         myArticles: "/articles/my-articles",
+        search: "/articles/search",
     },
 
     admin: {

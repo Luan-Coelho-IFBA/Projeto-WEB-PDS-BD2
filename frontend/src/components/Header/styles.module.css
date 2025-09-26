@@ -78,7 +78,8 @@
     .searchInput {
         border: 0.1rem solid black;
         border-radius: 0.8rem;
-        padding: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
         text-indent: 2rem;
     }
 }

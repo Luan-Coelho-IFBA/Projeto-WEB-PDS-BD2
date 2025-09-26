@@ -10,8 +10,6 @@ type SingleArticleResponse = {
 export async function getArticle(id: number) {
     try {
         const response = await api.get(`${apiRoutes.article.getById}/${id}`);
-        console.log(response.data);
-
         return response.data as SingleArticleResponse;
     } catch (error) {
         const AxiosError = error as AxiosError;

@@ -22,11 +22,9 @@ export default function SeeArticlePage() {
     return (
         <DefaultLayout>
             {isLoading && (
-                <Loader
-                    color="black"
-                    direction="column"
-                    textMessage="Carregando artigo..."
-                />
+                <Loader color="black" direction="column">
+                    Carregando artigo...
+                </Loader>
             )}
 
             {!isLoading && data && (

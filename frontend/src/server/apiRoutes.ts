@@ -13,6 +13,7 @@ export const apiRoutes = {
         getAllByLatest: "/article/latest",
         getAllByCategory: "/article/categories",
         getMyArticles: "/article/mine",
+        search: "/article/search",
     },
     category: {
         getAll: "/category",
