@@ -7,7 +7,10 @@ import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { formatDate } from "../../../utils/formatDate";
 import { useNavigate } from "react-router";
 import { PencilIcon, TrashIcon } from "lucide-react";
-import { errorFetchingData, loadingContentText } from "../../../constants/textContent";
+import {
+    errorFetchingData,
+    loadingContentText,
+} from "../../../constants/textContent";
 import { Loader } from "../../../components/Loader";
 
 export default function MyArticles() {
@@ -32,7 +35,7 @@ export default function MyArticles() {
     const [modalRemoveArticle, setModalRemoveArticle] = useState(false); */
 
     return (
-        <DefaultLayout className={styles.generalContainer}>
+        <DefaultLayout className={styles.generalContainer} authenticated>
             <main className={styles.sectionContainer}>
                 <h2 className={styles.title} style={{ marginBottom: "20px" }}>
                     Gerenciar meus artigos

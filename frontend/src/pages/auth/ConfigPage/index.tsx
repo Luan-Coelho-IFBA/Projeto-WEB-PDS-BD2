@@ -30,7 +30,7 @@ export function ConfigPage() {
 
     if (!getLocalStorageRole() || !getLocalStorageToken()) {
         return (
-            <DefaultLayout>
+            <DefaultLayout authenticated>
                 <main className={styles.mainSection}>
                     <h2 className={styles.titleSection}>Configurações</h2>
                     <section className={styles.profileSection}>
@@ -73,9 +73,10 @@ export function ConfigPage() {
                     {isLoading ? (
                         <Loader
                             /* color="black" */
-                            textMessage="Carregando dados do usuário..."
                             direction="column"
-                        />
+                        >
+                            Carregando dados do usuário...
+                        </Loader>
                     ) : user ? (
                         <div className={styles.userInfo}>
                             <h3 className={styles.userName}>{user.name}</h3>

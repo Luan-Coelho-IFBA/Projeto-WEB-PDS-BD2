@@ -39,7 +39,7 @@ export function ManageCategoryPage() {
     const [modalRemoveCategory, setModalRemoveCategory] = useState(false);
 
     return (
-        <DefaultLayout className={styles.generalContainer}>
+        <DefaultLayout className={styles.generalContainer} authenticated>
             <main className={styles.sectionContainer}>
                 <h2 className={styles.title}>
                     Gerenciar categorias existentes

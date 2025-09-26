@@ -88,7 +88,7 @@ export function CreateArticlePage() {
     };
 
     return (
-        <DefaultLayout>
+        <DefaultLayout authenticated>
             <main className={styles.pageCointainer}>
                 <form
                     onSubmit={handleSubmit(onSubmitForm)}
