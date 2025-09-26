@@ -14,6 +14,7 @@ import type { ApiErrorResponse } from "../../../server/types";
 
 import styles from "./styles.module.css";
 import { MultiSelectDropdown } from "../../../components/MultiSelectDropdown";
+import { Loader2Icon } from "lucide-react";
 
 const CreateArticleSchema = z.object({
     categoryId: z
@@ -67,7 +68,7 @@ export function CreateArticlePage() {
         register,
         control,
         handleSubmit,
-        formState: { errors, isSubmitSuccessful, isLoading },
+        formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm({
         resolver: zodResolver(CreateArticleSchema),
     });
@@ -178,18 +179,24 @@ export function CreateArticlePage() {
                     {isSubmitSuccessful && (
                         <p className={styles.sucess}>Artigo criado</p>
                     )}
-                    <input
-                        disabled={
-                            isSubmitSuccessful || isLoading ? true : false
-                        }
-                        className={styles.sendButton}
+                    <button
+                        disabled={isSubmitSuccessful || isSubmitting}
+                        className={`${styles.sendButton} ${
+                            isSubmitting ? styles.loading : ""
+                        }`}
                         type="submit"
-                        value={
-                            isSubmitSuccessful
-                                ? "Artigo criado"
-                                : "Criar artigo"
-                        }
-                    />
+                    >
+                        {isSubmitting ? (
+                            <div className={styles.loadingContainer}>
+                                Criando artigo...
+                                <Loader2Icon className={styles.loadingIcon} />
+                            </div>
+                        ) : isSubmitSuccessful ? (
+                            "Criado"
+                        ) : (
+                            "Criar artigo"
+                        )}
+                    </button>
                 </form>
             </main>
         </DefaultLayout>
