@@ -23,7 +23,7 @@ export function ConfigPage() {
         refetch,
     } = useQuery({
         queryKey: ["myUserQuery"],
-        queryFn: getMe,
+        queryFn: () => getMe(),
         retry: 2,
         gcTime: 0,
     });

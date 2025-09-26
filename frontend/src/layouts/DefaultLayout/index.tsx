@@ -3,7 +3,6 @@ import { Header } from "../../components/Header";
 
 import styles from "./styles.module.css";
 import { getMe } from "../../services/auth/getMe";
-import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 type DefaultLayoutProps = {
@@ -18,7 +17,7 @@ export function DefaultLayout({
     authenticated = false,
 }: DefaultLayoutProps) {
     const navigation = useNavigate();
-    const getMeQuery = useQuery({
+    useQuery({
         queryKey: ["getAuthenticated"],
         queryFn: () => getMe(navigation),
         enabled: authenticated,

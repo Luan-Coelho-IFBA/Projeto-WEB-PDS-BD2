@@ -161,7 +161,7 @@ export function CreateArticlePage() {
                             CATEGORIAS DO ARTIGO
                             <MultiSelectDropdown
                                 name="categoryId"
-                                // @ts-ignore
+                                // @ts-expect-error
                                 control={control}
                                 options={categoryQuery?.map((c) => ({
                                     label: c.name,
