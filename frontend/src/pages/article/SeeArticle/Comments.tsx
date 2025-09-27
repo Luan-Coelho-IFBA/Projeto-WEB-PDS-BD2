@@ -1,4 +1,4 @@
-import { HeartIcon, TrashIcon } from "lucide-react";
+import { HeartIcon, TrashIcon, UserIcon } from "lucide-react";
 import { createComment } from "../../../services/comments/createComment";
 import { deleteComment } from "../../../services/comments/deleteComment";
 import { likeComment } from "../../../services/likes/likeComment";
@@ -11,6 +11,17 @@ import { getCommentsByArticleId } from "../../../services/comments/getComments";
 import styles from "./styles.module.css";
 import { Loader } from "../../../components/Loader";
 import { getLocalStorageToken } from "../../../utils/getLocalStorageToken";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import { RouterLink } from "../../../components/RouterLink";
+import { PageRoutesName } from "../../../constants/PageRoutesName";
+
+const CreateCommentSchema = z.object({
+    comment: z.string().min(2, "Seu comentario é curto demais!"),
+});
+
+type CreateCommentForm = z.infer<typeof CreateCommentSchema>;
 
 export function CommentsSection() {
     const { id } = useParams();
@@ -28,10 +39,15 @@ export function CommentsSection() {
         gcTime: 0,
     });
 
-    const onCreateMessage = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const { register, handleSubmit } = useForm({
+        resolver: zodResolver(CreateCommentSchema),
+    });
+
+    const OnCreateComment: SubmitHandler<CreateCommentForm> = async (
+        data: CreateCommentForm
+    ) => {
         try {
-            await createComment(Number(id), message);
+            await createComment(Number(id), data.comment);
             refetch();
         } catch (error) {}
     };
@@ -66,21 +82,26 @@ export function CommentsSection() {
                         </Loader>
                     )}
                     <div className={styles.commentsSection}>
-                        <form onSubmit={onCreateMessage}>
-                            <input
-                                type="text"
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                            />
+                        <form onSubmit={handleSubmit(OnCreateComment)}>
+                            <input {...register("comment")} type="text" />
                             <input type="submit" value="Enviar" />
                         </form>
                         {!commentsIsLoading && commentsData && (
                             <div>
                                 {commentsData.comments.map((c) => (
-                                    <div key={c.id}>
-                                        {c.user.name}
-                                        {c.text}
-                                        {c.likesCount ?? 0}
+                                    <div
+                                        key={c.id}
+                                        className={styles.uniqueComment}
+                                    >
+                                        <UserIcon
+                                            size={32}
+                                            className={styles.iconUser}
+                                        />
+                                        <div className={styles.text}>
+                                            <span>{c.user.name}</span>
+                                            <p>{c.text}</p>
+                                        </div>
+                                        <span>{c.likesCount ?? 0}</span>
                                         <HeartIcon
                                             color={
                                                 c.liked ? "#FF0000" : "#000000"
@@ -106,7 +127,13 @@ export function CommentsSection() {
                     </div>
                 </>
             ) : (
-                <div>Logue para acessar os comenarios</div>
+                <p>
+                    Faça{" "}
+                    <RouterLink href={PageRoutesName.auth.login}>
+                        login
+                    </RouterLink>{" "}
+                    para acessar os comenarios
+                </p>
             )}
         </>
     );

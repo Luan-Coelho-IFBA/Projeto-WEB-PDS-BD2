@@ -1,5 +1,36 @@
-.containerArticle{
+.containerArticle {
     display: flex;
     flex-flow: column;
-    
+}
+
+img {
+    width: 1080px;
+    height: 720px;
+}
+
+.commentsSection {
+}
+
+.containerComments {
+    width: 100%;
+}
+
+.uniqueComment {
+    display: flex;
+    flex-flow: row;
+    gap: 1rem;
+
+    .iconUser {
+        color: var(--main-color);
+    }
+    .text {
+        display: flex;
+        flex-flow: column;
+    }
+
+    .likebutton {
+    }
+    .trashIcon{
+        
+    }
 }
