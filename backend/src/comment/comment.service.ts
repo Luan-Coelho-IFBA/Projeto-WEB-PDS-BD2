@@ -33,9 +33,9 @@ export class CommentService {
       await this.sequelize.query(
         /* sql */
         `SELECT c.*, row_to_json(u.*) as user FROM "Comments" c
-      INNER JOIN "ShowUsers" u ON u.id = c."userId"
-      WHERE c."articleId" = :articleId
-      ORDER BY c."likeCount"`,
+        INNER JOIN "ShowUsers" u ON u.id = c."userId"
+        WHERE c."articleId" = :articleId
+        ORDER BY c."likeCount"`,
         {
           type: QueryTypes.SELECT,
           replacements: {
@@ -50,18 +50,42 @@ export class CommentService {
   }
 
   async delete(userJWT: JWTType, id: number) {
-    await this.sequelize.query(
-      /* sql */
-      `DELETE FROM "Comments"
-      WHERE id = :id AND "userId" = :userId`,
-      {
-        type: QueryTypes.DELETE,
-        replacements: {
-          id: id,
-          userId: userJWT.sub,
+    const transaction = await this.sequelize.transaction();
+
+    try {
+      await this.sequelize.query(
+        /* sql */
+        `DELETE FROM "Likes"
+        WHERE "commentId" = :id`,
+        {
+          type: QueryTypes.DELETE,
+          replacements: {
+            id: id,
+          },
+          transaction: transaction,
         },
-      },
-    );
+      );
+
+      await this.sequelize.query(
+        /* sql */
+        `DELETE FROM "Comments"
+        WHERE id = :id AND "userId" = :userId`,
+        {
+          type: QueryTypes.DELETE,
+          replacements: {
+            id: id,
+            userId: userJWT.sub,
+          },
+          transaction: transaction,
+        },
+      );
+
+      await transaction.commit();
+      return { message: 'Comentário deletado' };
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
   }
 }
 
