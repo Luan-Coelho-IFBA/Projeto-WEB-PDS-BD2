@@ -14,6 +14,7 @@ import type { ApiErrorResponse } from "../../../server/types";
 
 import styles from "./styles.module.css";
 import { MultiSelectDropdown } from "../../../components/MultiSelectDropdown";
+import { Loader } from "../../../components/Loader";
 
 const CreateArticleSchema = z.object({
     categoryId: z
@@ -185,19 +186,14 @@ export function CreateArticlePage() {
                         }`}
                         type="submit"
                     >
-                        {!isSubmitting ? (
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexFlow: "row",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    gap: "1rem",
-                                }}
-                            >
-                                <span>Criando artigo</span>
-                                {/* <Loader color="white" direction="row" /> */}
-                            </div>
+                        {isSubmitting ? (
+                            <Loader direction="row">
+                                <Loader.TextMessage
+                                    color="white"
+                                    feedbackMessage="Criando artigo..."
+                                />
+                                <Loader.Icon color="white" />
+                            </Loader>
                         ) : isSubmitSuccessful ? (
                             "Criado"
                         ) : (

@@ -7,7 +7,10 @@ import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { formatDate } from "../../../utils/formatDate";
 import { useNavigate } from "react-router";
 import { PencilIcon, TrashIcon } from "lucide-react";
-import { errorFetchingData, loadingContentText } from "../../../constants/textContent";
+import {
+    errorFetchingData,
+    loadingContentText,
+} from "../../../constants/textContent";
 import { Loader } from "../../../components/Loader";
 
 export default function MyArticles() {
