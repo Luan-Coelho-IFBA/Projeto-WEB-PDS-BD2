@@ -19,4 +19,7 @@ export const apiRoutes = {
         getAll: "/category",
         id: "/category",
     },
+    comment: {
+        getByArticleId: "/comments",
+    },
 } as const;

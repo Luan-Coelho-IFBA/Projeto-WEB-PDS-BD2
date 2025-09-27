@@ -30,10 +30,9 @@ export class CommentService {
   async getByArticleId(id: number) {
     const comments = await this.sequelize.query(
       /* sql */
-      `SELECT c.*, COUNT(l.id) FROM "Comments" c
-      INNER JOIN "Likes" l
-      ON c.id = l."commentId"
-      WHERE "articleId" = :articleId`,
+      `SELECT c.*, row_to_json(u.*) as user FROM "Comments" c
+      INNER JOIN "ShowUsers" u ON u.id = c."userId"
+      WHERE c."articleId" = :articleId`,
       {
         type: QueryTypes.SELECT,
         replacements: {

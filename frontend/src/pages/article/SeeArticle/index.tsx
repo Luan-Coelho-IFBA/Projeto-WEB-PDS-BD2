@@ -5,11 +5,12 @@ import { DefaultLayout } from "../../../layouts/DefaultLayout";
 
 import styles from "./styles.module.css";
 import { Loader } from "../../../components/Loader";
+import { getCommentsByArticleId } from "../../../services/comments/getComments";
 
 export default function SeeArticlePage() {
     const { id } = useParams();
 
-    const { data, isLoading } = useQuery({
+    const { data: articleData, isLoading: articleIsLoading } = useQuery({
         queryKey: ["articleID"],
         queryFn: () => getArticle(Number(id)),
         retry: 2,
@@ -17,32 +18,56 @@ export default function SeeArticlePage() {
         gcTime: 0,
     });
 
-    console.log(data);
+    const { data: commentsData, isLoading: commentsIsLoading } = useQuery({
+        queryKey: ["getCommentsById"],
+        queryFn: () => getCommentsByArticleId(Number(id)),
+        retry: 2,
+        staleTime: 2 * 60 * 1000,
+        gcTime: 0,
+    });
 
     return (
         <DefaultLayout>
-            {isLoading && (
+            {articleIsLoading && (
                 <Loader color="black" direction="column">
                     Carregando artigo...
                 </Loader>
             )}
 
-            {!isLoading && data && (
+            {!articleIsLoading && articleData && (
                 <main className={styles.containerArticle}>
                     <small>
-                        {data?.article.categories
+                        {articleData?.article.categories
                             .map((category) => category.name)
                             .join(",")}
                     </small>
-                    <h2>{data?.article.title}</h2>
-                    <h2>{data?.article.subtitle}</h2>
+                    <h2>{articleData?.article.title}</h2>
+                    <h2>{articleData?.article.subtitle}</h2>
                     <p style={{ whiteSpace: "pre-wrap" }}>
-                        {data?.article.text}
+                        {articleData?.article.text}
                     </p>
                     <img
-                        src={`data:${data?.article.imageMimeType};base64,${data?.article.image}`}
-                        alt={data?.article.subtitle}
+                        src={`data:${articleData?.article.imageMimeType};base64,${articleData?.article.image}`}
+                        alt={articleData?.article.subtitle}
                     />
+
+                    {commentsIsLoading && (
+                        <Loader color="black" direction="column">
+                            Carregando comentários...
+                        </Loader>
+                    )}
+
+                    {!commentsIsLoading && commentsData && (
+                        <div>
+                            {commentsData.comments.map((c) => (
+                                <div key={c.id}>
+                                    {c.user.name}
+                                    {c.text}
+                                    {c.likeCount}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </main>
             )}
         </DefaultLayout>
