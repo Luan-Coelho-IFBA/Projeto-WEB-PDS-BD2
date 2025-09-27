@@ -89,7 +89,7 @@ export function CreateArticlePage() {
     };
 
     return (
-        <DefaultLayout>
+        <DefaultLayout authenticated>
             <main className={styles.pageCointainer}>
                 <form
                     onSubmit={handleSubmit(onSubmitForm)}
@@ -162,7 +162,7 @@ export function CreateArticlePage() {
                             CATEGORIAS DO ARTIGO
                             <MultiSelectDropdown
                                 name="categoryId"
-                                // @ts-ignore
+                                // @ts-expect-error
                                 control={control}
                                 options={categoryQuery?.map((c) => ({
                                     label: c.name,

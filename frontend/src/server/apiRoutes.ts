@@ -19,4 +19,9 @@ export const apiRoutes = {
         getAll: "/category",
         id: "/category",
     },
+    comment: {
+        create: "/comments",
+        getByArticleId: "/comments",
+        delete: "/comments",
+    },
 } as const;

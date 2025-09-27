@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "email": "admin@admin.com",
-  "password": "12345678"
+  "password": "123456"
 }
 
 ###
@@ -214,3 +214,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsI
 
 PATCH http://localhost:3000/role/leitor/4 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU2NTE3MDkxLCJleHAiOjE3NTY2ODk4OTF9.z5_pR9T0_D_UW306vrwAruGuidNaL9ziXFPptX8AIxc
+
+###
+
+POST http://localhost:3000/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU4OTMxMjA4LCJleHAiOjE3NTkxMDQwMDh9.iMvTHc_VBujOphpn0Wz9d7UmdqXwaq2Jn8XJgTC3UCU
+Content-Type: application/json
+
+{
+  "text": "Vai devagar pai...",
+  "articleId": 11
+}

@@ -35,7 +35,7 @@ export default function MyArticles() {
     const [modalRemoveArticle, setModalRemoveArticle] = useState(false); */
 
     return (
-        <DefaultLayout className={styles.generalContainer}>
+        <DefaultLayout className={styles.generalContainer} authenticated>
             <main className={styles.sectionContainer}>
                 <h2 className={styles.title} style={{ marginBottom: "20px" }}>
                     Gerenciar meus artigos

@@ -4,6 +4,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { JWTType } from 'types';
 import { QueryTypes } from 'sequelize';
+import { Comment } from './entities/comment.entity';
 
 @Injectable()
 export class CommentService {
@@ -27,22 +28,25 @@ export class CommentService {
     return { mensagem: 'Comentário criado' };
   }
 
-  async getByArticleId(id: number) {
-    const comments = await this.sequelize.query(
-      /* sql */
-      `SELECT c.*, COUNT(l.id) FROM "Comments" c
-      INNER JOIN "Likes" l
-      ON c.id = l."commentId"
-      WHERE "articleId" = :articleId`,
-      {
-        type: QueryTypes.SELECT,
-        replacements: {
-          articleId: id,
+  async getByArticleId(userJWT: JWTType, id: number) {
+    const comments: (Comment & { self?: boolean })[] =
+      await this.sequelize.query(
+        /* sql */
+        `SELECT c.*, row_to_json(u.*) as user FROM "Comments" c
+      INNER JOIN "ShowUsers" u ON u.id = c."userId"
+      WHERE c."articleId" = :articleId
+      ORDER BY c."likeCount"`,
+        {
+          type: QueryTypes.SELECT,
+          replacements: {
+            articleId: id,
+          },
         },
-      },
-    );
+      );
 
-    return { comments };
+    return {
+      comments: comments.map((c) => seeIfUserCommented(userJWT.sub, c)),
+    };
   }
 
   async delete(userJWT: JWTType, id: number) {
@@ -59,4 +63,12 @@ export class CommentService {
       },
     );
   }
+}
+
+function seeIfUserCommented(userId: number, comment: Comment) {
+  if (userId === comment.userId) {
+    return { ...comment, self: true };
+  }
+
+  return comment;
 }
