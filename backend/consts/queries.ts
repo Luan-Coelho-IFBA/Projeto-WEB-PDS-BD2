@@ -75,11 +75,11 @@ export const LIKE_TRIGGER =
   RETURNS TRIGGER AS $$
   BEGIN
       IF TG_OP = 'INSERT' THEN
-          UPDATE "Comments" 
+          UPDATE "Comments"
           SET "likesCount" = COALESCE("likesCount", 0) + 1
           WHERE id = NEW."commentId";
       ELSIF TG_OP = 'DELETE' THEN
-          UPDATE "Comments" 
+          UPDATE "Comments"
           SET "likesCount" = COALESCE("likesCount", 0) - 1
           WHERE id = OLD."commentId";
       END IF;

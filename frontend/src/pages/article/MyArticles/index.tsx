@@ -55,10 +55,7 @@ export default function MyArticles() {
                 <div className={styles.tableContainer}>
                     {isSuccess && myArticlesQueries.articles.length === 0 && (
                         <div className={styles.feedbackMessage}>
-                            <p>
-                                Nenhuma categoria registrada. Clique em
-                                adicionar categoria para criar uma nova
-                            </p>
+                            <p>Nenhum artigo registrado.</p>
                         </div>
                     )}
                     {isSuccess && myArticlesQueries.articles.length > 0 && (

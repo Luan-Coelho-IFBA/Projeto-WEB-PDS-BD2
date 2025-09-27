@@ -39,8 +39,6 @@ export function ModalEditCategory({
     });
 
     const onSubmitFunction: SubmitHandler<EditCategoryForm> = async (data) => {
-        console.log(data);
-
         try {
             await updateCategory({
                 categoryId: category.id,
@@ -50,8 +48,6 @@ export function ModalEditCategory({
             refetchCategories?.();
             handleModal(false);
         } catch (error) {
-            console.log(error);
-
             const axiosError = error as AxiosError<ApiErrorResponse>;
             setError("root", { message: axiosError.response?.data.message });
         }

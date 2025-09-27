@@ -5,7 +5,6 @@ import { ArticleApiResponse } from "../../types/Article";
 
 export async function searchArticle(search: string) {
     try {
-        console.log("ts");
         const response = await api.get(`${apiRoutes.article.search}`, {
             params: {
                 search: search,

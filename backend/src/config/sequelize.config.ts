@@ -17,8 +17,8 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
   password: config.get('DB_PASSWORD'),
   database: config.get('DB_DATABASE'),
   models: [Role, User, Article, Category, ArticleCategory, Comment, Like],
-  autoLoadModels: false,
-  synchronize: false,
+  autoLoadModels: true,
+  synchronize: true,
   dialectOptions: {
     ssl: {
       require: true,
@@ -65,7 +65,7 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
             text text,
             "articleId" integer,
             "userId" integer,
-            "likeCount" integer DEFAULT 0,
+            "likesCount" integer DEFAULT 0,
             "createdAt" timestamp with time zone NOT NULL DEFAULT NOW(),
             "updatedAt" timestamp with time zone NOT NULL DEFAULT NOW()
         );

@@ -9,8 +9,10 @@ import { getCommentsByArticleId } from "../../../services/comments/getComments";
 import { getLocalStorageToken } from "../../../utils/getLocalStorageToken";
 import { useState } from "react";
 import { createComment } from "../../../services/comments/createComment";
-import { TrashIcon } from "lucide-react";
+import { HeartIcon, TrashIcon } from "lucide-react";
 import { deleteComment } from "../../../services/comments/deleteComment";
+import { likeComment } from "../../../services/likes/likeComment";
+import { removeLike } from "../../../services/likes/removeLike";
 
 export default function SeeArticlePage() {
     const { id } = useParams();
@@ -49,6 +51,15 @@ export default function SeeArticlePage() {
             await deleteComment(id);
             refetch();
         } catch (error) {}
+    };
+
+    const onLikeClick = async (id: number, liked: boolean) => {
+        if (!liked) {
+            await likeComment(id);
+        } else {
+            await removeLike(id);
+        }
+        refetch();
     };
 
     return (
@@ -99,6 +110,21 @@ export default function SeeArticlePage() {
                                             {c.user.name}
                                             {c.text}
                                             {c.likeCount}
+                                            <HeartIcon
+                                                color={
+                                                    c.liked
+                                                        ? "#FF0000"
+                                                        : "#000000"
+                                                }
+                                                fill={
+                                                    c.liked
+                                                        ? "#FF0000"
+                                                        : "#FFFFFF"
+                                                }
+                                                onClick={() =>
+                                                    onLikeClick(c.id, c.liked)
+                                                }
+                                            />
                                             {c.self && (
                                                 <TrashIcon
                                                     onClick={() =>

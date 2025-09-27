@@ -7,5 +7,6 @@ export interface Comment {
     userId: number;
     likeCount: number;
     user: User;
+    liked: boolean;
     self: boolean;
 }

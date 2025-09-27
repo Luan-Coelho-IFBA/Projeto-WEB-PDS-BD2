@@ -45,22 +45,18 @@ export function RegisterPage() {
     } = useForm<FormFields>({ resolver: zodResolver(registerSchema) });
 
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
-        console.log(data);
-
         if (data.confirmPassword === data.password) {
             try {
-                const response = await registerUsers({
+                await registerUsers({
                     email: data.email,
                     name: data.name,
                     password: data.password,
                 });
-                console.log(response);
             } catch (error) {
                 const axiosError = error as AxiosError<ApiErrorResponse>;
                 setError("email", {
                     message: axiosError.response?.data.message,
                 });
-                console.log(error);
             }
         }
     };

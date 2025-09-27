@@ -1,4 +1,4 @@
-import { Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { LikeService } from './like.service';
 import { UserJWT } from 'src/auth/auth.decorator';
 import type { JWTType } from 'types';
@@ -8,13 +8,13 @@ import { Authenticate } from '../auth/autenticate.decorator';
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 
-  @Post(':id')
+  @Post()
   @Authenticate()
-  async giveLike(@UserJWT() userJWT: JWTType, @Param('id') id: number) {
+  async giveLike(@UserJWT() userJWT: JWTType, @Body('id') id: number) {
     return await this.likeService.giveLike(userJWT, id);
   }
 
-  @Delete()
+  @Delete(':id')
   @Authenticate()
   async removeLike(@UserJWT() userJWT: JWTType, @Param('id') id: number) {
     return await this.likeService.removeLike(userJWT, id);

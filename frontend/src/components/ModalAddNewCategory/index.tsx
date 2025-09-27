@@ -34,15 +34,11 @@ export function ModalAddNewCategory({
     } = useForm({ resolver: zodResolver(createNewCategoryForm) });
 
     const onSubmitFunction: SubmitHandler<CreateNewCategory> = async (data) => {
-        console.log(data);
-
         try {
             await createCategory(data.name, data.description);
             refetchCategories?.();
             handleModal(false);
         } catch (error) {
-            console.log(error);
-
             const axiosError = error as AxiosError<ApiErrorResponse>;
             setError("root", { message: axiosError.response?.data.message });
         }

@@ -24,4 +24,8 @@ export const apiRoutes = {
         getByArticleId: "/comments",
         delete: "/comments",
     },
+    like: {
+        create: "/like",
+        delete: "/like",
+    },
 } as const;

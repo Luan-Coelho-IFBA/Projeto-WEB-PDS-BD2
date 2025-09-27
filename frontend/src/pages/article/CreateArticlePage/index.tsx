@@ -84,7 +84,6 @@ export function CreateArticlePage() {
             setError("root", {
                 message: axiosError.response?.data.message,
             });
-            console.log(axiosError);
         }
     };
 

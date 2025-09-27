@@ -18,7 +18,6 @@ export class CommentController {
   @Get(':id')
   @Authenticate()
   async getByArticleId(@UserJWT() userJWT: JWTType, @Param('id') id: number) {
-    console.log(userJWT);
     return await this.commentService.getByArticleId(userJWT, id);
   }
 

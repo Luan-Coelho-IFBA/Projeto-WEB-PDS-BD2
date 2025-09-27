@@ -28,8 +28,6 @@ export class Comment extends Model {
   @BelongsTo(() => User)
   user: User;
 
-  @Column({
-    defaultValue: 0,
-  })
-  likeCount: number;
+  @Column
+  likesCount: number;
 }

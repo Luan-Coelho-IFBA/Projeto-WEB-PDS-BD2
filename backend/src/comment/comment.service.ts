@@ -40,7 +40,7 @@ export class CommentService {
         INNER JOIN "ShowUsers" u ON u.id = c."userId"
         LEFT JOIN "Likes" l ON l."commentId" = c.id AND l."userId" = :currentUserId
         WHERE c."articleId" = :articleId
-        ORDER BY c."likeCount"`,
+        ORDER BY c."likesCount"`,
         {
           type: QueryTypes.SELECT,
           replacements: {
