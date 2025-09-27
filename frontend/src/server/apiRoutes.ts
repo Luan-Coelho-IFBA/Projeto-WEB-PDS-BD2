@@ -20,6 +20,8 @@ export const apiRoutes = {
         id: "/category",
     },
     comment: {
+        create: "/comments",
         getByArticleId: "/comments",
+        delete: "/comments",
     },
 } as const;
