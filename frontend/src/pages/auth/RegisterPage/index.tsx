@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import styles from "./styles.module.css";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
+import { Loader } from "../../../components/Loader";
 
 const registerSchema = z
     .object({
@@ -129,11 +130,21 @@ export function RegisterPage() {
                         )}
                     </div>
                     <Form.Button
-                        disabled={
-                            isSubmitting || isSubmitSuccessful ? true : false
-                        }
+                        disabled={isSubmitting || isSubmitSuccessful}
                         type="submit"
-                        nameButton={isSubmitting ? "Carregando" : "Cadastrar"}
+                        nameButton={
+                            isSubmitting ? (
+                                <Loader direction="row">
+                                    <Loader.TextMessage
+                                        color="black"
+                                        feedbackMessage="Cadastrando"
+                                    />
+                                    <Loader.Icon color="black" />
+                                </Loader>
+                            ) : (
+                                "Login"
+                            )
+                        }
                     />
                     {errors.root?.message && (
                         <p className={styles.error}>{errors.root?.message}</p>

@@ -16,6 +16,7 @@ import { ModalChangePassword } from "../../../components/ModalChangePassword";
 import { useState } from "react";
 import { setLocalStorageRole } from "../../../utils/setLocalStorageRole";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
+import { Loader } from "../../../components/Loader";
 
 const LoginSchema = z.object({
     email: z
@@ -39,7 +40,7 @@ export function LoginPage() {
         setError,
         handleSubmit,
         register,
-        formState: { errors, isLoading },
+        formState: { errors, isSubmitting, isSubmitSuccessful },
     } = useForm({ resolver: zodResolver(LoginSchema) });
 
     const onSubmitForm: SubmitHandler<LoginUserForm> = async (
@@ -98,9 +99,21 @@ export function LoginPage() {
                         <p className={styles.error}>{errors.root.message}</p>
                     )}
                     <Form.Button
-                        disabled={isLoading ? true : false}
+                        disabled={isSubmitting || isSubmitSuccessful}
                         type="submit"
-                        nameButton="Logar"
+                        nameButton={
+                            isSubmitting ? (
+                                <Loader direction="row">
+                                    <Loader.TextMessage
+                                        color="black"
+                                        feedbackMessage="Fazendo login"
+                                    />
+                                    <Loader.Icon color="black" />
+                                </Loader>
+                            ) : (
+                                "Login"
+                            )
+                        }
                     />
                 </Form>
                 <div className={styles.links}>

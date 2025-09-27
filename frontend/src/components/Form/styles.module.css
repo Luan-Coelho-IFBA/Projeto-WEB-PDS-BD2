@@ -1,55 +1,62 @@
 .formHeader {
-	display: flex;
-	flex-flow: column;
-	align-items: center;
-	gap: 1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 1rem;
 }
 .formTitle {
-	letter-spacing: 0.1rem;
+    letter-spacing: 0.1rem;
 }
 .formSubtitle {
 }
 
 .formGroup {
-	position: relative;
-	width: 100%;
-	display: flex;
-	flex-flow: column;
-	justify-content: center;
-	align-items: center;
-	gap: 3rem;
-	/* border: 1px solid yellow; */
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    /* border: 1px solid yellow; */
 }
 
 .formRow {
-	width: 100%;
-	display: flex;
-	flex-flow: column;
-	justify-content: center;
-	gap: 1rem;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    gap: 1rem;
 
-	label {
-		font-size: 1.2rem;
-		font-weight: 500;
-	}
+    label {
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
 
-	input {
-		width: 100%;
-		border-radius: 0.3rem;
-		padding: 1rem;
-	}
-	.button {
-		width: 100%;
-		border-radius: 0.3rem;
-		padding: 1rem;
-		font-weight: bold;
-		border-color: transparent;
-		background-color: var(--button-grey);
-		transition: all 0.3s;
+    input {
+        width: 100%;
+        border-radius: 0.3rem;
+        padding: 1rem;
+    }
+    .button {
+        color: white;
+        outline: transparent;
+        width: 100%;
+        border-radius: 0.3rem;
+        padding: 1rem;
+        font-weight: bold;
+        border-color: transparent;
+        background-color: var(--main-color);
+        transition: all 0.3s;
 
-		&:hover {
-			font-weight: bolder;
-			background-color: var(--button-grey-hover);
+        &:hover {
+            font-weight: bolder;
+            background-color: var(--main-color-hover);
+        }
+
+		&:disabled{
+			color: black;
+			background-color: var(--button-grey);
 		}
-	}
+    }
 }
