@@ -1,5 +1,5 @@
 .container {
-    min-width: 30rem;
+    min-width: 25rem;
     display: flex;
     gap: 1rem;
     position: relative;

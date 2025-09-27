@@ -29,6 +29,7 @@ export function MultiSelectDropdown({
             render={({ field: { onChange, value = [] } }) => (
                 <div>
                     <div
+                        tabIndex={0}
                         className={styles.container}
                         onClick={handleClickOpenModal}
                         style={{}}

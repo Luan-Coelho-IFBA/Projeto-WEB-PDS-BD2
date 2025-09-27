@@ -33,9 +33,37 @@
     text-align: center;
 }
 
-input[type="file"] {
-    box-shadow: 1px 1px 1px 3px rgba(255, 255, 255, 0.3) !important;
-    padding: 0.3rem;
+.imageFieldContainer {
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    transition: all 0.2s ease;
+
+    input[type="file"] {
+        display: none;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--main-color);
+        box-shadow: 0 0 0 1px var(--main-color);
+    }
+
+    .tipForImageField {
+        color: #6e6e6e;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    img.imagePreview {
+        border-radius: 1rem;
+        width: 100%;
+        height: 100%;
+    }
 }
 
 input[type="text"],
@@ -125,4 +153,32 @@ textarea {
     font-size: 1.4rem;
     margin: 0;
     color: red;
+}
+
+@media (max-width: 915px) {
+    .formContainer {
+        width: 70%;
+    }
+
+    .sendButton {
+        padding: 2rem;
+        width: 50%;
+    }
+}
+
+@media (max-width: 700px) {
+    .formContainer {
+        width: 80%;
+    }
+    .sendButton {
+        width: 50%;
+    }
+}
+@media (max-width: 360px) {
+    .formContainer {
+        width: 90%;
+    }
+    .sendButton {
+        width: 50%;
+    }
 }

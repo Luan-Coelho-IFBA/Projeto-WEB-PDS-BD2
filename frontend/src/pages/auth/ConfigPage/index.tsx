@@ -72,10 +72,13 @@ export function ConfigPage() {
 
                     {isLoading ? (
                         <Loader
-                            /* color="black" */
                             direction="column"
                         >
-                            Carregando dados do usuário...
+                            <Loader.TextMessage
+                                feedbackMessage="Carregando dados do usuario..."
+                                color="var(--main-color)"
+                            />
+                            <Loader.Icon />
                         </Loader>
                     ) : user ? (
                         <div className={styles.userInfo}>
@@ -91,6 +94,12 @@ export function ConfigPage() {
                     ) : (
                         <div className={styles.loadingSection}>
                             <span>Erro ao carregar dados do usuário</span>
+                            <p>
+                                Você pode efetuar login na conta na pagina de{" "}
+                                <RouterLink href={PageRoutesName.auth.login}>
+                                    login
+                                </RouterLink>
+                            </p>
                         </div>
                     )}
                 </section>

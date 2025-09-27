@@ -4,7 +4,7 @@ import { getAllCategories } from "../../../services/categories/getAllCategories"
 import { useQuery } from "@tanstack/react-query";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/src/zod.js";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getLocalStorageRole } from "../../../utils/getLocalStorageRole";
 import { useNavigate } from "react-router";
 import { PageRoutesName } from "../../../constants/PageRoutesName";
@@ -15,6 +15,7 @@ import type { ApiErrorResponse } from "../../../server/types";
 import styles from "./styles.module.css";
 import { MultiSelectDropdown } from "../../../components/MultiSelectDropdown";
 import { Loader } from "../../../components/Loader";
+import { MousePointerClickIcon } from "lucide-react";
 
 const CreateArticleSchema = z.object({
     categoryId: z
@@ -47,6 +48,7 @@ type CreateArticleForm = z.infer<typeof CreateArticleSchema>;
 
 export function CreateArticlePage() {
     const navigate = useNavigate();
+    const [imagePreview, setImagePreview] = useState<string>();
 
     useEffect(() => {
         if (
@@ -83,6 +85,18 @@ export function CreateArticlePage() {
             const axiosError = error as AxiosError<ApiErrorResponse>;
             setError("root", {
                 message: axiosError.response?.data.message,
+            });
+        }
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.addEventListener("load", () => {
+                setImagePreview(reader.result as string);
             });
         }
     };
@@ -127,6 +141,41 @@ export function CreateArticlePage() {
                         )}
                     </div>
 
+                    <div className={styles.formRow}>
+                        <label
+                            tabIndex={0}
+                            className={styles.imageFieldContainer}
+                        >
+                            {!isSubmitSuccessful && !isSubmitting && (
+                                <div className={styles.tipForImageField}>
+                                    <MousePointerClickIcon />
+                                    <span>
+                                        Coloque uma imagem na sua noticia
+                                    </span>
+                                </div>
+                            )}
+                            {imagePreview && (
+                                <img
+                                    className={styles.imagePreview}
+                                    src={imagePreview}
+                                ></img>
+                            )}
+                            <input
+                                {...register("image", {
+                                    onChange: handleImageChange,
+                                })}
+                                type="file"
+                                accept="image/*"
+                                className={styles.imageInput}
+                            />
+                            {errors?.image?.message && (
+                                <p className={styles.error}>
+                                    {errors.image.message}
+                                </p>
+                            )}
+                        </label>
+                    </div>
+
                     {/* <img className={styles.formRow} /> */}
                     <div className={styles.formRow}>
                         <label className={styles.inputArea}>
@@ -146,16 +195,6 @@ export function CreateArticlePage() {
                     </div>
 
                     <div className={styles.formRow && styles.footerFields}>
-                        <label className={styles.item}>
-                            CAPA
-                            <input {...register("image")} type="file" />
-                            {errors?.image?.message && (
-                                <p className={styles.error}>
-                                    {errors.image.message}
-                                </p>
-                            )}
-                        </label>
-
                         {/*  */}
                         <label className={styles.item}>
                             CATEGORIAS DO ARTIGO
