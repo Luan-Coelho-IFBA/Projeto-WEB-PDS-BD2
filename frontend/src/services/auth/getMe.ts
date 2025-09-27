@@ -6,6 +6,8 @@ import { getLocalStorageToken } from "../../utils/getLocalStorageToken";
 import type { ApiErrorResponse } from "../../server/types";
 import type { User } from "../../types/User";
 import { NavigateFunction } from "react-router";
+import { notify } from "../../adapters/toastHotAdapter";
+import { setLocalStorageToken } from "../../utils/setLocalStorageToken";
 
 export async function getMe(navigation?: NavigateFunction) {
     const tokenData = getLocalStorageToken();
@@ -18,10 +20,14 @@ export async function getMe(navigation?: NavigateFunction) {
             const response = await api.get(apiRoutes.auth.getMe, {
                 headers: { Authorization: tokenData },
             });
+            setLocalStorageToken(response.data.token);
             return response.data as User;
         } catch (error: any) {
             if (error.status == 401) {
-                navigation?.("/");
+                navigation?.("/auth/login");
+                notify.error(
+                    "Seu token JWT venceu, logue novamente a sua conta"
+                );
             }
             throw error as AxiosError<ApiErrorResponse>;
         }
