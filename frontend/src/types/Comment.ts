@@ -5,7 +5,7 @@ export interface Comment {
     text: string;
     articleId: number;
     userId: number;
-    likeCount: number;
+    likesCount: number;
     user: User;
     liked: boolean;
     self: boolean;

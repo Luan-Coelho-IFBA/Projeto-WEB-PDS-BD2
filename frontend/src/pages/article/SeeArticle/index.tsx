@@ -109,7 +109,7 @@ export default function SeeArticlePage() {
                                         <div key={c.id}>
                                             {c.user.name}
                                             {c.text}
-                                            {c.likeCount}
+                                            {c.likesCount ?? 0}
                                             <HeartIcon
                                                 color={
                                                     c.liked
