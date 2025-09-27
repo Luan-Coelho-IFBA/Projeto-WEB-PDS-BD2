@@ -32,14 +32,20 @@ export class CommentService {
     const comments: (Comment & { self?: boolean })[] =
       await this.sequelize.query(
         /* sql */
-        `SELECT c.*, row_to_json(u.*) as user FROM "Comments" c
+        `SELECT 
+            c.*, 
+            row_to_json(u.*) as user,
+            CASE WHEN l."userId" IS NOT NULL THEN true ELSE false END as liked
+        FROM "Comments" c
         INNER JOIN "ShowUsers" u ON u.id = c."userId"
+        LEFT JOIN "Likes" l ON l."commentId" = c.id AND l."userId" = :currentUserId
         WHERE c."articleId" = :articleId
         ORDER BY c."likeCount"`,
         {
           type: QueryTypes.SELECT,
           replacements: {
             articleId: id,
+            currentUserId: userJWT.sub,
           },
         },
       );
