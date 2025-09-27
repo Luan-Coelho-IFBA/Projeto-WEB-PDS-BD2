@@ -4,7 +4,7 @@ import { getAllCategories } from "../../../services/categories/getAllCategories"
 import { useQuery } from "@tanstack/react-query";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod/src/zod.js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getLocalStorageRole } from "../../../utils/getLocalStorageRole";
 import { useNavigate } from "react-router";
 import { PageRoutesName } from "../../../constants/PageRoutesName";
