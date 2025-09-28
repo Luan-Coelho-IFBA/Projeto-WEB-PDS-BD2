@@ -142,7 +142,7 @@ export function RegisterPage() {
                                     <Loader.Icon color="black" />
                                 </Loader>
                             ) : (
-                                "Login"
+                                "Cadastrar"
                             )
                         }
                     />
