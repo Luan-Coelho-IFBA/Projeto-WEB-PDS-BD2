@@ -5,6 +5,7 @@ export const apiRoutes = {
         resendEmail: "/auth/resendEmail",
         getMe: "/auth",
         changeUser: "/auth",
+        getWriters: "/auth/writers",
     },
     article: {
         mostViewed: "/article/most-viewed",

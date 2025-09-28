@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
   "name": "LuanNn",
-  "email": "20231bsifsa0005@ifba.edu.br",
+  "email": "wiyowe1477@hiepth.com",
   "password": "123456"
 }
 
@@ -207,8 +207,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsI
 
 ### Roles ###
 
-PATCH http://localhost:3000/role/jornalista/4 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU2NTE3MDkxLCJleHAiOjE3NTY2ODk4OTF9.z5_pR9T0_D_UW306vrwAruGuidNaL9ziXFPptX8AIxc
+PATCH http://localhost:3000/role/jornalista/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU5MDI1NDM0LCJleHAiOjE3NTkxOTgyMzR9.DH1UTtBfvv1B4l70jSOf1fzNW-p2x_3pXp_Al8TBpyE
 
 ###
 
