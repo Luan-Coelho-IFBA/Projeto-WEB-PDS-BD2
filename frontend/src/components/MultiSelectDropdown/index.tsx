@@ -9,12 +9,14 @@ interface MultiSelectDropdownProps {
     options: DropdownOptions[] | undefined;
     name: string;
     control: Control<FieldValues>;
+    initialValue?: number[];
 }
 
 export function MultiSelectDropdown({
     options,
     name,
     control,
+    initialValue = [],
 }: MultiSelectDropdownProps) {
     const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
@@ -26,7 +28,7 @@ export function MultiSelectDropdown({
         <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value = [] } }) => (
+            render={({ field: { onChange, value = initialValue } }) => (
                 <div>
                     <div
                         tabIndex={0}
