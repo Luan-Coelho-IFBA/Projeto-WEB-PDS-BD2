@@ -7,6 +7,8 @@ import type { AxiosError } from "axios";
 import type { ApiErrorResponse } from "../../server/types";
 
 import styles from "./styles.module.css";
+import { Loader } from "../Loader";
+import { notify } from "../../adapters/toastHotAdapter";
 
 type ModalAddNewCategoryProps = {
     isOpen: boolean;
@@ -38,8 +40,10 @@ export function ModalAddNewCategory({
             await createCategory(data.name, data.description);
             refetchCategories?.();
             handleModal(false);
+            notify.sucess("Nova categoria adicionada");
         } catch (error) {
             const axiosError = error as AxiosError<ApiErrorResponse>;
+            notify.error("Erro ao tentar criar noticia");
             setError("root", { message: axiosError.response?.data.message });
         }
     };
@@ -107,7 +111,17 @@ export function ModalAddNewCategory({
                         }
                         className={`${styles.actionButton} ${styles.confirm}`}
                     >
-                        Enviar
+                        {isSubmitting ? (
+                            <Loader direction="row">
+                                <Loader.TextMessage
+                                    color="white"
+                                    feedbackMessage="Criando..."
+                                />
+                                <Loader.Icon color="white" />
+                            </Loader>
+                        ) : (
+                            <span style={{ color: "white" }}>Enviar</span>
+                        )}
                     </button>
                 </Modal.Actions>
             </Modal>

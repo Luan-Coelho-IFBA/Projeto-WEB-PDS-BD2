@@ -16,6 +16,7 @@ import styles from "./styles.module.css";
 import { MultiSelectDropdown } from "../../../components/MultiSelectDropdown";
 import { Loader } from "../../../components/Loader";
 import { MousePointerClickIcon } from "lucide-react";
+import { notify } from "../../../adapters/toastHotAdapter";
 
 const CreateArticleSchema = z.object({
     categoryId: z
@@ -80,6 +81,7 @@ export function CreateArticlePage() {
     ) => {
         try {
             await createArticles({ ...data });
+            notify.sucess("Artigo criado com sucesso");
             navigate(PageRoutesName.home);
         } catch (error) {
             const axiosError = error as AxiosError<ApiErrorResponse>;

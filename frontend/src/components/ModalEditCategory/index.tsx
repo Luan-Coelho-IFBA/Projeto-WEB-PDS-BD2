@@ -8,6 +8,8 @@ import type { ApiErrorResponse } from "../../server/types";
 import styles from "./styles.module.css";
 import type { Category } from "../../types/Category";
 import { updateCategory } from "../../services/categories/updateCategory";
+import { Loader } from "../Loader";
+import { notify } from "../../adapters/toastHotAdapter";
 
 type ModalEditCategoryProps = {
     category: Category;
@@ -47,6 +49,7 @@ export function ModalEditCategory({
             });
             refetchCategories?.();
             handleModal(false);
+            notify.sucess("Categoria editada!");
         } catch (error) {
             const axiosError = error as AxiosError<ApiErrorResponse>;
             setError("root", { message: axiosError.response?.data.message });
@@ -121,14 +124,20 @@ export function ModalEditCategory({
                         </button>
                         <button
                             type="submit"
-                            disabled={
-                                isSubmitting || isSubmitSuccessful
-                                    ? true
-                                    : false
-                            }
+                            disabled={isSubmitting || isSubmitSuccessful}
                             className={`${styles.actionButton} ${styles.confirm}`}
                         >
-                            Enviar
+                            {isSubmitting ? (
+                                <Loader direction="row">
+                                    <Loader.TextMessage
+                                        color="white"
+                                        feedbackMessage="Editando..."
+                                    />
+                                    <Loader.Icon color="white" />
+                                </Loader>
+                            ) : (
+                                <span style={{ color: "white" }}>Editar</span>
+                            )}
                         </button>
                     </Modal.Actions>
                 </>
