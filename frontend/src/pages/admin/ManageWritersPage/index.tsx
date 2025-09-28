@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
 import { getWriters } from "../../../services/auth/getWriters";
 import styles from "./styles.module.css";
-import { formatDate } from "../../../utils/formatDate";
 import { TrashIcon } from "lucide-react";
 
 export function ManageWritersPage() {
