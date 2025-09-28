@@ -4,7 +4,6 @@ import { deleteComment } from "../../../services/comments/deleteComment";
 import { likeComment } from "../../../services/likes/likeComment";
 import { removeLike } from "../../../services/likes/removeLike";
 import { useParams } from "react-router";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCommentsByArticleId } from "../../../services/comments/getComments";
 
@@ -25,7 +24,6 @@ type CreateCommentForm = z.infer<typeof CreateCommentSchema>;
 
 export function CommentsSection() {
     const { id } = useParams();
-    const [message, setMessage] = useState("");
 
     const {
         data: commentsData,
