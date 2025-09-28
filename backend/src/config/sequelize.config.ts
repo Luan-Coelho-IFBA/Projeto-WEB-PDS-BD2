@@ -17,8 +17,8 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
   password: config.get('DB_PASSWORD'),
   database: config.get('DB_DATABASE'),
   models: [Role, User, Article, Category, ArticleCategory, Comment, Like],
-  autoLoadModels: true,
-  synchronize: true,
+  autoLoadModels: false,
+  synchronize: false,
   dialectOptions: {
     ssl: {
       require: true,
@@ -34,7 +34,8 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
       await sequelize.query(
         /* sql */
         `CREATE TABLE IF NOT EXISTS "ArticleCategories" (
-            "articleId" integer PRIMARY KEY NOT NULL,
+            id serial PRIMARY KEY NOT NULL,
+            "articleId" integer NOT NULL,
             "categoryId" integer NOT NULL,
             "createdAt" timestamp with time zone NOT NULL DEFAULT NOW(),
             "updatedAt" timestamp with time zone NOT NULL DEFAULT NOW()
