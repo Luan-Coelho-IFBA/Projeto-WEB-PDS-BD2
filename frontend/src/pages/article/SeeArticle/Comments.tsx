@@ -102,7 +102,7 @@ export function CommentsSection() {
                                 </button>
                             </form>
                             {!commentsIsLoading && commentsData && (
-                                <div>
+                                <div className={styles.allComments}>
                                     {commentsData.comments.map((c) => (
                                         <div
                                             key={c.id}

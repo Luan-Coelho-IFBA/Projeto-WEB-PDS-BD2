@@ -130,6 +130,12 @@
     gap: 1rem;
 }
 
+.allComments{
+    display: flex;
+    flex-flow: column;
+    gap: 1.5rem;
+}
+
 .uniqueComment {
     display: flex;
     gap: 1rem;
