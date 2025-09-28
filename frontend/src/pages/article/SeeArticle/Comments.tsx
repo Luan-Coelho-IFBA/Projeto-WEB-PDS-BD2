@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { RouterLink } from "../../../components/RouterLink";
 import { PageRoutesName } from "../../../constants/PageRoutesName";
+import { notify } from "../../../adapters/toastHotAdapter";
 
 const CreateCommentSchema = z.object({
     comment: z.string().min(2, "Seu comentario é curto demais!"),
@@ -46,6 +47,7 @@ export function CommentsSection() {
     ) => {
         try {
             await createComment(Number(id), data.comment);
+            notify.sucess("Comentario criado!");
             refetch();
         } catch (error) {}
     };
@@ -79,50 +81,88 @@ export function CommentsSection() {
                             <Loader.Icon />
                         </Loader>
                     )}
-                    <div className={styles.commentsSection}>
-                        <form onSubmit={handleSubmit(OnCreateComment)}>
-                            <input {...register("comment")} type="text" />
-                            <input type="submit" value="Enviar" />
-                        </form>
-                        {!commentsIsLoading && commentsData && (
-                            <div>
-                                {commentsData.comments.map((c) => (
-                                    <div
-                                        key={c.id}
-                                        className={styles.uniqueComment}
-                                    >
-                                        <UserIcon
-                                            size={32}
-                                            className={styles.iconUser}
-                                        />
-                                        <div className={styles.text}>
-                                            <span>{c.user.name}</span>
-                                            <p>{c.text}</p>
-                                        </div>
-                                        <span>{c.likesCount ?? 0}</span>
-                                        <HeartIcon
-                                            color={
-                                                c.liked ? "#FF0000" : "#000000"
-                                            }
-                                            fill={
-                                                c.liked ? "#FF0000" : "#FFFFFF"
-                                            }
-                                            onClick={() =>
-                                                onLikeClick(c.id, c.liked)
-                                            }
-                                        />
-                                        {c.self && (
-                                            <TrashIcon
-                                                onClick={() =>
-                                                    onDeleteMessage(c.id)
-                                                }
+                    {!commentsIsLoading && (
+                        <div className={styles.commentsSection}>
+                            <form
+                                className={styles.createComment}
+                                onSubmit={handleSubmit(OnCreateComment)}
+                            >
+                                <input
+                                    placeholder="Escreva o seu comentario"
+                                    className={styles.inputComment}
+                                    {...register("comment")}
+                                    type="text"
+                                />
+
+                                <button
+                                    className={styles.buttonCreateComment}
+                                    type="submit"
+                                >
+                                    Enviar
+                                </button>
+                            </form>
+                            {!commentsIsLoading && commentsData && (
+                                <div>
+                                    {commentsData.comments.map((c) => (
+                                        <div
+                                            key={c.id}
+                                            className={styles.uniqueComment}
+                                        >
+                                            <UserIcon
+                                                className={styles.iconUser}
                                             />
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                                            <div className={styles.text}>
+                                                <span>{c.user.name}</span>
+                                                <p
+                                                    className={
+                                                        styles.commentBody
+                                                    }
+                                                >
+                                                    {c.text}
+                                                </p>
+                                            </div>
+                                            <span>{c.likesCount ?? 0}</span>
+                                            <div
+                                                className={
+                                                    styles.actionButtonComments
+                                                }
+                                            >
+                                                <HeartIcon
+                                                    className={styles.like}
+                                                    color={
+                                                        c.liked
+                                                            ? "#FF0000"
+                                                            : "#000000"
+                                                    }
+                                                    fill={
+                                                        c.liked
+                                                            ? "#FF0000"
+                                                            : "#FFFFFF"
+                                                    }
+                                                    onClick={() =>
+                                                        onLikeClick(
+                                                            c.id,
+                                                            c.liked
+                                                        )
+                                                    }
+                                                />
+                                                {c.self && (
+                                                    <TrashIcon
+                                                        className={styles.trash}
+                                                        onClick={() =>
+                                                            onDeleteMessage(
+                                                                c.id
+                                                            )
+                                                        }
+                                                    />
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </>
             ) : (
                 <p>

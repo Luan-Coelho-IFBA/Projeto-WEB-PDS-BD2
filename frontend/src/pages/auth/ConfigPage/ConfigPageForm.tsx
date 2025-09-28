@@ -5,6 +5,7 @@ import styles from "./styles.module.css";
 import type { AxiosError } from "axios";
 import type { ApiErrorResponse } from "../../../server/types";
 import { updateUsername } from "../../../services/auth/updateUsername";
+import { notify } from "../../../adapters/toastHotAdapter";
 
 const ChangeNameSchema = z.object({
     name: z
@@ -32,6 +33,7 @@ export function ConfigPageForm({ refetchUserData }: ConfigPageFormProps) {
         try {
             await updateUsername(data.name);
             refetchUserData?.();
+            notify.sucess("Nome alterado!");
         } catch (error) {
             const axiosError = error as AxiosError<ApiErrorResponse>;
             setError("root", {
