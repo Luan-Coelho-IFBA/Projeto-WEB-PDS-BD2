@@ -23,8 +23,9 @@ export default function SeeArticlePage() {
     return (
         <DefaultLayout>
             {articleIsLoading && (
-                <Loader color="black" direction="column">
-                    Carregando artigo...
+                <Loader style={{marginTop:'5rem'}} direction="column">
+                    <Loader.TextMessage color="black" feedbackMessage="Carregando artigo..." />
+                    <Loader.Icon />
                 </Loader>
             )}
 
