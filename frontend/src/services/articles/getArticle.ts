@@ -4,7 +4,15 @@ import { apiRoutes } from "../../server/apiRoutes";
 import type { Article } from "../../types/Article";
 
 type SingleArticleResponse = {
-    article: Article;
+    article: Article & {
+        users: {
+            email: string;
+            id: number;
+            isVerified: boolean;
+            name: string;
+            roleId: number;
+        };
+    };
 };
 
 export async function getArticle(id: number) {
