@@ -132,6 +132,14 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+
+    input {
+        width: 60%;
+
+        &&::placeholder{
+            text-align: left;
+        }
+    }
 }
 
 .changeNameArea input {
@@ -316,7 +324,7 @@
         width: 60%;
     }
 
-    .changeNameButton{
+    .changeNameButton {
         width: 60%;
     }
 }
@@ -329,7 +337,7 @@
         width: 100%;
     }
 
-    .changeNameButton{
+    .changeNameButton {
         width: 60%;
     }
 }
