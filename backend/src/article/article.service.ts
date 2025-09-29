@@ -349,47 +349,90 @@ export class ArticleService {
     userJWT: JWTType,
     dto: UpdateArticleDto,
   ) {
-    let queries: string[] = [];
+    const transaction = await this.sequelize.transaction();
+    try {
+      let queries: string[] = [];
 
-    if (dto.title) {
-      queries.push(`"title" = :title`);
-    }
+      if (dto.title) {
+        queries.push(`"title" = :title`);
+      }
 
-    if (dto.subtitle) {
-      queries.push(`"subtitle" = :subtitle`);
-    }
+      if (dto.subtitle) {
+        queries.push(`"subtitle" = :subtitle`);
+      }
 
-    if (dto.text) {
-      queries.push(`"text" = :text`);
-    }
+      if (dto.text) {
+        queries.push(`"text" = :text`);
+      }
 
-    if (image) {
-      queries.push(`"image" = :image`);
-      queries.push(`"imageMimeType" = :imageMimeType`);
-    }
+      if (image) {
+        queries.push(`"image" = :image`);
+        queries.push(`"imageMimeType" = :imageMimeType`);
+      }
 
-    const queriesJoin = queries.join(', ');
+      const queriesJoin = queries.join(', ');
 
-    await this.sequelize.query(
-      /* sql */
-      `UPDATE "Articles"
+      await this.sequelize.query(
+        /* sql */
+        `UPDATE "Articles"
       SET ${queriesJoin}, "updatedAt" = NOW()
       WHERE id = :id AND ("userId" = :userId OR :userId IS NULL)`,
-      {
-        type: QueryTypes.SELECT,
-        replacements: {
-          id: id,
-          title: dto.title,
-          subtitle: dto.subtitle,
-          text: dto.text,
-          image: image?.buffer ?? undefined,
-          imageMimeType: image?.mimetype ?? undefined,
-          userId: userJWT.role == ADMIN ? null : userJWT.sub,
+        {
+          type: QueryTypes.SELECT,
+          replacements: {
+            id: id,
+            title: dto.title,
+            subtitle: dto.subtitle,
+            text: dto.text,
+            image: image?.buffer ?? undefined,
+            imageMimeType: image?.mimetype ?? undefined,
+            userId: userJWT.role == ADMIN ? null : userJWT.sub,
+          },
+          transaction: transaction,
         },
-      },
-    );
+      );
 
-    return { message: 'Artigo atualizado' };
+      if (dto.categoryId && dto.categoryId.length > 0) {
+        await this.sequelize.query(
+          /* sql */
+          `DELETE FROM "ArticlesCategories" 
+     WHERE "articleId" = :articleId`,
+          {
+            type: QueryTypes.DELETE,
+            replacements: {
+              articleId: id,
+            },
+            transaction: transaction,
+          },
+        );
+
+        const categoryValues = dto.categoryId
+          .map((categoryId, index) => `(:articleId, :categoryId${index})`)
+          .join(', ');
+
+        await this.sequelize.query(
+          /* sql */
+          `INSERT INTO "ArticlesCategories" ("articleId", "categoryId")
+     VALUES ${categoryValues}`,
+          {
+            type: QueryTypes.INSERT,
+            replacements: {
+              articleId: id,
+              ...dto.categoryId.reduce((acc, categoryId, index) => {
+                acc[`categoryId${index}`] = categoryId;
+                return acc;
+              }, {}),
+            },
+            transaction: transaction,
+          },
+        );
+      }
+
+      await transaction.commit();
+      return { message: 'Artigo atualizado' };
+    } catch (error) {
+      await transaction.rollback();
+    }
   }
 
   async delete(id: number, userJWT: JWTType) {

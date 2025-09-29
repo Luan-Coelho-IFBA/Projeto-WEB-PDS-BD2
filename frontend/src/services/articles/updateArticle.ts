@@ -39,6 +39,7 @@ export async function updateArticle({
                 },
             }
         );
+        console.log(response.data);
         return response.data as AxiosResponse;
     } catch (error) {
         throw error as AxiosError;
