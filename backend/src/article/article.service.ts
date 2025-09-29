@@ -395,7 +395,7 @@ export class ArticleService {
       if (dto.categoryId && dto.categoryId.length > 0) {
         await this.sequelize.query(
           /* sql */
-          `DELETE FROM "ArticlesCategories" 
+          `DELETE FROM "ArticleCategories" 
      WHERE "articleId" = :articleId`,
           {
             type: QueryTypes.DELETE,
@@ -412,7 +412,7 @@ export class ArticleService {
 
         await this.sequelize.query(
           /* sql */
-          `INSERT INTO "ArticlesCategories" ("articleId", "categoryId")
+          `INSERT INTO "ArticleCategories" ("articleId", "categoryId")
      VALUES ${categoryValues}`,
           {
             type: QueryTypes.INSERT,
@@ -431,6 +431,7 @@ export class ArticleService {
       await transaction.commit();
       return { message: 'Artigo atualizado' };
     } catch (error) {
+      console.log(error);
       await transaction.rollback();
     }
   }
