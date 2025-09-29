@@ -6,6 +6,7 @@ export const apiRoutes = {
         getMe: "/auth",
         changeUser: "/auth",
         getWriters: "/auth/writers",
+        getReaders: "/auth/readers",
     },
     article: {
         delete: "/article",
