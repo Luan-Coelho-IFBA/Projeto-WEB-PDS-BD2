@@ -15,14 +15,14 @@
     position: relative;
     display: flex;
     align-items: center;
-	justify-content: center;
+    justify-content: center;
     /* border: 1px solid red; */
     padding: 0 2rem;
 }
 
 .menu {
-	position: absolute;
-	left: 0;
+    position: absolute;
+    left: 0;
     cursor: pointer;
     padding: 1rem;
     display: flex;
@@ -32,14 +32,14 @@
     font-size: 2rem;
     color: white;
 
-    span {
-        border: 2px solid transparent;
-        transition: all 0.2s;
-    }
-
-    &:hover span {
+    &:hover .menuTextHeader {
         border-bottom-color: white;
     }
+}
+
+.menuTextHeader {
+    border: 2px solid transparent;
+    transition: all 0.2s;
 }
 
 .title {
@@ -56,56 +56,283 @@
 }
 
 .rightSide {
-	position: absolute;
-	right: 0;
+    position: absolute;
+    right: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+    gap: 1rem;
+    transition: all 0.3s;
+}
+
+.rightSide {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .searchContainer {
     position: relative;
+    display: flex;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    .searchIcon {
-        width: 1.6rem;
-        color: black;
-        position: absolute;
-        top: 0.6rem;
-        left: 1rem;
+.searchInput {
+    width: 200px;
+    padding: 0.75rem 1rem;
+    padding-right: 3rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 1.5rem;
+    font-size: 1.4rem;
+    background-color: #f8fafc;
+    transition: all 0.4s;
+    outline: none;
+}
+
+.searchInputExpanded {
+    width: 320px;
+    padding: 1rem 1.25rem;
+    padding-right: 3.5rem;
+    border-color: var(--main-color);
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+    transition: all 0.3s;
+}
+
+.searchInput::placeholder {
+    color: #9ca3af;
+    transition: all 0.3s ease;
+}
+
+.searchInputExpanded::placeholder {
+    color: #6b7280;
+}
+
+.searchIcon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.searchIcon:hover {
+    color: var(--main-color);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.searchIconFocused {
+    color: var(--main-color);
+    right: 1.25rem;
+    width: 22px;
+    height: 22px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .title h1 {
+        font-size: 1.8rem;
+    }
+
+    .menuTextHeader {
+        display: none;
     }
 
     .searchInput {
-        border: 0.1rem solid black;
-        border-radius: 0.8rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        text-indent: 2rem;
+        width: 150px;
+        padding: 0.6rem 0.8rem;
+        padding-right: 2.5rem;
+        font-size: 1.2rem;
+    }
+
+    .searchInputExpanded {
+        width: 240px;
+        padding: 0.8rem 1rem;
+        padding-right: 3rem;
+    }
+
+    .searchIcon {
+        right: 0.8rem;
+        width: 18px;
+        height: 18px;
+    }
+
+    .searchIconFocused {
+        right: 1rem;
+        width: 20px;
+        height: 20px;
     }
 }
 
-.containerLinks {
-    display: flex;
+@media (max-width: 480px) {
+    .container {
+        padding: 0.75rem;
+    }
 
-    :last-child {
-        border-left: none;
+    .title h1 {
+        font-size: 1.6rem;
+    }
+
+    .searchInput {
+        width: 120px;
+        padding: 0.5rem 0.7rem;
+        padding-right: 2.2rem;
+        font-size: 0.85rem;
+    }
+
+    .searchInputExpanded {
+        width: 180px;
+        padding: 0.7rem 0.9rem;
+        padding-right: 2.8rem;
+    }
+
+    .menu svg {
+        width: 28px;
+        height: 28px;
     }
 }
 
-.itemLink {
-    color: white;
-    font-size: 2.2rem;
-    text-decoration: none;
-    padding: 1.5rem 1rem;
-    border: 1px solid transparent;
-    border-right-color: white;
-    border-left-color: white;
-
-    span {
-        transition: text-shadow 0.2s ease;
+@media (max-width: 670px) {
+    .header {
+        padding: 2rem 1rem;
     }
 
-    &:hover span {
-        text-shadow: 0.5px 0 0 currentColor, -0.5px 0 0 currentColor;
+    .container {
+        padding: 0.5rem 1rem;
+    }
+
+    .title h1 {
+        font-size: 1.7rem;
+    }
+
+    .searchInput {
+        width: 100px;
+        padding: 0.5rem 0.6rem;
+        padding-right: 2rem;
+        font-size: 1.1rem;
+    }
+
+    .searchInputExpanded {
+        width: 180px;
+        padding: 0.6rem 0.8rem;
+        padding-right: 2.5rem;
+    }
+
+    .searchIcon {
+        right: 0.6rem;
+        width: 16px;
+        height: 16px;
+    }
+
+    .searchIconFocused {
+        right: 0.8rem;
+        width: 18px;
+        height: 18px;
+    }
+
+    .rightSide {
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    .title h1 {
+        font-size: 1.2rem;
+    }
+
+    .searchInput {
+        width: 80px;
+        padding: 0.4rem 0.5rem;
+        padding-right: 1.8rem;
+        font-size: 1.2rem;
+    }
+
+    .searchInputExpanded {
+        width: 140px;
+        padding: 0.5rem 0.6rem;
+        padding-right: 2.2rem;
+    }
+
+    .menu svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .searchIcon {
+        right: 0.5rem;
+        width: 14px;
+        height: 14px;
+    }
+
+    .searchIconFocused {
+        right: 0.6rem;
+        width: 16px;
+        height: 16px;
+    }
+
+    .rightSide {
+        min-width: 80px;
+    }
+}
+
+@media (max-width: 410px) {
+    .container {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .title h1 {
+        font-size: 1.3rem;
+    }
+
+    .searchInput {
+        width: 60px;
+        padding: 0.3rem 0.4rem;
+        padding-right: 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .searchInputExpanded {
+        width: 130px;
+        padding: 0.4rem 0.5rem;
+        padding-right: 2rem;
+    }
+
+    .menu {
+        padding: 0.5rem;
+    }
+
+    .menu svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .searchIcon {
+        right: 0.4rem;
+        width: 12px;
+        height: 12px;
+    }
+
+    .searchIconFocused {
+        right: 0.5rem;
+        width: 14px;
+        height: 14px;
+    }
+
+    .rightSide {
+        min-width: 60px;
     }
 }

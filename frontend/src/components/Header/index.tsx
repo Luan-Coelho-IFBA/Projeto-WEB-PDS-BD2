@@ -10,6 +10,7 @@ import { PageRoutesName } from "../../constants/PageRoutesName";
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [search, setSearch] = useState("");
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
     const location = useLocation();
     const navigation = useNavigate();
 
@@ -25,7 +26,7 @@ export function Header() {
                 <nav className={styles.container}>
                     <div onClick={handleMenuClick} className={styles.menu}>
                         <MenuIcon size={32} />
-                        <span>MENU</span>
+                        <span className={styles.menuTextHeader}>MENU</span>
                     </div>
 
                     <div
@@ -37,17 +38,21 @@ export function Header() {
 
                     {isHomePage && (
                         <div className={styles.rightSide}>
-                            <div className={styles.searchContainer}>
-                                <input
-                                    className={styles.searchInput}
-                                    type="search"
-                                    value={search}
-                                    placeholder="Pesquisar"
-                                    onChange={(e) => setSearch(e.target.value)}
-                                />
-                            </div>
+                            <input
+                                className={`${styles.searchInput} ${
+                                    isSearchFocused
+                                        ? styles.searchInputExpanded
+                                        : ""
+                                }`}
+                                type="search"
+                                value={search}
+                                placeholder="Pesquisar artigos ..."
+                                onChange={(e) => setSearch(e.target.value)}
+                                onFocus={() => setIsSearchFocused(true)}
+                                onBlur={() => setIsSearchFocused(false)}
+                            />
+
                             <SearchIcon
-                                color="white"
                                 strokeWidth={"3px"}
                                 className={styles.searchIcon}
                                 onClick={() => {
