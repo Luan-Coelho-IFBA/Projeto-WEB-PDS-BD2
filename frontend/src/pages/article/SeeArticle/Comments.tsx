@@ -16,6 +16,7 @@ import z from "zod";
 import { RouterLink } from "../../../components/RouterLink";
 import { PageRoutesName } from "../../../constants/PageRoutesName";
 import { notify } from "../../../adapters/toastHotAdapter";
+import { useState } from "react";
 
 const CreateCommentSchema = z.object({
     comment: z.string().min(2, "Seu comentario é curto demais!"),
@@ -25,6 +26,7 @@ type CreateCommentForm = z.infer<typeof CreateCommentSchema>;
 
 export function CommentsSection() {
     const { id } = useParams();
+    const [loadingComment, setLoadingComment] = useState(false);
 
     const {
         data: commentsData,
@@ -46,9 +48,11 @@ export function CommentsSection() {
         data: CreateCommentForm
     ) => {
         try {
+            setLoadingComment(true);
             await createComment(Number(id), data.comment);
             notify.sucess("Comentario criado!");
             refetch();
+            setLoadingComment(false);
         } catch (error) {}
     };
 
@@ -95,10 +99,21 @@ export function CommentsSection() {
                                 />
 
                                 <button
+                                    disabled={loadingComment}
                                     className={styles.buttonCreateComment}
                                     type="submit"
                                 >
-                                    Enviar
+                                    {loadingComment ? (
+                                        <Loader direction="row">
+                                            <Loader.TextMessage
+                                                color="white"
+                                                feedbackMessage="Criando"
+                                            />
+                                            <Loader.Icon color="white" />
+                                        </Loader>
+                                    ) : (
+                                        "Enviar"
+                                    )}
                                 </button>
                             </form>
                             {!commentsIsLoading && commentsData && (
