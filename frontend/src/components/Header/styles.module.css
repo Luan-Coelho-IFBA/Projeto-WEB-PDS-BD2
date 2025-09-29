@@ -134,6 +134,12 @@
     height: 22px;
 }
 
+@media (max-width: 970px) {
+    .searchInputExpanded {
+        width: 250px;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
@@ -141,7 +147,7 @@
     }
 
     .title h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 
     .menuTextHeader {
@@ -150,7 +156,7 @@
 
     .searchInput {
         width: 150px;
-        padding: 0.6rem 0.8rem;
+        /* padding: 0.6rem 0.8rem; */
         padding-right: 2.5rem;
         font-size: 1.2rem;
     }
@@ -180,13 +186,13 @@
     }
 
     .title h1 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
     }
 
     .searchInput {
         width: 120px;
-        padding: 0.5rem 0.7rem;
-        padding-right: 2.2rem;
+/*         padding: 0.5rem 1rem;
+        padding-right: 2.2rem; */
         font-size: 0.85rem;
     }
 
@@ -245,17 +251,25 @@
     }
 }
 
+@media (max-width: 510px) {
+
+    .searchInput{
+        width: 110px;
+    }
+
+    .searchInputExpanded{
+        width: 160px;
+    }
+}
+
+
 @media (max-width: 480px) {
     .container {
         padding: 0.5rem;
     }
 
-    .title h1 {
-        font-size: 1.2rem;
-    }
-
     .searchInput {
-        width: 80px;
+        width: 100px;
         padding: 0.4rem 0.5rem;
         padding-right: 1.8rem;
         font-size: 1.2rem;

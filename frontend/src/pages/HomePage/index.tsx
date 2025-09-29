@@ -19,7 +19,7 @@ export function HomePage() {
     // Query para artigos recentes
     const latestArticlesQuery = useQuery({
         queryKey: ["latestArticlesPage"],
-        queryFn: () => getLatestArticles(3, 0),
+        queryFn: () => getLatestArticles(5, 0),
         retry: 2,
         staleTime: 2 * 60 * 1000,
         gcTime: 0,
@@ -28,7 +28,7 @@ export function HomePage() {
     // Query para artigos em alta
     const mostViewedArticlesQuery = useQuery({
         queryKey: ["mostViewedArticlesPage"],
-        queryFn: () => getMostViewed(3, 0),
+        queryFn: () => getMostViewed(5, 0),
         retry: 2,
         staleTime: 5 * 60 * 1000,
         gcTime: 0,
