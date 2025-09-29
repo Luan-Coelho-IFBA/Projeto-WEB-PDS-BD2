@@ -87,6 +87,12 @@ export function EditArticlePage() {
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm({
         resolver: zodResolver(CreateArticleSchema),
+        defaultValues: {
+            title: articleToUpdate?.article.title,
+            subtitle: articleToUpdate?.article.subtitle,
+            text: articleToUpdate?.article.text,
+            categoryId: articleToUpdate?.article.categories.map((c) => c.id),
+        },
     });
 
     const onSubmitForm: SubmitHandler<CreateArticleForm> = async (

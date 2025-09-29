@@ -337,7 +337,7 @@ export class AuthService implements OnModuleInit {
       `SELECT u.*, ROW_TO_JSON(r.*) as role FROM "ShowUsers" u
       LEFT JOIN "Roles" r
       ON r.id = u."roleId"
-      WHERE r."name" = :name`,
+      WHERE r."name" = :name AND u."isVerified" = TRUE`,
       {
         type: QueryTypes.SELECT,
         replacements: {
