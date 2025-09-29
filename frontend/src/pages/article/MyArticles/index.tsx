@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import styles from "./styles.module.css";
 import { getMyArticles } from "../../../services/articles/getMyArticles";
-// import { useState } from "react";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
-// import { Article } from "../../../types/Article";
 import { formatDate } from "../../../utils/formatDate";
 import { useNavigate } from "react-router";
 import { PencilIcon, TrashIcon } from "lucide-react";
@@ -12,6 +10,10 @@ import {
     loadingContentText,
 } from "../../../constants/textContent";
 import { Loader } from "../../../components/Loader";
+import { useState } from "react";
+import { Article } from "../../../types/Article";
+import { ModalRemoveArticle } from "../../../components/ModalRemoveArticle";
+import { PageRoutesName } from "../../../constants/PageRoutesName";
 
 export default function MyArticles() {
     const navigate = useNavigate();
@@ -30,9 +32,9 @@ export default function MyArticles() {
         gcTime: 0,
     });
 
-    /* const [selectedArticleRemove, setSelectedArticleRemove] =
+    const [selectedArticleRemove, setSelectedArticleRemove] =
         useState<Article>();
-    const [modalRemoveArticle, setModalRemoveArticle] = useState(false); */
+    const [modalRemoveArticle, setModalRemoveArticle] = useState(false);
 
     return (
         <DefaultLayout className={styles.generalContainer} authenticated>
@@ -41,16 +43,14 @@ export default function MyArticles() {
                     Gerenciar meus artigos
                 </h2>
 
-                {/* 
                 {selectedArticleRemove && modalRemoveArticle && (
-                    <ModalRemoveCategory
-                        category={selectedArticleRemove}
+                    <ModalRemoveArticle
+                        article={selectedArticleRemove}
                         handleModal={setModalRemoveArticle}
-                        refetchCategories={refetch}
+                        refetchMyArticles={refetch}
                         isOpen={modalRemoveArticle}
                     />
                 )}
-                 */}
 
                 <div className={styles.tableContainer}>
                     {isSuccess && myArticlesQueries.articles.length === 0 && (
@@ -95,7 +95,9 @@ export default function MyArticles() {
                                         {/* ALTERAR CATEGORIA */}
                                         <td
                                             onClick={() => {
-                                                navigate("/");
+                                                navigate({
+                                                    pathname: `${PageRoutesName.articles.updateArticle}/${article.id}`,
+                                                });
                                             }}
                                             className={styles.iconAction}
                                         >
@@ -107,12 +109,12 @@ export default function MyArticles() {
                                         <td
                                             className={styles.iconAction}
                                             onClick={() => {
-                                                /* setSelectedArticleRemove(
+                                                setSelectedArticleRemove(
                                                     article
                                                 );
                                                 setModalRemoveArticle(
                                                     (prev) => !prev
-                                                ); */
+                                                );
                                             }}
                                         >
                                             <TrashIcon color="red" />

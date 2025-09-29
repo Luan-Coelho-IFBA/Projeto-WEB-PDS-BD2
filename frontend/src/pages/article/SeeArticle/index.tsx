@@ -47,7 +47,7 @@ export default function SeeArticlePage() {
                             Categorias:{" "}
                             {articleData?.article.categories.map((category, index) => (
                                 <span key={category.id}>
-                                    <RouterLink 
+                                    <RouterLink
                                         href={`${PageRoutesName.articles.articlesByCategory}/${category.id}`}
                                         className={styles.categoryLink}
                                     >
