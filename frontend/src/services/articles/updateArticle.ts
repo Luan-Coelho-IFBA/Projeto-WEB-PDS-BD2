@@ -3,6 +3,7 @@ import api from "../../server/api";
 import { apiRoutes } from "../../server/apiRoutes";
 import { getLocalStorageToken } from "../../utils/getLocalStorageToken";
 export interface ArticleTypePostData {
+    id: number;
     title: string;
     subtitle: string;
     text: string;
@@ -11,6 +12,7 @@ export interface ArticleTypePostData {
 }
 
 export async function updateArticle({
+    id,
     categoryId,
     image,
     subtitle,
@@ -27,12 +29,16 @@ export async function updateArticle({
     });
 
     try {
-        const response = await api.patch(apiRoutes.article.getById, fd, {
-            headers: {
-                Authorization: getLocalStorageToken(),
-                "Content-Type": "multipart/form-data",
-            },
-        });
+        const response = await api.patch(
+            `${apiRoutes.article.updateArticle}/${id}`,
+            fd,
+            {
+                headers: {
+                    Authorization: getLocalStorageToken(),
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
         return response.data as AxiosResponse;
     } catch (error) {
         throw error as AxiosError;

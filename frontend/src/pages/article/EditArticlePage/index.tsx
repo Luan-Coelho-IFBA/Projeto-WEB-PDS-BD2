@@ -93,7 +93,7 @@ export function EditArticlePage() {
         data: CreateArticleForm
     ) => {
         try {
-            await updateArticle({ ...data });
+            await updateArticle({ ...data, id: Number(id) });
             notify.sucess("Artigo atualizado com sucesso");
             navigate(PageRoutesName.home);
         } catch (error) {
@@ -250,15 +250,12 @@ export function EditArticlePage() {
                                     // @ts-expect-error
                                     control={control}
                                     initialValue={articleToUpdate.article.categories.map(
-                                        (cat) => cat.id
+                                        (c) => c.id
                                     )}
                                     options={categoryQuery?.map((c) => ({
                                         label: c.name,
                                         value: c.id,
                                     }))}
-                                    initialValue={articleToUpdate.article.categories.map(
-                                        (c) => c.id
-                                    )}
                                 />
                                 {errors?.categoryId?.message && (
                                     <p className={styles.error}>
