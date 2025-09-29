@@ -8,6 +8,7 @@ export const apiRoutes = {
         getWriters: "/auth/writers",
     },
     article: {
+        delete: "/article",
         mostViewed: "/article/most-viewed",
         getAll: "/article",
         getById: "/article",

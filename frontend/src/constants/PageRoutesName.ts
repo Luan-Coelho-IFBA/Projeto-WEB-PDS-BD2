@@ -12,6 +12,7 @@ export const PageRoutesName = {
     articles: {
         createArticle: "/create-article",
         seeArticle: "/articles",
+        updateArticle: "/articles/update",
         mostViewed: "/articles/most-viewed",
         latest: "/articles/latest",
         articlesByCategory: "/articles/category",
