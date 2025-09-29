@@ -29,21 +29,17 @@ const CreateArticleSchema = z.object({
         .string()
         .nonempty("Você precisa de uma descrição no seu artigo."),
     text: z.string().nonempty("Seu artigo precisa ter um corpo."),
-    image: z
-        .custom<FileList>()
-        .refine(
-            (files) => files.length === 1,
-            "Você precisa enviar uma imagem."
-        )
-        .refine(
-            (fileList) =>
-                ["image/jpeg", "image/png", "image/webp"].includes(
-                    fileList[0].type
-                ),
-            {
-                message: "A imagem precisa ser do tipo JPG, PNG ou WEBP.",
-            }
-        ),
+    image: z.custom<FileList>().refine(
+        (fileList) => {
+            if (fileList.length <= 0) return true;
+            return ["image/jpeg", "image/png", "image/webp"].includes(
+                fileList[0].type
+            );
+        },
+        {
+            message: "A imagem precisa ser do tipo JPG, PNG ou WEBP.",
+        }
+    ),
 });
 
 type CreateArticleForm = z.infer<typeof CreateArticleSchema>;
@@ -260,6 +256,9 @@ export function EditArticlePage() {
                                         label: c.name,
                                         value: c.id,
                                     }))}
+                                    initialValue={articleToUpdate.article.categories.map(
+                                        (c) => c.id
+                                    )}
                                 />
                                 {errors?.categoryId?.message && (
                                     <p className={styles.error}>
