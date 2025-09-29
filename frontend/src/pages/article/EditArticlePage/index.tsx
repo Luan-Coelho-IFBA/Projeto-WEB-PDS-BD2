@@ -98,7 +98,7 @@ export function EditArticlePage() {
     ) => {
         try {
             await updateArticle({ ...data });
-            notify.sucess("Artigo criado com sucesso");
+            notify.sucess("Artigo atualizado com sucesso");
             navigate(PageRoutesName.home);
         } catch (error) {
             const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -199,13 +199,18 @@ export function EditArticlePage() {
                                         </span>
                                     </div>
                                 )}
-                                {imagePreview ||
-                                    (articleToUpdate.article.image && (
-                                        <img
-                                            className={styles.imagePreview}
-                                            src={`data:${articleToUpdate.article.imageMimeType};base64,${articleToUpdate.article.image}`}
-                                        ></img>
-                                    ))}
+                                {!imagePreview && (
+                                    <img
+                                        className={styles.imagePreview}
+                                        src={`data:${articleToUpdate.article.imageMimeType};base64,${articleToUpdate.article.image}`}
+                                    ></img>
+                                )}
+                                {imagePreview && (
+                                    <img
+                                        className={styles.imagePreview}
+                                        src={imagePreview}
+                                    ></img>
+                                )}
                                 <input
                                     {...register("image", {
                                         onChange: handleImageChange,
@@ -222,7 +227,6 @@ export function EditArticlePage() {
                             </label>
                         </div>
 
-                        {/* <img className={styles.formRow} /> */}
                         <div className={styles.formRow}>
                             <label className={styles.inputArea}>
                                 CONTEÚDO
@@ -249,6 +253,9 @@ export function EditArticlePage() {
                                     name="categoryId"
                                     // @ts-expect-error
                                     control={control}
+                                    initialValue={articleToUpdate.article.categories.map(
+                                        (cat) => cat.id
+                                    )}
                                     options={categoryQuery?.map((c) => ({
                                         label: c.name,
                                         value: c.id,
@@ -275,14 +282,14 @@ export function EditArticlePage() {
                                 <Loader direction="row">
                                     <Loader.TextMessage
                                         color="white"
-                                        feedbackMessage="Criando artigo..."
+                                        feedbackMessage="Alterar artigo..."
                                     />
                                     <Loader.Icon color="white" />
                                 </Loader>
                             ) : isSubmitSuccessful ? (
-                                "Criado"
+                                "Alterado"
                             ) : (
-                                "Criar artigo"
+                                "Alterar artigo"
                             )}
                         </button>
                     </form>
