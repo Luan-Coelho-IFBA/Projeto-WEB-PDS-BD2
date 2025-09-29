@@ -199,12 +199,13 @@ export function EditArticlePage() {
                                         </span>
                                     </div>
                                 )}
-                                {imagePreview && (
-                                    <img
-                                        className={styles.imagePreview}
-                                        src={imagePreview}
-                                    ></img>
-                                )}
+                                {imagePreview ||
+                                    (articleToUpdate.article.image && (
+                                        <img
+                                            className={styles.imagePreview}
+                                            src={`data:${articleToUpdate.article.imageMimeType};base64,${articleToUpdate.article.image}`}
+                                        ></img>
+                                    ))}
                                 <input
                                     {...register("image", {
                                         onChange: handleImageChange,
