@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 
 import styles from "./styles.module.css";
 import { ChevronDownIcon } from "lucide-react";
@@ -20,8 +20,9 @@ export function MultiSelectDropdown({
 }: MultiSelectDropdownProps) {
     const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-    function handleClickOpenModal() {
+    function handleClickOpenModal(e: MouseEvent) {
         setShowDropdown(!showDropdown);
+        e.stopPropagation();
     }
 
     return (
@@ -34,7 +35,7 @@ export function MultiSelectDropdown({
                     <div
                         tabIndex={0}
                         className={styles.container}
-                        onClick={handleClickOpenModal}
+                        onClick={(e) => handleClickOpenModal(e)}
                     >
                         {value.length > 0
                             ? `${value.length} selecionados`
