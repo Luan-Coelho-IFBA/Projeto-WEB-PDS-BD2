@@ -6,6 +6,8 @@ import { AxiosError } from "axios";
 import { ApiErrorResponse } from "../../../server/types";
 import { Loader } from "../../../components/Loader";
 
+import styles from "./styles.module.css";
+
 type RemoveWriterModalProps = {
     selectedWriter: ApiResponseUser;
     isOpen: boolean;
@@ -48,11 +50,14 @@ export function RemoveWriterModal({
                 {isError && <p style={{ color: "red" }}>{isError}</p>}
             </Modal.BodyText>
             <Modal.Actions>
-                <button onClick={() => setModalRemoveWriter((prev) => !prev)}>
+                <button
+                    className={styles.button}
+                    onClick={() => setModalRemoveWriter((prev) => !prev)}
+                >
                     Cancelar
                 </button>
                 <button disabled={isLoading} onClick={removeWriterFn}>
-                    {isLoading && (
+                    {isLoading ? (
                         <Loader direction="row">
                             <Loader.TextMessage
                                 color="white"
@@ -60,6 +65,8 @@ export function RemoveWriterModal({
                             />
                             <Loader.Icon />
                         </Loader>
+                    ) : (
+                        "Remover"
                     )}
                 </button>
             </Modal.Actions>
