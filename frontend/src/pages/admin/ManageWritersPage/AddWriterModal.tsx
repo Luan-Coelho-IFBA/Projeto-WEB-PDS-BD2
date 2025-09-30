@@ -39,7 +39,7 @@ export function AddWriterModal({
         if (selectedReader?.id == undefined) return;
         try {
             await changeToWriter(selectedReader?.id);
-            notify.sucess("Artigo criado com sucesso");
+            notify.sucess("Editor adicionado com sucesso!");
             setModalConfirm(false);
             closeHandler(false);
             refetchWritersTable();
@@ -90,7 +90,10 @@ export function AddWriterModal({
                         ))}
                 </div>
                 <Modal.Actions>
-                    <button onClick={() => closeHandler((prev) => !prev)}>
+                    <button
+                        className={`${styles.button} ${styles.cancelButton}`}
+                        onClick={() => closeHandler((prev) => !prev)}
+                    >
                         Cancelar
                     </button>
                 </Modal.Actions>
@@ -104,10 +107,12 @@ export function AddWriterModal({
                 >
                     <Modal.Header title="Confirmação" />
                     <Modal.BodyText>
+                        <p>Você tem certeza que deseja adicionar o leitor:</p>
                         <p>
-                            Você tem certeza que deseja adicionar o leitor{" "}
-                            {selectedReader?.name} com o email{" "}
-                            {selectedReader?.email}
+                            Leitor: <strong>"{selectedReader?.name}"</strong>
+                        </p>
+                        <p>
+                            Email: "<strong>{selectedReader?.email}</strong>"{" "}
                         </p>
                     </Modal.BodyText>
                     <Modal.Actions>

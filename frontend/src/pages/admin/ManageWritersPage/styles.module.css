@@ -166,6 +166,9 @@
 .tableList th:nth-child(2) {
     text-align: center; /* ID centralizado */
 }
+.tableList th:nth-child(3) {
+    text-align: center;
+}
 
 .tableList th:nth-child(5),
 .tableList th:nth-child(6) {
@@ -211,8 +214,8 @@
 }
 
 .tableList td:nth-child(3) span {
-    text-align: justify;
-    color: #718096;
+    text-align: center;
+    color: black;
     font-size: 1.3rem;
 }
 .tableList td:nth-child(4) span {
@@ -228,11 +231,17 @@
 }
 
 .button {
+    color: white;
+    background-color: var(--main-color);
     cursor: pointer;
     padding: 1rem 2rem;
     border: none;
     border-radius: 1rem;
     transition: all 0.3s;
+
+    &:hover {
+        background-color: var(--main-color-hover);
+    }
 }
 
 .submitButton {
@@ -250,6 +259,7 @@
     }
 }
 .cancelButton {
+    color: black;
     background-color: var(--button-grey);
 
     &:hover {
@@ -347,7 +357,7 @@
     }
 
     .iconAction span {
-        font-size: 0.75rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -363,7 +373,7 @@
 
     .addCategory {
         padding: 0.875rem 1.25rem;
-        font-size: 0.9rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -380,7 +390,7 @@
     }
 
     .reader p {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -396,6 +406,6 @@
     }
 
     .reader p {
-        font-size: 0.85rem;
+        font-size: 1.2rem;
     }
 }

@@ -28,7 +28,11 @@ export function NewsSection({
         <section className={styles.contentRow}>
             <div className={styles.articleHeaderContainer}>
                 <h3 className={styles.titleSection}>{title}</h3>
-                {link && <RouterLink href={link}>Ver mais</RouterLink>}
+                {link && (
+                    <RouterLink href={link} style={{ fontSize: 14 }}>
+                        Ver mais
+                    </RouterLink>
+                )}
             </div>
             <div className={styles.articleContainerList}>
                 {displayedArticles.map((article) => (
