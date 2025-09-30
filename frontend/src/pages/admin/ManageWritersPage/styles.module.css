@@ -142,6 +142,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 1.6rem;
+    overflow: scroll;
 }
 
 .tableList thead {
