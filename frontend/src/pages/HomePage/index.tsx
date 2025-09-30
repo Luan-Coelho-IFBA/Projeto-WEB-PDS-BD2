@@ -119,18 +119,17 @@ export function HomePage() {
                             />
                         )}
                 </div>
-                {isJornalista ||
-                    (isAdmin && (
-                        <div
-                            onClick={() => {
-                                navigate(PageRoutesName.articles.createArticle);
-                            }}
-                            className={styles.createArticle}
-                        >
-                            <PlusIcon className={styles.createIcon} />
-                            <span>Criar Artigo</span>
-                        </div>
-                    ))}
+                {(isJornalista || isAdmin) && (
+                    <div
+                        onClick={() => {
+                            navigate(PageRoutesName.articles.createArticle);
+                        }}
+                        className={styles.createArticle}
+                    >
+                        <PlusIcon className={styles.createIcon} />
+                        <span>Criar Artigo</span>
+                    </div>
+                )}
             </main>
         </DefaultLayout>
     );
