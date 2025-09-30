@@ -5,6 +5,11 @@ import { useState } from "react";
 import { Loader } from "../../../components/Loader";
 
 import styles from "./styles.module.css";
+import { ApiResponseUser } from "../../../services/auth/getWriters";
+import { changeToWriter } from "../../../services/role/changeToWriter";
+import { notify } from "../../../adapters/toastHotAdapter";
+import { AxiosError } from "axios";
+import { ApiErrorResponse } from "../../../server/types";
 
 type AddWriterModalProps = {
     isOpen: boolean;
@@ -19,6 +24,7 @@ export function AddWriterModal({
 }: AddWriterModalProps) {
     const [filter, setFilter] = useState("");
 
+    const [selectedReader, setSelectedReader] = useState<ApiResponseUser>();
     const [modalConfirm, setModalConfirm] = useState(false);
 
     const getReadersQuery = useQuery({
@@ -28,6 +34,20 @@ export function AddWriterModal({
         staleTime: 2 * 60 * 1000,
         gcTime: 0,
     });
+
+    const onConfirmar = async () => {
+        if (selectedReader?.id == undefined) return;
+        try {
+            await changeToWriter(selectedReader?.id);
+            notify.sucess("Artigo criado com sucesso");
+            setModalConfirm(false);
+            closeHandler(false);
+            refetchWritersTable();
+        } catch (error) {
+            const axiosError = error as AxiosError<ApiErrorResponse>;
+            console.log(axiosError);
+        }
+    };
 
     return (
         <Modal
@@ -57,17 +77,16 @@ export function AddWriterModal({
                     {getReadersQuery.data
                         ?.filter((r) => r.name.includes(filter))
                         .map((r) => (
-                            <>
-                                <span
-                                    className={styles.reader}
-                                    key={r.id}
-                                    onClick={() => {
-                                        setModalConfirm((prev) => !prev);
-                                    }}
-                                >
-                                    <p>{r.name}</p>
-                                </span>
-                            </>
+                            <span
+                                className={styles.reader}
+                                key={r.id}
+                                onClick={() => {
+                                    setSelectedReader(r);
+                                    setModalConfirm((prev) => !prev);
+                                }}
+                            >
+                                <p>{r.name}</p>
+                            </span>
                         ))}
                 </div>
                 <Modal.Actions>
@@ -76,15 +95,26 @@ export function AddWriterModal({
                     </button>
                 </Modal.Actions>
             </Modal.BodyText>
-            
+
             {modalConfirm && (
-                <Modal 
-                isOpen={modalConfirm}
-                closeHandler={()=>setModalConfirm(prev=>!prev)}>
-                    <Modal.Header title="Confirmação"/>
+                <Modal
+                    isOpen={modalConfirm}
+                    closeButton
+                    closeHandler={() => setModalConfirm((prev) => !prev)}
+                >
+                    <Modal.Header title="Confirmação" />
                     <Modal.BodyText>
-                        <p>Você tem certeza que deseja adicionar esse leitor </p>
+                        <p>
+                            Você tem certeza que deseja adicionar o leitor{" "}
+                            {selectedReader?.name} com o email{" "}
+                            {selectedReader?.email}
+                        </p>
                     </Modal.BodyText>
+                    <Modal.Actions>
+                        <button className={styles.button} onClick={onConfirmar}>
+                            Confirmar
+                        </button>
+                    </Modal.Actions>
                 </Modal>
             )}
         </Modal>
