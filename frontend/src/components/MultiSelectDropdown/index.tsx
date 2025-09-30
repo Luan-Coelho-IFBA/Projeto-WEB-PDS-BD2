@@ -28,13 +28,13 @@ export function MultiSelectDropdown({
         <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value = initialValue } }) => (
+            defaultValue={initialValue}
+            render={({ field: { onChange, value } }) => (
                 <div>
                     <div
                         tabIndex={0}
                         className={styles.container}
                         onClick={handleClickOpenModal}
-                        style={{}}
                     >
                         {value.length > 0
                             ? `${value.length} selecionados`
