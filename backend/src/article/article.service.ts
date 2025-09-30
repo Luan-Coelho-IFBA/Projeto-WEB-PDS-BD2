@@ -375,8 +375,8 @@ export class ArticleService {
       await this.sequelize.query(
         /* sql */
         `UPDATE "Articles"
-      SET ${queriesJoin}, "updatedAt" = NOW()
-      WHERE id = :id AND ("userId" = :userId OR :userId IS NULL)`,
+        SET ${queriesJoin}, "updatedAt" = NOW()
+        WHERE id = :id AND ("userId" = :userId OR :userId IS NULL)`,
         {
           type: QueryTypes.SELECT,
           replacements: {
@@ -396,7 +396,7 @@ export class ArticleService {
         await this.sequelize.query(
           /* sql */
           `DELETE FROM "ArticleCategories" 
-     WHERE "articleId" = :articleId`,
+          WHERE "articleId" = :articleId`,
           {
             type: QueryTypes.DELETE,
             replacements: {
@@ -413,7 +413,7 @@ export class ArticleService {
         await this.sequelize.query(
           /* sql */
           `INSERT INTO "ArticleCategories" ("articleId", "categoryId")
-     VALUES ${categoryValues}`,
+          VALUES ${categoryValues}`,
           {
             type: QueryTypes.INSERT,
             replacements: {
