@@ -1,15 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { DefaultLayout } from "../../../layouts/DefaultLayout";
-import { getWriters } from "../../../services/auth/getWriters";
+import { ApiResponseUser, getWriters } from "../../../services/auth/getWriters";
 import styles from "./styles.module.css";
-import { TrashIcon, XIcon } from "lucide-react";
+import { PlusIcon, TrashIcon } from "lucide-react";
+import { AddWriterModal } from "./AddWriterModal";
 import { useState } from "react";
-import { getReaders } from "../../../services/auth/getReaders";
+import { RemoveWriterModal } from "./RemoveWriterModal";
+
+ManageWritersPage.AddWriter = AddWriterModal;
+ManageWritersPage.RemoveWritter = RemoveWriterModal;
 
 export function ManageWritersPage() {
-    const [manageVisibility, setManageVisibility] = useState(false);
-    const [filter, setFilter] = useState("");
-
     const getWritersQuery = useQuery({
         queryKey: ["getWriters"],
         queryFn: () => getWriters(),
@@ -18,85 +19,80 @@ export function ManageWritersPage() {
         gcTime: 0,
     });
 
-    const getReadersQuery = useQuery({
-        queryKey: ["getReaders"],
-        queryFn: () => getReaders(),
-        retry: 2,
-        staleTime: 2 * 60 * 1000,
-        gcTime: 0,
-    });
+    const [selectedWriter, setSelectedWriter] = useState<ApiResponseUser>();
+
+    const [modalAddWriter, setModalAddWriter] = useState(false);
+    const [modalRemoveWriter, setModalRemoveWriter] = useState(false);
 
     return (
         <DefaultLayout className={styles.generalContainer} authenticated>
             <main className={styles.sectionContainer}>
                 <h2 className={styles.title}>Gerenciamento de jornalistas</h2>
-                <button onClick={() => setManageVisibility(true)}>
-                    Adicionar jornalista
-                </button>
-                {manageVisibility && (
-                    <div
-                        style={{
-                            position: "absolute",
-                            left: 0,
-                            right: 0,
-                            marginInline: "auto",
-                            width: "fit-content",
-                            backgroundColor: "#FFFFFF",
-                            zIndex: 100,
-                        }}
-                    >
-                        <XIcon onClick={() => setManageVisibility(false)} />
-                        <input onChange={(e) => setFilter(e.target.value)} />
-                        {getReadersQuery.data
-                            ?.filter((r) => r.name.includes(filter))
-                            .map((r) => (
-                                <span onClick={() => {}}>
-                                    <p>{r.name}</p>
-                                </span>
-                            ))}
-                    </div>
+                <div
+                    onClick={() => setModalAddWriter((prev) => !prev)}
+                    className={styles.addCategory}
+                >
+                    <PlusIcon className={styles.addIcon} />
+                    <span>Adicionar Jornalista</span>
+                </div>
+                {modalAddWriter && (
+                    <ManageWritersPage.AddWriter
+                        refetchWritersTable={getWritersQuery.refetch}
+                        isOpen={modalAddWriter}
+                        closeHandler={setModalAddWriter}
+                    />
                 )}
-                <table className={styles.tableList}>
-                    <thead>
-                        <tr>
-                            <th>Nome do Jornalista</th>
-                            <th>ID do Jornalista</th>
-                            <th>Remover</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {getWritersQuery.isSuccess &&
-                            getWritersQuery.data.length > 0 &&
-                            getWritersQuery.data.map((writer) => (
-                                <tr
-                                    key={writer.id}
-                                    className={styles.tableLineData}
-                                >
-                                    <td>
-                                        <span>{writer.name}</span>
-                                    </td>
-                                    <td>
-                                        <span>{writer.id}</span>
-                                    </td>
-                                    {/* REMOVER CATEGORIA */}
-                                    <td
-                                        className={styles.iconAction}
-                                        // onClick={() => {
-                                        //     setSelectedCategoryEdit(
-                                        //         category
-                                        //     );
-                                        //     setModalRemoveCategory(
-                                        //         (prev) => !prev
-                                        //     );
-                                        // }}
+                {selectedWriter && modalRemoveWriter && (
+                    <ManageWritersPage.RemoveWritter
+                        refetchWriters={getWritersQuery.refetch}
+                        selectedWriter={selectedWriter}
+                        isOpen={modalRemoveWriter}
+                        handlerClose={setModalRemoveWriter}
+                    />
+                )}
+                {getWritersQuery.data && getWritersQuery.data.length > 0 && (
+                    <table className={styles.tableList}>
+                        <thead>
+                            <tr>
+                                <th>Nome do Jornalista</th>
+                                <th>ID do Jornalista</th>
+                                <th>Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getWritersQuery.data &&
+                                getWritersQuery.data.length > 0 &&
+                                getWritersQuery.data.map((writer) => (
+                                    <tr
+                                        key={writer.id}
+                                        className={styles.tableLineData}
                                     >
-                                        <TrashIcon color="red" />
-                                        <span>Remover jornalista</span>
-                                    </td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
+                                        <td>
+                                            <span>{writer.name}</span>
+                                        </td>
+                                        <td>
+                                            <span>{writer.id}</span>
+                                        </td>
+
+
+                                        {/* REMOVER JORNALISTA */}
+                                        <td
+                                            className={styles.iconAction}
+                                            onClick={() => {
+                                                setSelectedWriter(writer);
+                                                setModalRemoveWriter(
+                                                    (prev) => !prev
+                                                );
+                                            }}
+                                        >
+                                            <TrashIcon color="red" />
+                                            <span>Remover jornalista</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                )}
             </main>
         </DefaultLayout>
     );

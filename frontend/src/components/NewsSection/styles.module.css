@@ -57,7 +57,7 @@
     gap: 2rem;
     padding: 1rem 0;
 }
-/* Garantir que nunca haverá mais de 4 colunas */
+
 @media (min-width: 1400px) {
     .articleContainerList {
         grid-template-columns: repeat(4, 1fr);
@@ -76,7 +76,7 @@
     border: 1px solid #f1f5f9;
     position: relative;
     transform: translateY(0);
-    max-width: 420px; /* Largura máxima para não ficar muito largo */
+    max-width: 420px;
 }
 
 .articleContent::before {
@@ -125,9 +125,11 @@
 
 /* Texto do artigo */
 .articleContent p {
+    text-transform: capitalize;
+    text-align: left;
     padding: 1.5rem;
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: #374151;
     line-height: 1.6;
@@ -144,7 +146,6 @@
     color: #1f2937;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .contentRow {
         margin: 2rem 0;
@@ -213,8 +214,8 @@
     }
 }
 
-/* Animação de entrada suave */
 .articleContent {
+    /*Animacao pra demorar um pouco pra aparecer*/
     animation: fadeInUp 0.8s ease forwards;
     opacity: 0;
     transform: translateY(20px);
@@ -231,12 +232,6 @@
 }
 .articleContent:nth-child(4) {
     animation-delay: 0.4s;
-}
-.articleContent:nth-child(5) {
-    animation-delay: 0.5s;
-}
-.articleContent:nth-child(n + 6) {
-    animation-delay: 0.6s;
 }
 
 @keyframes fadeInUp {

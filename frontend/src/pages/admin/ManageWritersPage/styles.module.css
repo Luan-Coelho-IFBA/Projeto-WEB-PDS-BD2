@@ -35,6 +35,96 @@
     }
 }
 
+.readers {
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    border-radius: 1rem;
+    border: 2px solid #cbd5e0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f7fafc;
+
+    background-color: #f9fafb;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.readers::-webkit-scrollbar {
+    width: 8px;
+}
+
+.readers::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.readers::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.readers::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.reader {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    transition: all 0.3s;
+    background-color: white;
+
+    flex-shrink: 0;
+    min-height: 60px;
+}
+
+.reader:hover {
+    transform: translateX(5px) scale(1.02);
+    border-color: var(--main-color);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+    background-color: #f8faff;
+}
+
+.reader:active {
+    transform: translateX(3px) scale(1.01);
+    transition: transform 0.1s ease;
+}
+
+.reader p {
+    margin: 0;
+    font-weight: 500;
+    color: #374151;
+    font-size: 1.6rem;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.reader:hover p {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.readers:empty::after {
+    content: "Nenhum leitor encontrado";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #9ca3af;
+    font-style: italic;
+}
+
 .addIcon {
     width: 20px;
     height: 20px;
@@ -244,5 +334,38 @@
     .addCategory {
         padding: 0.875rem 1.25rem;
         font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .readers {
+        width: 100%;
+        height: 250px;
+        padding: 1rem;
+    }
+
+    .reader {
+        padding: 0.875rem 1rem;
+        min-height: 50px;
+    }
+
+    .reader p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .readers {
+        height: 200px;
+        padding: 0.75rem;
+    }
+
+    .reader {
+        padding: 0.75rem;
+        min-height: 45px;
+    }
+
+    .reader p {
+        font-size: 0.85rem;
     }
 }

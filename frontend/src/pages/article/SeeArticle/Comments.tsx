@@ -60,6 +60,7 @@ export function CommentsSection() {
         try {
             await deleteComment(id);
             refetch();
+            notify.warning("Comentario removido");
         } catch (error) {}
     };
 

@@ -8,6 +8,10 @@ export const apiRoutes = {
         getWriters: "/auth/writers",
         getReaders: "/auth/readers",
     },
+    role: {
+        changeWriterToReader: "/role/leitor",
+        changeReaderToWriter: "/role/jornalista",
+    },
     article: {
         delete: "/article",
         mostViewed: "/article/most-viewed",

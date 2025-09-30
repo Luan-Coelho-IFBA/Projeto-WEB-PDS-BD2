@@ -3,7 +3,7 @@ import api from "../../server/api";
 import { apiRoutes } from "../../server/apiRoutes";
 import { getLocalStorageToken } from "../../utils/getLocalStorageToken";
 
-type ApiResponseUser = {
+export type ApiResponseUser = {
     id: number;
     name: string;
     email: string;
