@@ -8,11 +8,11 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Banco de dados
-ENV DB_HOST=ep-raspy-waterfall-acio1ghy-pooler.sa-east-1.aws.neon.tech
-ENV DB_PORT=5432
-ENV DB_USERNAME=neondb_owner
-ENV DB_PASSWORD=npg_frOa6PM2gZUI
-ENV DB_DATABASE=neondb
+ENV DB_HOST
+ENV DB_PORT
+ENV DB_USERNAME
+ENV DB_PASSWORD
+ENV DB_DATABASE
 
 # Autentificação
 ENV JWT_SECRET=7b253dc9affca552ffad80803e8a3dbaa0cf09693c80fec20dfea1f23a531dd4f0b925f66aa653643fc90c2a8979c586405662c32806846d41e18fc6ab8c5e0e
