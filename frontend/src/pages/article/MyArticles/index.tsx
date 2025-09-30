@@ -71,57 +71,61 @@ export default function MyArticles() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {myArticlesQueries.articles.map((article) => (
-                                    <tr
-                                        key={article.id}
-                                        className={styles.tableLineData}
-                                    >
-                                        <td>
-                                            <span>{article.title}</span>
-                                        </td>
-                                        <td>
-                                            <span>{article.id}</span>
-                                        </td>
-                                        <td>
-                                            <span>
-                                                {formatDate(article.createdAt)}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span title={article.subtitle}>
-                                                {article.subtitle}
-                                            </span>
-                                        </td>
-                                        {/* ALTERAR CATEGORIA */}
-                                        <td
-                                            onClick={() => {
-                                                navigate({
-                                                    pathname: `${PageRoutesName.articles.updateArticle}/${article.id}`,
-                                                });
-                                            }}
-                                            className={styles.iconAction}
+                                {myArticlesQueries.articles
+                                    .sort((a, b) => a.id - b.id)
+                                    .map((article) => (
+                                        <tr
+                                            key={article.id}
+                                            className={styles.tableLineData}
                                         >
-                                            <PencilIcon />
-                                            <span>Alterar Artigo</span>
-                                        </td>
+                                            <td>
+                                                <span>{article.title}</span>
+                                            </td>
+                                            <td>
+                                                <span>{article.id}</span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    {formatDate(
+                                                        article.createdAt
+                                                    )}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span title={article.subtitle}>
+                                                    {article.subtitle}
+                                                </span>
+                                            </td>
+                                            {/* ALTERAR CATEGORIA */}
+                                            <td
+                                                onClick={() => {
+                                                    navigate({
+                                                        pathname: `${PageRoutesName.articles.updateArticle}/${article.id}`,
+                                                    });
+                                                }}
+                                                className={styles.iconAction}
+                                            >
+                                                <PencilIcon />
+                                                <span>Alterar Artigo</span>
+                                            </td>
 
-                                        {/* REMOVER Artigo */}
-                                        <td
-                                            className={styles.iconAction}
-                                            onClick={() => {
-                                                setSelectedArticleRemove(
-                                                    article
-                                                );
-                                                setModalRemoveArticle(
-                                                    (prev) => !prev
-                                                );
-                                            }}
-                                        >
-                                            <TrashIcon color="red" />
-                                            <span>Remover Artigo</span>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            {/* REMOVER Artigo */}
+                                            <td
+                                                className={styles.iconAction}
+                                                onClick={() => {
+                                                    setSelectedArticleRemove(
+                                                        article
+                                                    );
+                                                    setModalRemoveArticle(
+                                                        (prev) => !prev
+                                                    );
+                                                }}
+                                            >
+                                                <TrashIcon color="red" />
+                                                <span>Remover Artigo</span>
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     )}

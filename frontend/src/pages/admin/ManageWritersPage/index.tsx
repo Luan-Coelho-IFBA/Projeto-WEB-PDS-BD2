@@ -71,33 +71,35 @@ export function ManageWritersPage() {
                         <tbody>
                             {getWritersQuery.data &&
                                 getWritersQuery.data.length > 0 &&
-                                getWritersQuery.data.map((writer) => (
-                                    <tr
-                                        key={writer.id}
-                                        className={styles.tableLineData}
-                                    >
-                                        <td>
-                                            <span>{writer.name}</span>
-                                        </td>
-                                        <td>
-                                            <span>{writer.id}</span>
-                                        </td>
-
-                                        {/* REMOVER JORNALISTA */}
-                                        <td
-                                            className={styles.iconAction}
-                                            onClick={() => {
-                                                setSelectedWriter(writer);
-                                                setModalRemoveWriter(
-                                                    (prev) => !prev
-                                                );
-                                            }}
+                                getWritersQuery.data
+                                    .sort((a, b) => a.id - b.id)
+                                    .map((writer) => (
+                                        <tr
+                                            key={writer.id}
+                                            className={styles.tableLineData}
                                         >
-                                            <TrashIcon color="red" />
-                                            <span>Remover jornalista</span>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            <td>
+                                                <span>{writer.name}</span>
+                                            </td>
+                                            <td>
+                                                <span>{writer.id}</span>
+                                            </td>
+
+                                            {/* REMOVER JORNALISTA */}
+                                            <td
+                                                className={styles.iconAction}
+                                                onClick={() => {
+                                                    setSelectedWriter(writer);
+                                                    setModalRemoveWriter(
+                                                        (prev) => !prev
+                                                    );
+                                                }}
+                                            >
+                                                <TrashIcon color="red" />
+                                                <span>Remover jornalista</span>
+                                            </td>
+                                        </tr>
+                                    ))}
                         </tbody>
                     </table>
                 )}

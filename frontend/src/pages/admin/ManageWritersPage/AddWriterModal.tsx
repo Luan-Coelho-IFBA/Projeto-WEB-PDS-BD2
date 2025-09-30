@@ -39,7 +39,7 @@ export function AddWriterModal({
         if (selectedReader?.id == undefined) return;
         try {
             await changeToWriter(selectedReader?.id);
-            notify.sucess("Editor adicionado com sucesso!");
+            notify.sucess("Jornalista adicionado com sucesso!");
             setModalConfirm(false);
             closeHandler(false);
             refetchWritersTable();

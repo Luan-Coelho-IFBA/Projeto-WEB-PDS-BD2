@@ -100,60 +100,66 @@ export function ManageCategoryPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {allCategoriesQueries.map((category) => (
-                                    <tr
-                                        key={category.id}
-                                        className={styles.tableLineData}
-                                    >
-                                        <td>
-                                            <span>{category.name}</span>
-                                        </td>
-                                        <td>
-                                            <span>{category.id}</span>
-                                        </td>
-                                        <td>
-                                            <span>
-                                                {formatDate(category.createdAt)}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span title={category.description}>
-                                                {category.description}
-                                            </span>
-                                        </td>
-                                        {/* ALTERAR CATEGORIA */}
-                                        <td
-                                            onClick={() => {
-                                                setSelectedCategoryEdit(
-                                                    category
-                                                );
-                                                setModalEditACategory(
-                                                    (prev) => !prev
-                                                );
-                                            }}
-                                            className={styles.iconAction}
+                                {allCategoriesQueries
+                                    .sort((a, b) => a.id - b.id)
+                                    .map((category) => (
+                                        <tr
+                                            key={category.id}
+                                            className={styles.tableLineData}
                                         >
-                                            <PencilIcon />
-                                            <span>Alterar Categoria</span>
-                                        </td>
+                                            <td>
+                                                <span>{category.name}</span>
+                                            </td>
+                                            <td>
+                                                <span>{category.id}</span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    {formatDate(
+                                                        category.createdAt
+                                                    )}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    title={category.description}
+                                                >
+                                                    {category.description}
+                                                </span>
+                                            </td>
+                                            {/* ALTERAR CATEGORIA */}
+                                            <td
+                                                onClick={() => {
+                                                    setSelectedCategoryEdit(
+                                                        category
+                                                    );
+                                                    setModalEditACategory(
+                                                        (prev) => !prev
+                                                    );
+                                                }}
+                                                className={styles.iconAction}
+                                            >
+                                                <PencilIcon />
+                                                <span>Alterar Categoria</span>
+                                            </td>
 
-                                        {/* REMOVER CATEGORIA */}
-                                        <td
-                                            className={styles.iconAction}
-                                            onClick={() => {
-                                                setSelectedCategoryEdit(
-                                                    category
-                                                );
-                                                setModalRemoveCategory(
-                                                    (prev) => !prev
-                                                );
-                                            }}
-                                        >
-                                            <TrashIcon color="red" />
-                                            <span>Remover Categoria</span>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            {/* REMOVER CATEGORIA */}
+                                            <td
+                                                className={styles.iconAction}
+                                                onClick={() => {
+                                                    setSelectedCategoryEdit(
+                                                        category
+                                                    );
+                                                    setModalRemoveCategory(
+                                                        (prev) => !prev
+                                                    );
+                                                }}
+                                            >
+                                                <TrashIcon color="red" />
+                                                <span>Remover Categoria</span>
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     )}
