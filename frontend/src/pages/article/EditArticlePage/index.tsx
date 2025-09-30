@@ -98,6 +98,7 @@ export function EditArticlePage() {
     const onSubmitForm: SubmitHandler<CreateArticleForm> = async (
         data: CreateArticleForm
     ) => {
+        console.log(data);
         try {
             await updateArticle({ ...data, id: Number(id) });
             notify.sucess("Artigo atualizado com sucesso");
