@@ -84,16 +84,29 @@ export function EditArticlePage() {
         register,
         control,
         handleSubmit,
+        reset,
         formState: { errors, isSubmitSuccessful, isSubmitting },
     } = useForm({
         resolver: zodResolver(CreateArticleSchema),
         defaultValues: {
-            title: articleToUpdate?.article.title,
-            subtitle: articleToUpdate?.article.subtitle,
-            text: articleToUpdate?.article.text,
-            categoryId: articleToUpdate?.article.categories.map((c) => c.id),
+            title: "",
+            subtitle: "",
+            text: "",
+            categoryId: [],
+            image: undefined,
         },
     });
+
+    useEffect(() => {
+        if (articleToUpdate) {
+            reset({
+                title: articleToUpdate.article.title,
+                subtitle: articleToUpdate.article.subtitle,
+                text: articleToUpdate.article.text,
+                categoryId: articleToUpdate.article.categories.map((c) => c.id),
+            });
+        }
+    }, [articleToUpdate]);
 
     const onSubmitForm: SubmitHandler<CreateArticleForm> = async (
         data: CreateArticleForm
