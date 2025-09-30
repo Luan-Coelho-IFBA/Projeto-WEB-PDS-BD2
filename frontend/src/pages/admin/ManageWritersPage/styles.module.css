@@ -227,6 +227,36 @@
     padding: 0.875rem 1rem !important;
 }
 
+.button {
+    cursor: pointer;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 1rem;
+    transition: all 0.3s;
+}
+
+.submitButton {
+    color: white;
+    background-color: var(--main-color);
+
+    &:hover {
+        background-color: var(--main-color-hover);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        color: white;
+        background-color: var(--dark-grey);
+    }
+}
+.cancelButton {
+    background-color: var(--button-grey);
+
+    &:hover {
+        background-color: var(--button-grey-hover);
+    }
+}
+
 .iconAction:hover {
     background-color: #edf2f7;
     border-radius: 6px;
