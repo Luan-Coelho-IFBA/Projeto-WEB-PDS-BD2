@@ -50,6 +50,15 @@ export function ManageWritersPage() {
                         handlerClose={setModalRemoveWriter}
                     />
                 )}
+                {getWritersQuery.data && getWritersQuery.data.length === 0 && (
+                    <div className={styles.feedbackMessage}>
+                        <p>
+                            Nenhuma jornalista registrado. Clique em adicionar
+                            jornalista para adicionar a lista.
+                        </p>
+                    </div>
+                )}
+
                 {getWritersQuery.data && getWritersQuery.data.length > 0 && (
                     <table className={styles.tableList}>
                         <thead>
@@ -73,7 +82,6 @@ export function ManageWritersPage() {
                                         <td>
                                             <span>{writer.id}</span>
                                         </td>
-
 
                                         {/* REMOVER JORNALISTA */}
                                         <td
