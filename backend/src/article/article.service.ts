@@ -440,14 +440,7 @@ export class ArticleService {
     await this.sequelize.query(
       /* sql */
       `DELETE FROM "ArticleCategories" ac
-      WHERE ac."articleId" in (
-      	SELECT ac."articleId" FROM "ArticleCategories" ac2
-      	INNER JOIN "Articles" a
-      	ON a.id = ac2."articleId"
-      	INNER JOIN "Users"
-      	ON "Users".id = a."userId"
-      	WHERE a.id = :id AND ("userId" = :userId OR :userId IS NULL)
-      )`,
+      WHERE ac."articleId" = :id`,
       {
         type: QueryTypes.DELETE,
         replacements: {

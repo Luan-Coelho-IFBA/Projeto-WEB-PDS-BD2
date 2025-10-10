@@ -19,11 +19,6 @@ const SequelizeConfig = (config: ConfigService): SequelizeModuleOptions => ({
   models: [Role, User, Article, Category, ArticleCategory, Comment, Like],
   autoLoadModels: false,
   synchronize: false,
-  dialectOptions: {
-    ssl: {
-      require: true,
-    },
-  },
   hooks: {
     afterConnect: async (_, options) => {
       const sequelize: Sequelize = new Sequelize({

@@ -7,11 +7,11 @@ const MailerConfig = (config: ConfigService): MailerOptions => ({
   },
   transport: {
     host: config.getOrThrow('MAIL_HOST'),
-    port: config.get('MAIL_PORT'),
+    port: config.getOrThrow('MAIL_PORT'),
     secure: false,
     auth: {
-      user: config.get('MAIL_USER'),
-      pass: config.get('MAIL_PASSWORD'),
+      user: config.getOrThrow('MAIL_USER'),
+      pass: config.getOrThrow('MAIL_PASSWORD'),
     },
   },
 });
